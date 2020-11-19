@@ -41,13 +41,13 @@ class utility(commands.Cog):
                               f'<:online:778677538788212737>: **{statuses[discord.Status.online]:,}**\n'
                               f'I<:idle:778677538838544394>: **{statuses[discord.Status.idle]:,}**\n'
                               f'<:dnd:778677540490706955>: **{statuses[discord.Status.dnd]:,}**\n'
-                              f'<:offline:778677539685007470: **{statuses[discord.Status.offline]:,}**\n'
+                              f'<:offline:778677539685007470>: **{statuses[discord.Status.offline]:,}**\n'
                               f'**Boost Tier: **{ctx.guild.premium_tier}**\n'
                               f'Region: **{ctx.guild.region}**\n'
                               f'Boosters: **{ctx.guild.premium_subscription_count}**\n'
                               f'Max File Size: **{round(ctx.guild.filesize_limit / 1048576)} MB**\n'
                               f'Bitrate: **{round(ctx.guild.bitrate_limit / 1000)} kbps**\n'
-                              f'Max Emojis: **{ctx.guild.emoji_limit}**\n', inline=False)
+                              f'Max Emojis: {ctx.guild.emoji_limit}\n', inline=False)
 
         embed.add_field(name='**Channel Information:**',
                         value=f'AFK timeout: **{int(ctx.guild.afk_timeout / 60)}m**\n'
