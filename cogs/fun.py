@@ -30,7 +30,7 @@ with open(colorfile) as f:
 color = int(data['COLORS'], 16)
 
 
-class other(commands.Cog):
+class fun(commands.Cog):
     '''Random Commands'''
     def __init__(self, bot):
         self.bot = bot
