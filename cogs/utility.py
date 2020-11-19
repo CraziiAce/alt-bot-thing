@@ -37,9 +37,9 @@ class utility(commands.Cog):
         embed.add_field(name='**General:**',
                         value=f'Owner: **{ctx.guild.owner}**\n'
                               f'Created on: **{datetime.datetime.strftime(ctx.guild.created_at, "%A %d %B %Y at %H:%M")}**\n'
-                              f'*Total Users: **{ctx.guild.member_count}**\n'
+                              f'**Total Users: **{ctx.guild.member_count}**\n'
                               f'<:online:778677538788212737>: **{statuses[discord.Status.online]:,}**\n'
-                              f'I<:idle:778677538838544394>: **{statuses[discord.Status.idle]:,}**\n'
+                              f'<:idle:778677538838544394>: **{statuses[discord.Status.idle]:,}**\n'
                               f'<:dnd:778677540490706955>: **{statuses[discord.Status.dnd]:,}**\n'
                               f'<:offline:778677539685007470>: **{statuses[discord.Status.offline]:,}**\n'
                               f'**Boost Tier: **{ctx.guild.premium_tier}**\n'
