@@ -10,7 +10,7 @@ from utils.help import EmbedHelpCommand
 log = logging.getLogger("titanium.core")
 logging.basicConfig(level=logging.INFO, datefmt="%I:%M %p on %B %d %Y", format="%(asctime)s:%(levelname)s: %(name)s: %(message)s")
 
-# error handler stuff
+# support stuff
 
 supportchnlids = []
 supportathrids = []
