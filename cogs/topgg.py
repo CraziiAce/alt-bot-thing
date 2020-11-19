@@ -12,7 +12,7 @@ with open(tokenFile) as f:
     data = json.load(f)
 TOPTOKEN = data['TOPTOKEN']
 
-class StarryUtils(commands.Cog):
+class TopGG(commands.Cog):
     """some bot owner utils"""
     def __init__(self, bot):
         self.token = TOPTOKEN
@@ -53,3 +53,6 @@ class StarryUtils(commands.Cog):
         time_good = time_bad.strftime("%b %d at %I:%M %p")
         emb.set_footer(text=time_good)
         channel.send(embed=emb)
+    
+def setup(bot):
+    bot.add_cog(TopGG(bot))
