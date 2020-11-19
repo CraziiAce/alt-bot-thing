@@ -3,8 +3,6 @@ import os, asyncio, discord, json, logging, datetime, aiohttp
 from discord import Embed
 from discord.ext import commands
 
-from disputils.pagination import BotEmbedPaginator
-
 from utils.help import EmbedHelpCommand
 
 log = logging.getLogger("titanium.core")
@@ -93,6 +91,14 @@ async def replysupport(ctx, userid: int, *, msg: str):
             supportathrids.remove(id)
             supportchnlids.pop(supportathrids.index(id))
     await ctx.send(f"📤 Message sent!")
+
+@bot.command(aliases=['shutdown'])
+@commands.is_owner()
+async def restart(ctx):
+    await ctx.send("👋 Bye!")
+    await bot.logout()
+    log.info("Protecc exited with exit code 0 (intentional)")
+
 bot.load_extension("jishaku")
 
 bot.run(token)
