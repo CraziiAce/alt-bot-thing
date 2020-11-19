@@ -60,7 +60,7 @@ for filename in os.listdir('./cogs'):
         log.info(f"Loaded cog {filename[:-3]}")
 
 @bot.command()
-async def support(ctx, *, msg: str):
+async def supportrequest(ctx, *, msg: str):
     """Send a message to my support team!"""
     emb = discord.Embed(
         title = "Support Request!",
