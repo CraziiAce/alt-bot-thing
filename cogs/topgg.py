@@ -5,12 +5,12 @@ import dbl, discord, datetime, json
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
-color = int(data['COLORS'], 16)
+color = int(data["COLORS"], 16)
 
 tokenFile = "utils/config.json"
 with open(tokenFile) as f:
     data = json.load(f)
-TOPTOKEN = data['TOPTOKEN']
+TOPTOKEN = data["TOPTOKEN"]
 
 class TopGG(commands.Cog):
     """some bot owner utils"""
@@ -18,7 +18,7 @@ class TopGG(commands.Cog):
         self.token = TOPTOKEN
         self.color = color
         self.bot = bot
-        self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True, webhook_path='/dblwebhook', webhook_auth='password', webhook_port=5000)
+        self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True, webhook_path="/dblwebhook", webhook_auth="password", webhook_port=5000)
 
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
@@ -28,15 +28,15 @@ class TopGG(commands.Cog):
             title = "Vote recieved!",
             color = self.color
         )
-        user = self.bot.get_user(int(data['user']))
+        user = self.bot.get_user(int(data["user"]))
         emb.set_author(name=user, icon_url=user.avatar_url)
         time_bad = datetime.datetime.now
         time_good = time_bad.strftime("%b %d at %I:%M %p")
         emb.set_footer(text=time_good)
         channel.send(embed=emb)        
-        if not data['isWeekend']:
+        if not data["isWeekend"]:
             await user.send(f"Thanks for voting for me on top.gg!")
-        if data ['isWeekend']:
+        if data ["isWeekend"]:
             await user.send(f"Thanks for voting for me on top.gg!")
 
     @commands.Cog.listener()
@@ -47,7 +47,7 @@ class TopGG(commands.Cog):
             title = "Test vote recieved!",
             color = self.color
         )
-        user = self.bot.get_user(int(data['user']))
+        user = self.bot.get_user(int(data["user"]))
         emb.set_author(name=user, icon_url=user.avatar_url)
         time_bad = datetime.datetime.now
         time_good = time_bad.strftime("%b %d at %I:%M %p")

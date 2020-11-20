@@ -5,10 +5,7 @@ import asyncio
 from asyncio import sleep
 import typing
 
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data['COLORS'], 16)
+from utils.config import color
 
 class mod(commands.Cog):
     '''Moderation Commands\n*Note: These commands require specific permissions.*'''

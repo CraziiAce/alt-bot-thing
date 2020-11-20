@@ -27,10 +27,7 @@ from jishaku.codeblocks import codeblock_converter
 
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data['COLORS'], 16)
+from utils.config import color
 
 class dev(commands.Cog):
     '''Developer Commands'''

@@ -17,12 +17,12 @@ supportathrids = []
 tokenFile = "utils/config.json"
 with open(tokenFile) as f:
     data = json.load(f)
-token = data['TOKEN']
+token = data["TOKEN"]
 
 prefixFile = "utils/tools.json"
 with open(prefixFile) as f:
     data = json.load(f)
-prefixes = data['PREFIXES']
+prefixes = data["PREFIXES"]
 
 intents = discord.Intents.default()
 intents.presences = True
@@ -31,7 +31,7 @@ bot = commands.Bot(command_prefix = prefixes, intents=intents)
 bot.help_command = EmbedHelpCommand()
 
 bot.owner_ids = {555709231697756160}
-#bot.remove_command('help')
+#bot.remove_command("help")
 
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 
@@ -42,19 +42,19 @@ os.environ["JISHAKU_HIDE"] = "True"
 
 @bot.event
 async def on_ready():
-    log.info('{0.user} is up and running'.format(bot))
+    log.info("{0.user} is up and running".format(bot))
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
     if message.author == bot.user:
         return
-    if message.content.endswith('<@!751447995270168586>'):
+    if message.content.endswith("<@!751447995270168586>"):
         embed = discord.Embed(title="Titanum", description="Hey there :wave: Seems like you mentioned me.\n\nMy prefixes are: \nIf you would like to see my commands type `[prefix]help`", color=0x2F3136)
         await message.channel.send(embed=embed)
 
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        bot.load_extension(f'cogs.{filename[:-3]}')
+for filename in os.listdir("./cogs"):
+    if filename.endswith(".py"):
+        bot.load_extension(f"cogs.{filename[:-3]}")
         log.info(f"Loaded cog {filename[:-3]}")
 
 @bot.command()
@@ -92,7 +92,7 @@ async def replysupport(ctx, userid: int, *, msg: str):
             supportchnlids.pop(supportathrids.index(id))
     await ctx.send(f"📤 Message sent!")
 
-@bot.command(aliases=['shutdown'])
+@bot.command(aliases=["shutdown"])
 @commands.is_owner()
 async def restart(ctx):
     await ctx.send("👋 Bye!")
