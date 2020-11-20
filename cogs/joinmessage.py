@@ -61,3 +61,6 @@ class joinmessage(commands.Cog):
 
         await channel.send(embed=MSG)
         log.info("Guild welcome message sent in {}".format(guild))
+
+def setup(bot):
+    bot.add_cog(joinmessage(bot))
