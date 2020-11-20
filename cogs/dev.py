@@ -6,26 +6,15 @@ from discord.ext import commands
 from discord.shard import ShardInfo
 from discord.ext.commands import bot
 
-import os
-
-import io
-
-import json
-
-import psutil
-
-import aiohttp
-
-import collections
-
-import time, datetime
-from datetime import datetime
+import os, io, json, psutil, aiohttp, collections, logging
 
 from multiprocessing.connection import Client
 
 from jishaku.codeblocks import codeblock_converter
 
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
+
+log = logging.getLogger("titanium.cog_loader")
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
@@ -45,6 +34,7 @@ class dev(commands.Cog):
             self.bot.load_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(f"```py\n{e}```")
+            log.error(e)
         await ctx.send(f"📥 Loaded extension **cogs/{name}.py**")
 
 
@@ -59,6 +49,7 @@ class dev(commands.Cog):
 
         except Exception as e:
             return await ctx.send(f"```py\n{e}```")
+            log.error(e)
 
     @commands.is_owner()
     @commands.command()
@@ -68,6 +59,7 @@ class dev(commands.Cog):
             self.bot.unload_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(f"```py\n{e}```")
+            log.error(e)
         await ctx.send(f"📤 Unloaded extension **cogs/{name}.py**")
     
     @commands.is_owner()
@@ -82,6 +74,8 @@ class dev(commands.Cog):
                     self.bot.reload_extension(f"cogs.{name}")
                 except Exception as e:
                     return await ctx.send(f"```py\n{e}```")
+                    log.error(e)
+
 
         if error_collection:
             output = "\n".join([f"**{g[0]}** ```diff\n- {g[1]}```" for g in error_collection])
@@ -99,6 +93,7 @@ class dev(commands.Cog):
         embed=discord.Embed(title='Goodbye', color=color)
         await ctx.send(embed=embed)
         await ctx.guild.leave()
+        log.info(f"Left {ctx.guild}, ID: {ctx.guild.id} at owners request.")
     
     @commands.is_owner()
     @commands.command()
