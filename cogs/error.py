@@ -96,8 +96,8 @@ class ErrorHandler(Cog):
             self.errathrids.append(ctx.author.id)
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
-            except:
-                pass
+            except Exception as e:
+                log.error(e)
     @commands.command()
     @commands.is_owner()
     async def resolveerror(self, ctx, errmsgid: int, msg: str = None):
