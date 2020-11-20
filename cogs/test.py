@@ -9,7 +9,10 @@ from discord.ext.commands.cooldowns import BucketType
 
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 
-from utils.config import color
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
 
 class MySource(menus.ListPageSource):
     def __init__(self, data):
