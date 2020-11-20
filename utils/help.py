@@ -60,6 +60,7 @@ class EmbedHelpCommand(commands.HelpCommand):
         await self.get_destination().send(embed=embed)
 
     async def send_group_help(self, group):
+        print('command help is group')
         embed = discord.Embed(title=group.qualified_name, colour=self.COLOUR)
         if group.help:
             embed.description = group.help
