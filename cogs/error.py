@@ -83,6 +83,10 @@ class ErrorHandler(Cog):
         # same thing but user
         elif isinstance(error, commands.UserNotFound):
             return await self.send_to_ctx_or_author(ctx, f"I couldn't find the user {error.argument}")
+        
+        # ran guild command in DM
+        elif isinstance(error, commands.NoPrivateMessage):
+            return await self.send_to_ctx_or_author(ctx, "This command isn't available in DMs")
 
         else:
             log.error(error)
@@ -91,7 +95,7 @@ class ErrorHandler(Cog):
             self.errmsgids.append(ctx.message.id)
             self.errathrids.append(ctx.author.id)
             try:
-                await logs.send(f"```\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}```")
+                await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except:
                 pass
     @commands.command()

@@ -10,7 +10,6 @@ from datetime import datetime
 import os
 import collections
 import time, datetime
-from discord.ext.commands.cooldowns import BucketType
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 import random
 import psutil
@@ -27,6 +26,7 @@ class info(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["server"])
+    @commands.guild_only()
     async def serverinfo(self, ctx):
         """Get information about the server."""
 
@@ -60,6 +60,7 @@ class info(commands.Cog):
         return await ctx.send(embed=embed)
 
     @commands.command(aliases=["user"])
+    @commands.guild_only()
     async def userinfo(self, ctx, *, member: discord.Member = None):
         """Get information about the mentioned user."""
         if member is None:
