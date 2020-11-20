@@ -53,4 +53,4 @@ class Titanium(commands.Cog):
         await ctx.send(embed=supportembed)
      
 def setup(bot):
-    bot.add_cog(info(bot))
+    bot.add_cog(Titanium(bot))
