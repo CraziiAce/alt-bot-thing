@@ -39,7 +39,7 @@ class dev(commands.Cog):
 
 
     @commands.is_owner()
-    @commands.command()
+    @commands.command(aliases=['r'])
     async def reload(self, ctx, name: str):
         """Reloads an extension. """
 

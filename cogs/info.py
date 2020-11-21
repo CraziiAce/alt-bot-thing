@@ -127,10 +127,5 @@ class info(commands.Cog):
                         
         await message.edit(embed=pingembed)
 
-    @commands.command()
-    async def stats(self ,ctx):
-        """Get the bot stats"""
-        await ctx.send(f"Titanium is watching for commands {len(self.bot.users)} users in {len(self.bot.guilds)} guilds!\nCPU Usage: {psutil.cpu_percent()}%\nRAM USAGE: {psutil.virtual_memory().percent}%")
-
 def setup(bot):
     bot.add_cog(info(bot))

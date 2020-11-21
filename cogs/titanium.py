@@ -1,5 +1,6 @@
-import discord, json
+import discord, json, platform, sys, psutil, aiohttp, os, distro
 from discord.ext import commands
+from datetime import datetime
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
@@ -51,6 +52,24 @@ class Titanium(commands.Cog):
         supportembed.add_field(name="Contact", value="To contact support staff, use `t!support <message>`", inline=False)
         supportembed.set_footer(text=f"Use {ctx.prefix}help or info for more")
         await ctx.send(embed=supportembed)
+    
+    @commands.command()
+    async def stats(self, ctx):
+        """Get stats for Titanium"""
+        dpy = discord.version_info
+        d = distro.linux_distribution()
+        ld = d[0] + " " + d[1]
+        IS_LINUX = sys.platform == "linux"
+        IS_WINDOWS = os.name == "nt"            
+        embed = discord.Embed(title="Titanium Stats", color=color, description="Titanium | The only Discord bot you'll ever need\nDeveloped by CraziiAce#0001")
+        embed.add_field(name="Python stats", value=f"Python version: **{platform.python_version()}**\ndiscord.py version: **{dpy.major}.{dpy.minor}.{dpy.micro}-{dpy.releaselevel}**\naiohttp version: **{aiohttp.__version__}**")
+        embed.add_field(name="Bot stats", value=f"Servers: **{len(ctx.bot.guilds)}\n**Users: **{len(ctx.bot.users)}**\nEmojis: **{len(ctx.bot.emojis)}**\nCommands: **{len(ctx.bot.commands)}**", inline=False)
+        if IS_LINUX:
+            embed.add_field(name="Server stats", value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{ld}**", inline=False)
+        elif IS_WINDOWS:
+            embed.add_field(name="Server stats", value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{platform.platform()}**", inline=False)
+        await ctx.send(embed=embed)
+
      
 def setup(bot):
     bot.add_cog(Titanium(bot))
