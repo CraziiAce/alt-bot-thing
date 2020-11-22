@@ -50,8 +50,7 @@ class welcomer(commands.Cog):
     async def joinmessage(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
         doc = self.data.find_one({"_id":ctx.guild.id})
-
-        elif not msg and doc['joinmsg']:
+        if not msg and doc['joinmsg']:
             self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"joinmsg": None}})
             await ctx.send("Channel cleared")
         elif msg and doc['joinmsg']:
