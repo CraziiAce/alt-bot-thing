@@ -8,7 +8,7 @@ class welcomer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
-        db = mcl.titanium
+        db = mcl.Titanium
         self.data = db.welcome
     
     @commands.has_permissions(kick_members = True)
