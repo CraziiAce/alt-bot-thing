@@ -116,12 +116,12 @@ class mod(commands.Cog):
         )
         embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
         embed.set_thumbnail(url="https://media.giphy.com/media/oe33xf3B50fsc/giphy.gif")
-        await ctx.send(f"Are you sure you would like to nuke {channel.mention}?")
+        await ctx.send(f"Are you sure you would like to nuke {channel.mention}? (y/n)")
         try:
             confirmation = await self.bot.wait_for('message', timeout=60.0, check=lambda m:(ctx.author == m.author and ctx.channel == m.channel))
         except asyncio.TimeoutError:
             await ctx.send(f"Ok, I won't nuke {channel.mention}")
-        if confirmation and confirmation.content not in self.no_resps and not confirmation.content.startswith("no"):
+        if confirmation and confirmation.content.startswith("y"):
             pos = ctx.channel.position
             await ctx.channel.delete()
             channel = await ctx.channel.clone()
