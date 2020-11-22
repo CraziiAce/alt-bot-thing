@@ -38,7 +38,7 @@ class Titanium(commands.Cog):
             color=color
         )
         emb.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-        emb.add_field(name= "<:news:779019996927098920> News", value=f"**🎧 <@763851389403136020> has a welcomer feature! Use `{ctx.prefix}help welcomer`", inline=True)
+        emb.add_field(name= "News", value=f"**:wave: Titanium has a welcomer feature! Use `{ctx.prefix}help welcomer`", inline=True)
         emb.add_field(name= ":link: Links", value="[Invite Titanium](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
         emb.set_footer(text="Titanium | discord.gg/zwyFZ7h")
         await ctx.send(embed=emb)
