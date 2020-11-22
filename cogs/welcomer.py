@@ -23,7 +23,7 @@ class welcomer(commands.Cog):
         doc = self.data.find_one({"_id":ctx.guild.id})
         print(str(doc))
         if channel and not doc:
-            self.data.insert_one(filter = {"_id": ctx.guild.id}, update = {"$set": {"chnl": channel.id}})
+            self.data.insert_one({"_id": ctx.guild.id, "chnl": channel.id})
             await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
         if not channel and not doc['chnl']:
             await ctx.send("You didn't specify a channel!")
