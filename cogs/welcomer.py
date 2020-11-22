@@ -21,7 +21,10 @@ class welcomer(commands.Cog):
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Titanium will welcome members in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
-
+        print(str(doc))
+        if channel and not doc:
+            self.data.insert_one(filter = {"_id": ctx.guild.id}, update = {"$set": {"chnl": channel.id}})
+            await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
         if not channel and not doc['chnl']:
             await ctx.send("You didn't specify a channel!")
         elif not channel and doc['chnl']:
@@ -29,9 +32,6 @@ class welcomer(commands.Cog):
             await ctx.send("Channel cleared")
         elif channel and not doc['chnl']:
             self.data.update_one
-        elif not doc and not doc['chnl']:
-            self.data.insert_one(filter = {"_id": ctx.guild.id}, update = {"$set": {"chnl": channel.id}})
-            await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
     
     @welcomeset.command()
     async def joinmessage(self, ctx, msg: str = None):
