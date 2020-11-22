@@ -13,11 +13,11 @@ class welcomer(commands.Cog):
     
     @commands.has_permissions(kick_members = True)
     @commands.group()
-    async def welcomer(self, ctx):
+    async def welcomeset(self, ctx):
         """Welcome members to your server!"""
         pass
 
-    @welcomer.command()
+    @welcomeset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Titanium will welcome members in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
@@ -33,7 +33,7 @@ class welcomer(commands.Cog):
             self.data.insert_one(filter = {"_id": ctx.guild.id}, update = {"$set": {"chnl": channel.id}})
             await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
     
-    @welcomer.command()
+    @welcomeset.command()
     async def joinmessage(self, ctx, msg: str = None):
         """Set the message sent upon guild join"""
         doc = self.data.find_one({"_id":ctx.guild.id})
@@ -49,7 +49,7 @@ class welcomer(commands.Cog):
             self.data.insert_one({"_id": ctx.guild.id, "joinmsg": msg})
             await ctx.send(f"Successfully set the join msg to {msg}")
 
-    @welcomer.command()
+    @welcomeset.command()
     async def togglejoin(self, ctx, toggle: bool):
         """Toggle sending join messages. Options are true and false."""
         doc = self.data.find_one({"_id":ctx.guild.id})
