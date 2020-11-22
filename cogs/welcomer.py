@@ -22,12 +22,14 @@ class welcomer(commands.Cog):
         """Set the channel Titanium will welcome members in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
         print(str(doc))
-        if channel and not doc:
-            self.data.insert_one({"_id": ctx.guild.id, "chnl": channel.id})
-            await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
-        if not channel and not doc['chnl']:
+        if not doc:
+            if channel and not doc:
+                self.data.insert_one({"_id": ctx.guild.id, "chnl": channel.id})
+                await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
+                return
+        elif not channel and not doc['chnl']:
             await ctx.send("You didn't specify a channel!")
-        elif not channel and doc['chnl']:
+        elif not channel and doc['chnl'] and doc:
             self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"chnl": ""}})
             await ctx.send("Channel cleared")
         elif channel and not doc['chnl']:
