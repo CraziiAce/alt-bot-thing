@@ -70,3 +70,5 @@ class welcomer(commands.Cog):
             chnl = self.bot.get_channel(doc['chnl'])
             await chnl.send(doc['joinmsg'].format(user=member))
     
+def setup(bot):
+    bot.add_cog(welcomer(bot))
