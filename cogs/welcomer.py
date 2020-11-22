@@ -31,16 +31,16 @@ class welcomer(commands.Cog):
                 await ctx.send("You didn't specify a channel!")
                 return
         elif doc:
-            if channel and not doc['chnl']:
-                self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"chnl": channel.id}})
-                await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
-                return
-            elif not channel and not doc['chnl']:
+            if not channel and not doc['chnl']:
                 await ctx.send("You didn't specify a channel!")
                 return
             elif not channel and doc['chnl']:
                 self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"chnl": ""}})
                 await ctx.send("Channel cleared")
+                return
+            else:
+                self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"chnl": channel.id}})
+                await ctx.send(f"Successfully set the welcome channel to {channel.mention}")
                 return
         else:
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
