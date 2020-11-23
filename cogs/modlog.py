@@ -73,3 +73,6 @@ class modlog(commands.Cog):
         embed.set_author(name=victim, icon_url=victim.avatar_url)
         embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
 
+
+def setup(bot):
+    bot.add_cog(modlog(bot))

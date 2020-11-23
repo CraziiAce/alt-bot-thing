@@ -176,7 +176,7 @@ class dev(commands.Cog):
         await ctx.send(f'Nickname reset to Titanium')
 
     @commands.is_owner()
-    @commands.command(aliases=['ra'])
+    @commands.command(aliases=['la'])
     async def loadall(self, ctx):
         """Reloads all extensions. """
         error_collection = []
