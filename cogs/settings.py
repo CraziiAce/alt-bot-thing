@@ -30,15 +30,15 @@ class config(commands.Cog):
                 await ctx.send("You didn't specify a prefix!")
                 return
         elif doc:
-            if not prefix and not doc.get('self.prfx'):
+            if not prefix and not doc.get('prfx'):
                 await ctx.send("You didn't specify a prefix!")
                 return
-            elif not prefix and doc.get('self.prfx'):
-                self.prfx.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"self.prfx": ""}})
+            elif not prefix and doc.get('prfx'):
+                self.prfx.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"prfx": ""}})
                 await ctx.send("Prefix cleared")
                 return
             else:
-                self.prfx.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"self.prfx": prefix}})
+                self.prfx.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"prfx": prefix}})
                 await ctx.send(f"Successfully set the server prefix to {prefix}")
                 return
 
