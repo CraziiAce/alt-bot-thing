@@ -174,6 +174,30 @@ class dev(commands.Cog):
     async def rn(self, ctx):
         await ctx.guild.me.edit(nick=None)
         await ctx.send(f'Nickname reset to Titanium')
+
+    @commands.is_owner()
+    @commands.command(aliases=['ra'])
+    async def loadall(self, ctx):
+        """Reloads all extensions. """
+        error_collection = []
+        for file in os.listdir("cogs"):
+            if file.endswith(".py"):
+                name = file[:-3]
+                try:
+                    self.bot.load_extension(f"cogs.{name}")
+                except Exception as e:
+                    return await ctx.send(f"```py\n{e}```")
+                    log.error(e)
+
+
+        if error_collection:
+            output = "\n".join([f"**{g[0]}** ```diff\n- {g[1]}```" for g in error_collection])
+            return await ctx.send(
+                f"Attempted to reload all extensions, was able to reload, "
+                f"however the following failed...\n\n{output}"
+            )
+
+        await ctx.send("Successfully reloaded all extensions")
             
 def setup(bot):
     bot.add_cog(dev(bot))
