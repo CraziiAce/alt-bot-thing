@@ -58,21 +58,5 @@ class modlog(commands.Cog):
             self.data.insert_one({"_id": ctx.guild.id, "domodlog": toggle})
 
 
-    async def send_case(self, ctx, case_type, reason, victim):
-        """Internal func to send cases"""
-        doc = self.data.find_one({"_id":ctx.guild.id})
-        numcases = doc.get("numcases")
-        if not doc.get("domodlog") or not doc.get("chnl"):
-            return False
-        elif case_type == "kick":
-            embed = discord.Embed(title=f"Kick | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        elif case_type == "ban":
-            embed = discord.Embed(title=f"Ban | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        if case_type == "mute":
-            embed = discord.Embed(title=f"Mute | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        embed.set_author(name=victim, icon_url=victim.avatar_url)
-        embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
-
-
 def setup(bot):
     bot.add_cog(modlog(bot))
