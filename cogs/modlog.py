@@ -61,10 +61,9 @@ class modlog(commands.Cog):
             self.data.insert_one({"_id": ctx.guild.id, "domodlog": toggle})
 
 
-
-async def send_case(self, ctx, case_type, reason, victim):
+async def send_case(ctx, case_type, reason, victim):
     """Internal func to send cases"""
-    doc = self.data.find_one({"_id":ctx.guild.id})
+    doc = data.find_one({"_id":ctx.guild.id})
     if not doc.get("domodlog") or not doc.get("chnl"):
         return False
 
