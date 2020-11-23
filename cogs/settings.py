@@ -11,7 +11,7 @@ class config(commands.Cog):
         db = mcl.Titanium
         self.prfx = db.prefixes
 
-    @commands.group()
+    @commands.group(aliases=['set'])
     @commands.has_permissions(administrator=True)
     async def settings(self, ctx):
         """Change Titanium's settings"""
