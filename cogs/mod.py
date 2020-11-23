@@ -27,30 +27,6 @@ class mod(commands.Cog):
         mcl = MongoClient()
         self.data = mcl.Titanium.modlog
 
-    async def send_case(self, ctx, case_type, reason = None, victim):
-        """Internal func to send cases"""
-        doc = self.data.find_one({"_id":ctx.guild.id})
-        if not doc.get("domodlog") or not doc.get("chnl"):
-            return False
-
-        if not doc.get("numcases"):
-            numcases = 1
-            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
-        elif doc.get(numcases):
-            numcases = doc.get("numcases") + 1
-            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
-
-        elif case_type == "kick":
-            embed = discord.Embed(title=f"Kick | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        elif case_type == "ban":
-            embed = discord.Embed(title=f"Ban | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        if case_type == "mute":
-            embed = discord.Embed(title=f"Mute | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
-        embed.set_author(name=victim, icon_url=victim.avatar_url)
-        embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
-        chnl = self.bot.get_channel(doc.get("chnl"))
-        await chnl.send(embed=embed)
-
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, user: discord.Member, *, reason: str = None):
@@ -66,7 +42,7 @@ class mod(commands.Cog):
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
-            await send_case(ctx, "kick", reason, user)
+            
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, user: Union[discord.Member, discord.User], *, reason: str = None):
