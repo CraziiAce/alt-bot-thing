@@ -31,10 +31,10 @@ class welcomer(commands.Cog):
                 await ctx.send("You didn't specify a channel!")
                 return
         elif doc:
-            if not channel and not doc['chnl']:
+            if not channel and not doc.get('chnl'):
                 await ctx.send("You didn't specify a channel!")
                 return
-            elif not channel and doc['chnl']:
+            elif not channel and doc.get('chnl'):
                 self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"chnl": ""}})
                 await ctx.send("Channel cleared")
                 return

@@ -1,6 +1,6 @@
 from discord.ext import commands
 import discord
-from PyMongo import MongoClient
+from pymongo import MongoClient
 
 
 class config(commands.Cog):
