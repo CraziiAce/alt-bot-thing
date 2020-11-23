@@ -31,6 +31,11 @@ with open(prefixFile) as f:
     data = json.load(f)
 prefixes = data["PREFIXES"]
 
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
+
 def get_pre(bot, message):
     if message.guild:
         doc = prfx.find_one({"_id": message.guild.id})
@@ -46,7 +51,7 @@ intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix = get_pre, intents=intents)
-bot.help_command = PrettyHelp()
+bot.help_command = PrettyHelp(color=color)
 
 bot.owner_ids = {555709231697756160}
 #bot.remove_command("help")
