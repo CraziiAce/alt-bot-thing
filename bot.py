@@ -65,7 +65,11 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if message.content.endswith("<@!763851389403136020>"):
-        embed = discord.Embed(title="Titanum", description="Hey there :wave: Seems like you mentioned me.\n\nMy prefixes are: \nIf you would like to see my commands type `[prefix]help`", color=0x2F3136)
+        if get_pre(bot, message) == prefixes:
+            embed = discord.Embed(title="Titanum", description="Hey there :wave: Seems like you mentioned me.\n\nMy prefixes are `t!` and `titanium`. \nIf you would like to see my commands, type `t!help`", color=0x2F3136)
+        else:
+            embed = discord.Embed(title="Titanum", description=f"Hey there :wave: Seems like you mentioned me.\n\nMy prefix is {bot.get_prefix(message)}. \nIf you would like to see my commands, type `{bot.get_prefix(message)}help`", color=0x2F3136)
+
         await message.channel.send(embed=embed)
 
 for filename in os.listdir("./cogs"):
