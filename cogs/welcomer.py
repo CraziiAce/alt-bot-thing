@@ -17,7 +17,6 @@ class welcomer(commands.Cog):
         """Welcome members to your server!"""
         pass
 
-    @commands.command()
     @welcomeset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Titanium will welcome members in"""
@@ -46,7 +45,6 @@ class welcomer(commands.Cog):
         else:
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
 
-    @commands.command()
     @welcomeset.command()
     async def joinmsg(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
@@ -79,7 +77,6 @@ class welcomer(commands.Cog):
         elif not doc:
             self.data.insert_one({"_id": ctx.guild.id, "dojoins": toggle})
 
-    @commands.command()
     @welcomeset.command()
     async def leavemsg(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
@@ -99,7 +96,6 @@ class welcomer(commands.Cog):
             self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"leavemsg": msg}})
             await ctx.send(f"Successfully set the join messgage to {msg}")
     
-    @commands.command()
     @welcomeset.command()
     async def doleaves(self, ctx, toggle: bool):
         """Toggle sending join messages. Options are true and false."""
