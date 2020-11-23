@@ -12,7 +12,7 @@ with open(colorfile) as f:
 color = int(data['COLORS'], 16)
 
 class mod(commands.Cog):
-    '''Moderation Commands\n*Note: These commands require specific permissions.*'''
+    '''Moderation Commands'''
     def __init__(self,bot):
         self.bot = bot
         self.no_resps = [
