@@ -7,6 +7,8 @@ from asyncio import sleep
 from typing import Union
 from pymongo import MongoClient
 
+from .modlog import send_case
+
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
@@ -42,7 +44,7 @@ class mod(commands.Cog):
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
-            
+
     @commands.command()
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, user: Union[discord.Member, discord.User], *, reason: str = None):
