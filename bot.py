@@ -30,9 +30,12 @@ with open(prefixFile) as f:
 prefixes = data["PREFIXES"]
 
 def get_pre(bot, message):
-    doc = prfx.find_one({"_id": message.guild.id})
-    if doc and doc.get("prfx"):
-        return doc.get("prfx")
+    if message.guild:
+        doc = prfx.find_one({"_id": message.guild.id})
+        if doc and doc.get("prfx"):
+            return doc.get("prfx")
+        else:
+            return prefixes
     else:
         return prefixes
 
