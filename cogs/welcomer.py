@@ -17,6 +17,7 @@ class welcomer(commands.Cog):
         """Welcome members to your server!"""
         pass
 
+    @commands.command()
     @welcomeset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Titanium will welcome members in"""
@@ -45,9 +46,9 @@ class welcomer(commands.Cog):
         else:
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
 
-    
+    @commands.command()
     @welcomeset.command()
-    async def joinmessage(self, ctx, *, msg: str = None):
+    async def joinmsg(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
         doc = self.data.find_one({"_id":ctx.guild.id})
         if not msg and doc.get('joinmsg'):
@@ -55,18 +56,18 @@ class welcomer(commands.Cog):
             await ctx.send("Channel cleared")
         elif msg and doc.get('joinmsg'):
             self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"joinmsg": msg}})
-            await ctx.send(f"Successfully set the join msg to {msg}")
+            await ctx.send(f"Successfully set the join message to {msg}")
         elif msg and not doc:
             self.data.insert_one({"_id": ctx.guild.id, "joinmsg": msg})
-            await ctx.send(f"Successfully set the join msg to {msg}")
+            await ctx.send(f"Successfully set the join message to {msg}")
         elif not msg:
             await ctx.send("You didn't specify a channel!")
         else:
             self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"joinmsg": msg}})
-            await ctx.send(f"Successfully set the join msg to {msg}")
+            await ctx.send(f"Successfully set the join message to {msg}")
 
     @welcomeset.command()
-    async def togglejoin(self, ctx, toggle: bool):
+    async def dojoins(self, ctx, toggle: bool):
         """Toggle sending join messages. Options are true and false."""
         doc = self.data.find_one({"_id":ctx.guild.id})
         if doc:
@@ -78,6 +79,39 @@ class welcomer(commands.Cog):
         elif not doc:
             self.data.insert_one({"_id": ctx.guild.id, "dojoins": toggle})
 
+    @commands.command()
+    @welcomeset.command()
+    async def leavemsg(self, ctx, *, msg: str = None):
+        """Set the message sent upon guild join"""
+        doc = self.data.find_one({"_id":ctx.guild.id})
+        if not msg and doc.get('leavemsg'):
+            self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$unset": {"leavemsg": None}})
+            await ctx.send("Channel cleared")
+        elif msg and doc.get('leavemsg'):
+            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"leavemsg": msg}})
+            await ctx.send(f"Successfully set the leave message to {msg}")
+        elif msg and not doc:
+            self.data.insert_one({"_id": ctx.guild.id, "leavemsg": msg})
+            await ctx.send(f"Successfully set the join message to {msg}")
+        elif not msg:
+            await ctx.send("You didn't specify a channel!")
+        else:
+            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"leavemsg": msg}})
+            await ctx.send(f"Successfully set the join messgage to {msg}")
+    
+    @commands.command()
+    @welcomeset.command()
+    async def doleaves(self, ctx, toggle: bool):
+        """Toggle sending join messages. Options are true and false."""
+        doc = self.data.find_one({"_id":ctx.guild.id})
+        if doc:
+            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"doleaves": toggle}})
+            if toggle:
+                await ctx.send("I will now send a message when someone leaves this server (if the channel and message are configured)")
+            elif not toggle:
+                await ctx.send("I will no longer send a message when someone leaves this server")
+        elif not doc:
+            self.data.insert_one({"_id": ctx.guild.id, "doleaves": toggle})
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -86,5 +120,12 @@ class welcomer(commands.Cog):
             chnl = self.bot.get_channel(doc['chnl'])
             await chnl.send(doc['joinmsg'].format(user=member))
     
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        doc = self.data.find_one({"_id": member.guild.id})
+        if doc['leavemsg'] and doc['chnl'] and doc['doleaves']:
+            chnl = self.bot.get_channel(doc['chnl'])
+            await chnl.send(doc['leavemsg'].format(user=member))
+
 def setup(bot):
     bot.add_cog(welcomer(bot))

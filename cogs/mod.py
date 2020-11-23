@@ -106,7 +106,7 @@ class mod(commands.Cog):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def nuke(self, ctx, channel: discord.TextChannel = None):
-        """Nuke (delete all messages) in this channel"""
+        """Nuke (delete all messages) in the specified channel. (if no channel is specified, this channel will be nuked)"""
         if not channel:
             channel = ctx.channel
         embed = discord.Embed(
