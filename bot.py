@@ -1,5 +1,7 @@
 import os, asyncio, discord, json, logging, datetime, aiohttp
 
+from pretty_help import PrettyHelp
+
 from discord import Embed
 from discord.ext import commands
 
@@ -44,7 +46,7 @@ intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix = get_pre, intents=intents)
-bot.help_command = EmbedHelpCommand()
+bot.help_command = PrettyHelp()
 
 bot.owner_ids = {555709231697756160}
 #bot.remove_command("help")
@@ -68,7 +70,7 @@ async def on_message(message):
         if get_pre(bot, message) == prefixes:
             embed = discord.Embed(title="Titanum", description="Hey there :wave: Seems like you mentioned me.\n\nMy prefixes are `t!` and `titanium`. \nIf you would like to see my commands, type `t!help`", color=0x2F3136)
         else:
-            embed = discord.Embed(title="Titanum", description=f"Hey there :wave: Seems like you mentioned me.\n\nMy prefix is {str(await bot.get_prefix(message))}. \nIf you would like to see my commands, type `{str(await bot.get_prefix(message))}help`", color=0x2F3136)
+            embed = discord.Embed(title="Titanum", description=f"Hey there :wave: Seems like you mentioned me.\n\nMy prefix is `{str(await bot.get_prefix(message))}` \nIf you would like to see my commands, type `{str(await bot.get_prefix(message))}help`", color=0x2F3136)
 
         await message.channel.send(embed=embed)
 
