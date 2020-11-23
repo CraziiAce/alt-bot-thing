@@ -5,8 +5,13 @@ from discord.ext import commands
 
 from utils.help import EmbedHelpCommand
 
+from pymongo import MongoClient
+
 log = logging.getLogger("titanium.core")
 logging.basicConfig(level=logging.INFO, datefmt="%I:%M %p on %B %d %Y", format="%(asctime)s:%(levelname)s: %(name)s: %(message)s")
+
+mcl = MongoClient()
+prfx = mcl.Titanium.prefixes
 
 # support stuff
 
@@ -24,10 +29,18 @@ with open(prefixFile) as f:
     data = json.load(f)
 prefixes = data["PREFIXES"]
 
+def get_pre(bot, message):
+    doc = prfx.find_one({"_id": message.guild.id})
+    if doc and doc.get("prfx"):
+        return doc.get("prfx")
+    else:
+        return prefixes
+
+
 intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
-bot = commands.Bot(command_prefix = prefixes, intents=intents)
+bot = commands.Bot(command_prefix = get_pre, intents=intents)
 bot.help_command = EmbedHelpCommand()
 
 bot.owner_ids = {555709231697756160}
