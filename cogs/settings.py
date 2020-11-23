@@ -42,4 +42,5 @@ class config(commands.Cog):
                 await ctx.send(f"Successfully set the server prefix to {prefix}")
                 return
 
-
+def setup(bot):
+    bot.add_cog(config(bot))
