@@ -89,6 +89,7 @@ class ErrorHandler(Cog):
             return await self.send_to_ctx_or_author(ctx, "This command isn't available in DMs")
 
         else:
+            raise error
             log.error(error)
             logs = self.bot.get_channel(764576277512060928)
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.\nThis error has been sent to my owner, and I'll DM you if it's resolved. Thanks!\n```")
