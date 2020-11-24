@@ -66,7 +66,7 @@ class mod(commands.Cog):
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
             await ctx.send(embed=embed)
-            await modlog.send_case(ctx, "kick", reason, user)
+            await send_case(ctx, "kick", reason, user)
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
