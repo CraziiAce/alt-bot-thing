@@ -49,7 +49,7 @@ class mod(commands.Cog):
         embed.set_author(name=victim, icon_url=victim.avatar_url)
         embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
         chnlid = int(doc.get("chnl"))
-        chnl = self.data.get_channel(chnlid)
+        chnl = self.bot.get_channel(chnlid)
         await chnl.send(embed=embed)
 
     @commands.command()
