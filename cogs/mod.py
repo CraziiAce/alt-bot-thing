@@ -36,7 +36,7 @@ class mod(commands.Cog):
         if not doc.get("numcases"):
             numcases = 1
             self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
-        elif doc.get(numcases):
+        elif doc.get("numcases"):
             numcases = doc.get("numcases") + 1
             self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
 
