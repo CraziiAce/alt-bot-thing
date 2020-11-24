@@ -48,7 +48,8 @@ class mod(commands.Cog):
             embed = discord.Embed(title=f"Mute | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: {ctx.author}")
         embed.set_author(name=victim, icon_url=victim.avatar_url)
         embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
-        chnl = self.data.get_channel(doc.get("chnl"))
+        chnlid = int(doc.get("chnl"))
+        chnl = self.data.get_channel(chnlid)
         await chnl.send(embed=embed)
 
     @commands.command()
