@@ -1,10 +1,11 @@
-import discord
+import discord, typing, logging, traceback
+
+from aiohttp_requests import requests
 from discord.ext import commands
 from discord.ext.commands import Cog
 
-import typing
+from pymongo import MongoClient
 
-import logging
 log = logging.getLogger("protecc.errors")
 
 # noinspection PyRedundantParentheses
@@ -13,6 +14,8 @@ class ErrorHandler(Cog):
         self.bot = bot
         self.errmsgids=[]
         self.errathrids=[]
+        mcl = MongoClient()
+        self.data = mcl.Titanium.errors
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -35,6 +38,7 @@ class ErrorHandler(Cog):
         except discord.NotFound:
             pass
         return None
+
 
     @Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -89,23 +93,33 @@ class ErrorHandler(Cog):
             return await self.send_to_ctx_or_author(ctx, "This command isn't available in DMs")
 
         else:
-            raise error
-            log.error(error)
+            etype = type(error)
+            trace = error.__traceback__
+            lines = traceback.format_exception(etype, error, trace)
+            r = await requests.post("https://hastebin.com/documents", data=lines)
+            re = await r.json()
             logs = self.bot.get_channel(764576277512060928)
-            await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.\nThis error has been sent to my owner, and I'll DM you if it's resolved. Thanks!\n```")
-            self.errmsgids.append(ctx.message.id)
-            self.errathrids.append(ctx.author.id)
+            doc = self.data.find_one({"id": "info"})
+            if not doc.get("numerror"):
+                self.data.update_one(filter={"id": "info"}, update={"set": {"numerror": 0}})
+            await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
+            self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command, "fulltb": f"https://hastebin.com/{re['key']}"})
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except Exception as e:
                 log.error(e)
-    @commands.command()
+
+    @commands.group()
     @commands.is_owner()
-    async def resolveerror(self, ctx, errmsgid: int, msg: str = None):
-        for id in self.errmsgids:
-            if id == errmsgid:
-                user = self.bot.get_user(self.errathrids[self.errmsgids.index(id)])
-                await user.send(f"Hi!\nA command sent by you that returned an error message has been fixed.\nMy developers have asked me to send you this message: {msg}")
-                await ctx.send(f"The message was succesfully sent to {user.name}#{user.discriminator}")
+    async def error(self, ctx):
+        """Resolve and manage errors"""
+
+    @error.command()
+    async def fix(self, ctx, errid: int):
+        """Mark an error as fixed"""
+        self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
+        await ctx.send(f"Successfully fixed error {errid}")
+
+        
 def setup(bot):
     bot.add_cog(ErrorHandler(bot))
