@@ -1,4 +1,4 @@
-import discord, typing, logging, traceback
+import discord, typing, logging, traceback, json
 
 from aiohttp_requests import requests
 from discord.ext import commands
