@@ -6,8 +6,6 @@ from discord.ext.commands import Cog
 
 from pymongo import MongoClient
 
-from pretty_help import PrettyHelp
-
 log = logging.getLogger("protecc.errors")
 
 colorfile = "utils/tools.json"
@@ -23,7 +21,6 @@ class ErrorHandler(Cog):
         self.errathrids=[]
         mcl = MongoClient()
         self.data = mcl.Titanium.errors
-        self.helpsender = PrettyHelp(color=color)
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -70,7 +67,7 @@ class ErrorHandler(Cog):
 
         # Missing argument
         elif isinstance(error, commands.MissingRequiredArgument):#{error.param.name}
-            return await self.helpsender.send_command_help(ctx.command)
+            return await ctx.send_help(str(ctx.command))
 
         # Missing Permissions
         elif isinstance(error, commands.MissingPermissions):
