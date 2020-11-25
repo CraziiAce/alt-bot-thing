@@ -99,18 +99,16 @@ class ErrorHandler(Cog):
             goodtb = ''.join(lines)
 
             try:
-                r = await requests.post("https://hastebin.com/documents", data=lines)
+                r = await requests.post("https://hastebin.com/documents", data=goodtb)
                 re = await r.json()
             except:
                 print(goodtb)
-            re = await r.json()
             logs = self.bot.get_channel(764576277512060928)
             doc = self.data.find_one({"id": "info"})
             if not doc.get("numerror"):
                 self.data.update_one(filter={"id": "info"}, update={"set": {"numerror": 0}})
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
-            # self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command, "fulltb": f"https://hastebin.com/{re['key']}"})
-            self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command})
+            self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command, "fulltb": f"https://hastebin.com/{re['key']}"})
 
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
