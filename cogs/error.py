@@ -107,6 +107,7 @@ class ErrorHandler(Cog):
             doc = self.data.find_one({"id": "info"})
             if not doc:
                 self.data.insert_one({"id": "info"})
+                doc = self.data.find_one({"id": "info"})
             if not doc.get("numerror"):
                 self.data.update_one(filter={"id": "info"}, update={"set": {"numerror": 0}})
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
