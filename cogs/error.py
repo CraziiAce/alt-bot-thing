@@ -96,7 +96,10 @@ class ErrorHandler(Cog):
             etype = type(error)
             trace = error.__traceback__
             lines = traceback.format_exception(etype, error, trace)
-            r = await requests.post("https://hastebin.com/documents", data=lines)
+            try:
+                r = await requests.post("https://hastebin.com/documents", data=lines)
+            except:
+                print(lines)
             re = await r.json()
             logs = self.bot.get_channel(764576277512060928)
             doc = self.data.find_one({"id": "info"})
