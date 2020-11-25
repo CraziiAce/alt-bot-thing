@@ -98,6 +98,8 @@ class ErrorHandler(Cog):
             lines = traceback.format_exception(etype, error, trace)
             try:
                 r = await requests.post("https://hastebin.com/documents", data=lines)
+                re = await r.json()
+
             except:
                 print(lines)
             re = await r.json()
@@ -106,7 +108,9 @@ class ErrorHandler(Cog):
             if not doc.get("numerror"):
                 self.data.update_one(filter={"id": "info"}, update={"set": {"numerror": 0}})
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
-            self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command, "fulltb": f"https://hastebin.com/{re['key']}"})
+            # self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command, "fulltb": f"https://hastebin.com/{re['key']}"})
+            self.data.insert_one({"id": doc.numerror + 1, "command": ctx.command})
+
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except Exception as e:
