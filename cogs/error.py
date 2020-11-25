@@ -6,9 +6,16 @@ from discord.ext.commands import Cog
 
 from pymongo import MongoClient
 
+from pretty_help import PrettyHelp
+
 log = logging.getLogger("protecc.errors")
 
-# noinspection PyRedundantParentheses
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
+
+
 class ErrorHandler(Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -16,6 +23,7 @@ class ErrorHandler(Cog):
         self.errathrids=[]
         mcl = MongoClient()
         self.data = mcl.Titanium.errors
+        self.helpsender = PrettyHelp(color=color)
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -62,7 +70,7 @@ class ErrorHandler(Cog):
 
         # Missing argument
         elif isinstance(error, commands.MissingRequiredArgument):#{error.param.name}
-            return await self.send_to_ctx_or_author(ctx, str(error))
+            return await self.helpsender.send_command_help(ctx.command)
 
         # Missing Permissions
         elif isinstance(error, commands.MissingPermissions):
@@ -102,7 +110,7 @@ class ErrorHandler(Cog):
                 r = await requests.post("https://hastebin.com/documents", data=goodtb)
                 re = await r.json()
             except:
-                print(goodtb)
+                log.error(goodtb)
             logs = self.bot.get_channel(764576277512060928)
             doc = self.data.find_one({"id": "info"})
             if not doc:
@@ -112,7 +120,7 @@ class ErrorHandler(Cog):
                 self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": 0}})
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
             self.data.insert_one({"id": doc['numerror'] + 1, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}"})
-
+            log.error(goodtb)
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except Exception as e:
