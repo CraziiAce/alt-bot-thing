@@ -118,7 +118,7 @@ class ErrorHandler(Cog):
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {numerror}.```")
             self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now()})
             log.error(goodtb)
-            self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror}})
+            self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except Exception as e:
@@ -130,7 +130,7 @@ class ErrorHandler(Cog):
         """Resolve and manage errors"""
 
     @error.command()
-    async def fix(self, ctx, errid: int):
+    async def fix(self, ctx, errid:
         """Mark an error as fixed"""
         self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
         await ctx.send(f"Successfully fixed error {errid}")
@@ -142,8 +142,7 @@ class ErrorHandler(Cog):
         if not doc:
             await ctx.send("That error doesn't exist yet!")
         else:
-            await ctx.send(doc)
-            embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc.get['fulltb']}")
+            embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}")
             embed.set_footer(text=doc['datetime'].strftime("%b %d at %I:%M %p"))
             await ctx.send(embed=embed)
 
