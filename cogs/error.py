@@ -3,7 +3,7 @@ import discord, typing, logging, traceback, json
 from aiohttp_requests import requests
 from discord.ext import commands
 from discord.ext.commands import Cog
-
+from datetime import datetime
 from pymongo import MongoClient
 
 log = logging.getLogger("protecc.errors")
@@ -102,7 +102,6 @@ class ErrorHandler(Cog):
             trace = error.__traceback__
             lines = traceback.format_exception(etype, error, trace)
             goodtb = ''.join(lines)
-
             try:
                 r = await requests.post("https://hastebin.com/documents", data=goodtb)
                 re = await r.json()
@@ -115,9 +114,11 @@ class ErrorHandler(Cog):
                 doc = self.data.find_one({"id": "info"})
             if not doc.get("numerror"):
                 self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": 0}})
-            await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {ctx.message.id}.```")
-            self.data.insert_one({"id": doc['numerror'] + 1, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}"})
+            numerror = doc['numerror'] + 1
+            await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {numerror}.```")
+            self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now()})
             log.error(goodtb)
+            self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror}})
             try:
                 await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
             except Exception as e:
@@ -134,6 +135,29 @@ class ErrorHandler(Cog):
         self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
         await ctx.send(f"Successfully fixed error {errid}")
 
+    @error.command()
+    async def info(self, ctx, id: int):
+        """Get info for an error"""
+        doc = self.data.find_one({"id": id})
+        if not doc:
+            await ctx.send("That error doesn't exist yet!")
+        else:
+            try:
+                embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc.get['fulltb']}")
+                embed.set_footer(text=doc['datetime'].strftime("%b %d at %I:%M %p"))
+                await ctx.send(embed=embed)
+            except Exception as e:
+                await ctx.send(f"An error occured: ```\n{e}\n```")
+
+
+    @error.command()
+    async def list(self, ctx):
+        """List unsolved errors"""
+        errors = []
+        for error in self.data.find():
+            if not error.get("fixed"):
+                errors.append(error['id'])
+        await ctx.send(errors)
         
 def setup(bot):
     bot.add_cog(ErrorHandler(bot))
