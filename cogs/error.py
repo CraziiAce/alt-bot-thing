@@ -21,6 +21,7 @@ class ErrorHandler(Cog):
         self.errathrids=[]
         mcl = MongoClient()
         self.data = mcl.Titanium.errors
+        self.color = color
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -117,10 +118,10 @@ class ErrorHandler(Cog):
             numerror = doc['numerror'] + 1
             await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {numerror}.```")
             self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now()})
-            log.error(goodtb)
             self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
             try:
-                await logs.send(f"```xml\nAn error has been spotted in lego city! msg ID: {ctx.message.id}\nauthor name: {ctx.author.name}#{ctx.author.discriminator}\nauthor id: {ctx.author.id}\nguild: {ctx.guild.name}\nerror: {error}\ncommand: {ctx.message.content}```")
+                embed = discord.Embed(title=f"New error! ID: {numerror}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}", color=self.color)
+                await logs.send(embed=embed)
             except Exception as e:
                 log.error(e)
 
@@ -143,7 +144,7 @@ class ErrorHandler(Cog):
         if not doc:
             await ctx.send("That error doesn't exist yet!")
         else:
-            embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}")
+            embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}", color=self.color)
             embed.set_footer(text=doc['datetime'].strftime("%b %d at %I:%M %p"))
             await ctx.send(embed=embed)
 
