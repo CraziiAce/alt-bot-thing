@@ -142,12 +142,10 @@ class ErrorHandler(Cog):
         if not doc:
             await ctx.send("That error doesn't exist yet!")
         else:
-            try:
-                embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc.get['fulltb']}")
-                embed.set_footer(text=doc['datetime'].strftime("%b %d at %I:%M %p"))
-                await ctx.send(embed=embed)
-            except Exception as e:
-                await ctx.send(f"An error occured: ```\n{e}\n```")
+            await ctx.send(doc)
+            embed = discord.Embed(title=f"Info for error {id}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc.get['fulltb']}")
+            embed.set_footer(text=doc['datetime'].strftime("%b %d at %I:%M %p"))
+            await ctx.send(embed=embed)
 
 
     @error.command()
