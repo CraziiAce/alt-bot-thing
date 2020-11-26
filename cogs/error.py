@@ -153,7 +153,7 @@ class ErrorHandler(Cog):
         """List unsolved errors"""
         errors = []
         for error in self.data.find():
-            if not error.get("fixed"):
+            if not error.get("fixed") or error['id'] != 1 or error['id'] != "info":
                 errors.append(error['id'])
         await ctx.send(errors)
         
