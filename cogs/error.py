@@ -5,6 +5,7 @@ from discord.ext import commands
 from discord.ext.commands import Cog
 from datetime import datetime
 from pymongo import MongoClient
+from babel import lists
 
 log = logging.getLogger("protecc.errors")
 
@@ -117,7 +118,7 @@ class ErrorHandler(Cog):
                 self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": 0}})
             numerror = doc['numerror'] + 1
             await ctx.send(f"This command raised an error! Error ID: {numerror}. If this keeps happening, make a support ticket with `{ctx.prefix}supportrequest`")
-            self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now()})
+            self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now(), "fixed": False})
             self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
             try:
                 embed = discord.Embed(title=f"New error! ID: {numerror}", description=f"Erroring command: {str(ctx.command)}\nFull traceback: https://hastebin.com/{re['key']}", color=self.color)
@@ -156,7 +157,24 @@ class ErrorHandler(Cog):
         for error in self.data.find():
             if not error.get("fixed") and error.get("id") != 1 and error.get("id") != "info":
                 errors.append(error['id'])
-        await ctx.send(errors)
+        await ctx.send(lists.format_list(errors, locale="en"))
         
+    @error.command()
+    async def listbycmd(self, ctx):
+        errors = {}
+        for error in self.data.find():
+            try:
+                if not errors.get(error['command']):
+                    errors[error['command']] = []
+                    errors[error['command']].append(error['id'])
+                elif errors.get(error['command']):
+                    errors[error['command']].append(error['id'])
+                else:
+                    pass
+            except:
+                pass
+        
+
+
 def setup(bot):
     bot.add_cog(ErrorHandler(bot))
