@@ -116,11 +116,11 @@ class ErrorHandler(Cog):
             if not doc.get("numerror"):
                 self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": 0}})
             numerror = doc['numerror'] + 1
-            await ctx.send(f"```\nThis command raised an error: {error}.\nError ID: {numerror}.```")
+            await ctx.send(f"This command raised an error! Error ID: {numerror}. If this keeps happening, make a support ticket with `{ctx.prefix}supportrequest`")
             self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now()})
             self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
             try:
-                embed = discord.Embed(title=f"New error! ID: {numerror}", description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}", color=self.color)
+                embed = discord.Embed(title=f"New error! ID: {numerror}", description=f"Erroring command: {str(ctx.command)}\nFull traceback: https://hastebin.com/{re['key']}", color=self.color)
                 await logs.send(embed=embed)
             except Exception as e:
                 log.error(e)
