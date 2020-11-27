@@ -233,11 +233,12 @@ class music(commands.Cog):
         return player
 
     @commands.command(name='connect')
+    @commands.guild_only()
     async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
         """Connect to voice.
         Parameters
         ------------
-        channel: discord.VoiceChannel [Optional]
+        channel:
             The channel to connect to. If a channel is not specified, an attempt to join the voice channel you are in
             will be made.
         This command also handles moving the bot to different channels.
