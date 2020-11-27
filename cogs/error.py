@@ -157,7 +157,11 @@ class ErrorHandler(Cog):
         for error in self.data.find():
             if not error.get("fixed") and error.get("id") != 1 and error.get("id") != "info":
                 errors.append(error['id'])
-        await ctx.send(lists.format_list(errors, locale="en"))
+        try:
+            embed = discord.Embed(title="Unsolved errors", description=lists.format_list(errors, locale="en"), color=self.color)
+            await ctx.send(embed=embed)
+        except discord.errors.HTTPException:
+            await ctx.send("No unsolved errors exist! YAY!")
         
     @error.command()
     async def listbycmd(self, ctx):
