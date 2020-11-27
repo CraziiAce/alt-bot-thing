@@ -135,7 +135,12 @@ class ErrorHandler(Cog):
     @error.command()
     async def fix(self, ctx, errid):
         """Mark an error as fixed"""
+        doc = self.data.find_one({"id": errid})
+        await ctx.send(doc)
         self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
+        doc = self.data.find_one({"id": errid})
+
+        await ctx.send(f"{doc}\n\n\n{x}")
         await ctx.send(f"Successfully fixed error {errid}")
 
     @error.command()
