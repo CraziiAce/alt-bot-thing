@@ -138,9 +138,9 @@ class ErrorHandler(Cog):
         try:
             doc = self.data.find_one({"id": int(errid)})
             await ctx.send(doc)
-            self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
+            updt = self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
             doc = self.data.find_one({"id": int(errid)})
-            await ctx.send(f"{doc}")
+            await ctx.send(f"{doc}\n\n{updt}")
             await ctx.send(f"Successfully fixed error {errid}")
         except discord.errors.HTTPException:
             await ctx.send("HTTP exception")
