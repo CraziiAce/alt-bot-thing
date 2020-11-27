@@ -140,7 +140,7 @@ class ErrorHandler(Cog):
         self.data.update_one(filter={"id": errid}, update={"$set": {"fixed": True}})
         doc = self.data.find_one({"id": errid})
 
-        await ctx.send(f"{doc}\n\n\n{x}")
+        await ctx.send(f"{doc}")
         await ctx.send(f"Successfully fixed error {errid}")
 
     @error.command()
