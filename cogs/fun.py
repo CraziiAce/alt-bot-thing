@@ -9,20 +9,9 @@ from discord.ext.commands.cooldowns import BucketType
 
 import time, datetime
 from datetime import datetime
+from aiohttp_requests import requests
 
-import os
-
-import io
-
-import json
-
-import asyncio
-
-import aiohttp
-
-import random
-
-import collections
+import os, io, json, asyncio, random, collections
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
@@ -34,7 +23,6 @@ class fun(commands.Cog):
     """Random Commands"""
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
         
     @commands.command()
     async def dice(self, ctx):
@@ -79,46 +67,52 @@ class fun(commands.Cog):
     @commands.command()
     async def meme(self, ctx):
         """Get a random meme"""
-        async with self.session.get("https://meme-api.herokuapp.com/gimme/dankmemes") as resp:
+        re = await requests.get("http://meme-api.herokuapp.com/gimme")
+        r = await re.json()
+        embed = discord.Embed(
+            title = r['title'],
+            url = r['postLink'],
+            color = color,
+            description = f"u/{r['author']} | Can't see the image? [Click Here.]({r['url']})"
+        )
+        embed.set_footer(text=f"{r['ups']} 👍 | from r/{r['subreddit']}")
+        embed.set_image(url=r['url'])
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=["ph"])
+    async def programmerhumor(self, ctx):
+        """Get a programmer humor meme"""
+        re = await requests.get("http://meme-api.herokuapp.com/gimme/ProgrammerHumor")
+        r = await re.json()
+        embed = discord.Embed(
+            title = r['title'],
+            url = r['postLink'],
+            color = color,
+            description = f"u/{r['author']} | Can't see the image? [Click Here.]({r['url']})"
+        )
+        embed.set_footer(text=f"{r['ups']} 👍 | from r/{r['subreddit']}")
+        embed.set_image(url=r['url'])
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=["mc"])
+    async def minecraft(self, ctx, *, username):
+        """Get a minecraft users stats"""
+        async with self.session.get(f"https://api.mojang.com/users/profiles/minecraft/{username}?at=") as resp:
             resp = await resp.json()
-            
-        if resp["nsfw"] == True and not ctx.channel.is_nsfw():
-            return await ctx.send("⚠️ This meme is marked as NSFW and I can\'t post it in a non-nsfw channel.")
-        else:
-            embed = discord.Embed(title=resp["title"], url=resp["postLink"], color=color)
-            embed.set_image(url=resp["url"])
-            embed.set_footer(text="r/Dankmemes")
-            await ctx.send(embed=embed)
+        embed=discord.Embed(title=f"Stats for {resp["name"]}", description=f"ID: `{resp["id"]}`", color=color)
+        embed.set_image(url=f"https://minotar.net/armor/body/{username}/100.png")
+        embed.set_thumbnail(url=f"https://minotar.net/helm/{username}/100.png")
+        embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{username}/100.png")
+        await ctx.send(embed=embed)
 
-#    @commands.command(aliases=["ph"])
-#    async def programmerhumor(self, ctx):
-#        """Get a programmer humor meme"""
-#        async with self.session.get("https://meme-api.herokuapp.com/gimme/ProgrammerHumor") as resp:
-#            resp = await resp.json()
-#        embed = discord.Embed(title=resp["title"], url=resp["postLink"], color=color)
-#        embed.set_image(url=resp["url"])
-#        embed.set_footer(text="r/ProgrammerHumor")
-#        await ctx.send(embed=embed)
-
-#    @commands.command(aliases=["mc"])
-#    async def minecraft(self, ctx, *, username):
-#        """Get a minecraft users stats"""
-#        async with self.session.get(f"https://api.mojang.com/users/profiles/minecraft/{username}?at=") as resp:
-#            resp = await resp.json()
-#        embed=discord.Embed(title=f"Stats for {resp["name"]}", description=f"ID: `{resp["id"]}`", color=color)
-#        embed.set_image(url=f"https://minotar.net/armor/body/{username}/100.png")
-#        embed.set_thumbnail(url=f"https://minotar.net/helm/{username}/100.png")
-#        embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{username}/100.png")
-#        await ctx.send(embed=embed)
-
-#    @commands.command(aliases=["mcs"])
-#    async def minecraftserver(self, ctx, *, server):
-#        """Get a minecraft servers stats"""
-#        async with self.session.get(f"http://mcapi.xdefcon.com/server/{server}/full/json") as resp:
-#            resp = await resp.json()
-#        embed=discord.Embed(title=f"Stats for {server}", description=f"IP: {resp["serverip"]}\nStatus: {resp["serverStatus"]}\nPing: {resp["ping"]}\nVersion: {resp["version"]}\nPlayers: {resp["players"]}\nMax Players: {resp["maxplayers"]}", color=color)
-#        embed.set_thumbnail(url=f"https://api.minetools.eu/favicon/{server}/25565")
-#        await ctx.send(embed=embed)
+    @commands.command(aliases=["mcs"])
+    async def minecraftserver(self, ctx, *, server):
+        """Get a minecraft servers stats"""
+        async with self.session.get(f"http://mcapi.xdefcon.com/server/{server}/full/json") as resp:
+            resp = await resp.json()
+        embed=discord.Embed(title=f"Stats for {server}", description=f"IP: {resp["serverip"]}\nStatus: {resp["serverStatus"]}\nPing: {resp["ping"]}\nVersion: {resp["version"]}\nPlayers: {resp["players"]}\nMax Players: {resp["maxplayers"]}", color=color)
+        embed.set_thumbnail(url=f"https://api.minetools.eu/favicon/{server}/25565")
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

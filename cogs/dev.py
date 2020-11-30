@@ -6,7 +6,7 @@ from discord.ext import commands
 from discord.shard import ShardInfo
 from discord.ext.commands import bot
 
-import os, io, json, psutil, aiohttp, collections, logging
+import os, io, json, psutil, aiohttp, collections, logging, traceback
 
 from multiprocessing.connection import Client
 
@@ -32,9 +32,13 @@ class dev(commands.Cog):
         """Loads an extension. """
         try:
             self.bot.load_extension(f"cogs.{name}")
-        except Exception as e:
+        except Exception as error:
             return await ctx.send(f"```py\n{e}```")
-            log.error(e)
+            etype = type(error)
+            trace = error.__traceback__
+            lines = traceback.format_exception(etype, error, trace)
+            goodtb = ''.join(lines)
+            log.error(goodtb)
         await ctx.send(f"📥 Loaded extension **cogs/{name}.py**")
 
 
@@ -101,25 +105,25 @@ class dev(commands.Cog):
         '''Change the Bot Status'''
         if type == "playing":
             await self.bot.change_presence(activity=discord.Game(name=f"{status}"))
-            await ctx.send(f'<:online:778677538788212737> Changed status to `Playing {status}`')
+            await ctx.send(f'Changed status to `Playing {status}`')
         elif type == "listening":
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{status}"))
-            await ctx.send(f'<:online:778677538788212737> Changed status to `Listening to {status}`')
+            await ctx.send(f'Changed status to `Listening to {status}`')
         elif type == "watching":
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{status}"))
-            await ctx.send(f'<:online:778677538788212737> Changed status to `Watching {status}`')
+            await ctx.send(f'Changed status to `Watching {status}`')
         elif type == "bot":
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,name=f"{len(self.bot.users)} users in {len(self.bot.guilds)} servers"))
-            await ctx.send(f'<:online:778677538788212737> Changed status to `Watching {len(self.bot.users)} users in {len(self.bot.guilds)} servers`')
+            await ctx.send(f'Changed status to `Watching {len(self.bot.users)} users in {len(self.bot.guilds)} servers`')
         elif type == "competing":
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing, name=f"{status}"))
-            await ctx.send(f'<:online:778677538788212737> Changed status to `Competing in {status}`')
+            await ctx.send(f'Changed status to `Competing in {status}`')
         elif type == "streaming":
-            await self.bot.change_presence(activity=discord.Streaming(name=f"{status}", url="https://www.twitch.tv/isirk"))
-            await ctx.send(f'<:streaming:769640090275151912> Changed status to `Streaming {status}`')
+            await self.bot.change_presence(activity=discord.Streaming(name=f"{status}", url="https://www.twitch.tv/titanium"))
+            await ctx.send(f'Changed status to `Streaming {status}`')
         elif type == "reset":
             await self.bot.change_presence(status=discord.Status.online)
-            await ctx.send("<:online:778677538788212737> Reset Status")
+            await ctx.send(f"Reset Status")
         else:
             await ctx.send("Type needs to be either `playing|listening|watching|streaming|competing|bot|reset`")
 
