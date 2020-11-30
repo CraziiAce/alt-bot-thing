@@ -22,8 +22,8 @@ class reactionroles(commands.Cog):
         try:
             msg = await channel.fetch_message(msgid)
             await msg.add_reaction(emoji)
-        if isinstance(emoji, discord.Emoji):
-            emoji = emoji.id
+            if isinstance(emoji, discord.Emoji):
+                emoji = emoji.id
         except discord.NotFound:
             return await ctx.send("I couldn\'t find that message!")
         self.data.insert_one({"chnlid": channel.id, "msgid": msgid, "role": role.id, "emoji": emoji, "guildid": ctx.guild.id})
