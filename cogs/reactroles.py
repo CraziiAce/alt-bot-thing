@@ -8,7 +8,7 @@ class reactionroles(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        mcl = MongoClient
+        mcl = MongoClient()
         self.data = mcl.Titanium.rroles
 
     @commands.group(aliases=['reactionroles', 'rroles'])
