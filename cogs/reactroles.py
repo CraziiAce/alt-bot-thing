@@ -50,8 +50,8 @@ class reactionroles(commands.Cog):
                     guild = self.bot.get_guild(payload.guild_id)
                     role = guild.get_role(doc.get("role"))
                     await user.remove_roles(role, reason = "Reaction Roles")
-        except:
-            return
+        except Exception as e:
+            print(e)
 
 
 def setup(bot):
