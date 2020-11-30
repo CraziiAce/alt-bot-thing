@@ -46,9 +46,9 @@ class reactionroles(commands.Cog):
             elif payload.event_type == "REACTION_REMOVE":
                 doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
-                    user = self.bot.get_user(payload.user_id)
                     guild = self.bot.get_guild(payload.guild_id)
                     role = guild.get_role(doc.get("role"))
+                    member = guild.get_member(payload.user_id)
                     await user.remove_roles(role, reason = "Reaction Roles")
         except Exception as e:
             print(e)
