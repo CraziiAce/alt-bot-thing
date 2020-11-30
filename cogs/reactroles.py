@@ -33,11 +33,10 @@ class reactionroles(commands.Cog):
         try:
             print(payload.event_type)
             doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
-            print(payload.event_type == "REACTION_ADD")
             if payload.event_type == "REACTION_ADD":
-                print("firing")
                 print(f"{str(payload.emoji)}\n\n{payload.emoji.id}\n\n{doc.get['emoji']}")
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
+                    print("firing")
                     user = self.bot.get_user(payload.user_id)
                     guild = self.bot.get_guild(payload.guild_id)
                     role = guild.get_role(doc.get("role"))
@@ -50,7 +49,6 @@ class reactionroles(commands.Cog):
                     role = guild.get_role(doc.get("role"))
                     await user.remove_roles(role, reason = "Reaction Roles")
             else:
-                print("not firing")
         except:
             return
 
