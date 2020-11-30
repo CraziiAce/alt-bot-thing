@@ -36,7 +36,7 @@ class reactionroles(commands.Cog):
             if payload.event_type == "REACTION_ADD":
                 print(f"{str(payload.emoji)}\n\n{payload.emoji.id}\n\n{doc['emoji']}")
                 print(f"{str(payload.emoji)}")
-                print(str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):)
+                print(str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"))
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
                     print("firing")
                     user = self.bot.get_user(payload.user_id)
