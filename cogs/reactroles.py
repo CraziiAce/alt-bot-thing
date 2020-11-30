@@ -33,7 +33,6 @@ class reactionroles(commands.Cog):
         try:
             print(payload.event_type)
             doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
-            print(doc)
             print(payload.event_type == "REACTION_ADD")
             if payload.event_type == "REACTION_ADD":
                 print(f"{str(payload.emoji)}\n\n{payload.emoji.id}\n\n{doc.get['emoji']}")
