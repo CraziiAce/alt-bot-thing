@@ -39,17 +39,17 @@ class reactionroles(commands.Cog):
                 print(str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"))
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
                     print("firing")
-                    user = self.bot.get_user(payload.user_id)
                     guild = self.bot.get_guild(payload.guild_id)
+                    member = guild.get_member(payload.user_id)
                     role = guild.get_role(doc.get("role"))
-                    await user.add_roles(role, reason = "Reaction Roles")
+                    await member.add_roles(role, reason = "Reaction Roles")
             elif payload.event_type == "REACTION_REMOVE":
                 doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
                     guild = self.bot.get_guild(payload.guild_id)
                     role = guild.get_role(doc.get("role"))
                     member = guild.get_member(payload.user_id)
-                    await user.remove_roles(role, reason = "Reaction Roles")
+                    await member.remove_roles(role, reason = "Reaction Roles")
         except Exception as e:
             print(e)
 
