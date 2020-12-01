@@ -34,7 +34,7 @@ class dev(commands.Cog):
         try:
             self.bot.load_extension(f"cogs.{name}")
         except Exception as error:
-            return await ctx.send(f"```py\n{e}```")
+            return await ctx.send(f"```py\n{error}```")
             etype = type(error)
             trace = error.__traceback__
             lines = traceback.format_exception(etype, error, trace)
