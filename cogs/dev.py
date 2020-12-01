@@ -13,6 +13,7 @@ from multiprocessing.connection import Client
 from jishaku.codeblocks import codeblock_converter
 
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
+import subprocess as sp
 
 log = logging.getLogger("titanium.cog_loader")
 
