@@ -53,7 +53,7 @@ class Automod(commands.Cog):
             do_antilink = True
         doc = self.data.find_one({"guildid": ctx.guild.id, "offense": "link"})
         if not doc:
-            self.data.insert_one({"guildid": ctx.guild.id, "offense": link, "do": do_antilink, "action": action})
+            self.data.insert_one({"guildid": ctx.guild.id, "offense": "link", "do": do_antilink, "action": action})
             if do_antilink:
                 await ctx.send(f"Ok, I will now {action} someone if they post a link")
             if not do_antilink:
