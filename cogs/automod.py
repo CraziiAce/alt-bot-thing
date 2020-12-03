@@ -101,7 +101,8 @@ class Automod(commands.Cog):
                             emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
                             await member.send(embed=emb)
                             await guild.ban(member)
-                        elif doc.get("action") == "kick"
+                        elif doc.get("action") == "kick":
+                            pass
                         await self.send_case(message, doc.get("action"), offense, message.author)
                 except Exception as e:
                     print(e)
