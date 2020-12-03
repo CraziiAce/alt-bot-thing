@@ -120,7 +120,7 @@ class dev(commands.Cog):
             await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.competing, name=f"{status}"))
             await ctx.send(f'Changed status to `Competing in {status}`')
         elif type == "streaming":
-            await self.bot.change_presence(activity=discord.Streaming(name=f"{status}", url="https://www.twitch.tv/starrybot"))
+            await self.bot.change_presence(activity=discord.Streaming(name=f"{status}", url="https://www.twitch.tv/Elevatebot"))
             await ctx.send(f'Changed status to `Streaming {status}`')
         elif type == "reset":
             await self.bot.change_presence(status=discord.Status.online)

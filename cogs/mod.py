@@ -25,7 +25,7 @@ class mod(commands.Cog):
             'Nope',
         ]
         mcl = MongoClient()
-        self.data = mcl.Starry.modlog
+        self.data = mcl.Elevate.modlog
 
     async def send_case(self, ctx, case_type, reason, victim):
         """Internal func to send cases"""

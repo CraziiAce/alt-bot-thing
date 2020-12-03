@@ -7,7 +7,7 @@ from datetime import datetime
 from pymongo import MongoClient
 from babel import lists
 
-log = logging.getLogger("protecc.errors")
+log = logging.getLogger("YOUR_BOT_NAME_HERE.errors")
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
@@ -21,7 +21,7 @@ class ErrorHandler(Cog):
         self.errmsgids=[]
         self.errathrids=[]
         mcl = MongoClient()
-        self.data = mcl.Titanium.errors
+        self.data = mcl.YOUR_BOT_NAME_HERE.errors
         self.color = color
 
     """Pretty much from here:

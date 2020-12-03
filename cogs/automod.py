@@ -9,8 +9,8 @@ class Automod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
-        self.data = mcl.Starry.automod
-        self.modlog = mcl.Starry.modlog
+        self.data = mcl.Elevate.automod
+        self.modlog = mcl.Elevate.modlog
         self.accepted_actions = [
             "kick",
             "ban",
@@ -44,7 +44,7 @@ class Automod(commands.Cog):
 
     @automod.command()
     async def antilink(self, ctx, do_antilink, action = None):
-        """Toggle whether starry will do antilink. do_antilink should be true/false, and action should be either `kick`, `ban`, or `mute`."""
+        """Toggle whether Elevate will do antilink. do_antilink should be true/false, and action should be either `kick`, `ban`, or `mute`."""
         if action not in self.accepted_actions:
             await ctx.send("That's not a valid action!")
         if do_antilink in self.no_actions:
@@ -61,7 +61,7 @@ class Automod(commands.Cog):
             elif do_antilink not in self.no_actions and do_antilink not in self.yes_actions:
                 return await ctx.send("Sorry, that isn\'t a valid action")
         elif doc:
-            self.data.update_one(query = {"guildid": ctx.guild.id, "offense": link}, update = {"$set": {do: do_antilink, "action": action}})
+            self.data.update_one(query = {"guildid": ctx.guild.id, "offense": "link"}, update = {"$set": {do: do_antilink, "action": action}})
 
     async def send_case(self, ctx, case_type, reason, victim):
         """Internal func to send cases"""
@@ -101,6 +101,7 @@ class Automod(commands.Cog):
                             emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
                             await member.send(embed=emb)
                             await guild.ban(member)
+                        elif doc.get("action") == "kick"
                         await self.send_case(message, doc.get("action"), offense, message.author)
                 except Exception as e:
                     print(e)

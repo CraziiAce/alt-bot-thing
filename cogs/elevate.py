@@ -8,46 +8,46 @@ with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
 
-class Starry(commands.Cog):
-    '''Information about Starry'''
+class Elevate(commands.Cog):
+    '''Information about Elevate'''
     def __init__(self, bot):
         self.bot = bot
         
     @commands.command()
     async def vote(self, ctx):
-        '''Vote for Titanum on top.gg'''
-        embed=discord.Embed(title="Vote", description="**Vote for Starry [here](https://top.gg/bot/716798638277525535/vote)", color=color)
-        embed.set_footer(text="Starry | discord.gg/zwyFZ7h")
+        '''Vote for Elevate on top.gg'''
+        embed=discord.Embed(title="Vote", description="**Vote for Elevate [here](https://top.gg/bot/716798638277525535/vote)", color=color)
+        embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
         await ctx.send(embed=embed)
     
     @commands.command()
     async def invite(self, ctx):
         '''Get the invite for the bot.'''
         emb = discord.Embed(
-            title="Invite Starry",
+            title="Invite Elevate",
             description="Invite me [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=268823638&scope=bot) with permissions, or [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=0&scope=bot) without permissions"
         )
-        emb.set_footer(text="Starry | discord.gg/zwyFZ7h")
+        emb.set_footer(text="Elevate | discord.gg/zwyFZ7h")
         await ctx.send(embed=emb)
         
     @commands.command()
     async def about(self, ctx):
-        '''Get info about Starry'''
+        '''Get info about Elevate'''
         emb = discord.Embed(
-            title="Starry Info",
+            title="Elevate Info",
             description="A simple Discord bot with moderation tools and music",
             color=color
         )
         emb.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-        emb.add_field(name= "News", value=f"**:wave: Starry has a welcomer feature!** Use `{ctx.prefix}help welcomer`", inline=True)
-        emb.add_field(name= ":link: Links", value="[Invite Starry](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
-        emb.set_footer(text="Starry | discord.gg/zwyFZ7h")
+        emb.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `{ctx.prefix}help welcomer`", inline=True)
+        emb.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
+        emb.set_footer(text="Elevate | discord.gg/zwyFZ7h")
         await ctx.send(embed=emb)
 
     @commands.command()
     async def support(self, ctx):
         '''Get support information.'''
-        supportembed = discord.Embed(title="Starry support", color=color)
+        supportembed = discord.Embed(title="Elevate support", color=color)
         supportembed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
         supportembed.add_field(name="Support Server", value="<a:igloading:737723292768796713> Support Server: https://discord.gg/zwyFZ7h", inline=False)
         supportembed.add_field(name="Contact", value="To contact support staff, use `t!support <message>`", inline=False)
@@ -56,13 +56,13 @@ class Starry(commands.Cog):
     
     @commands.command()
     async def stats(self, ctx):
-        """Get stats for Starry"""
+        """Get stats for Elevate"""
         dpy = discord.version_info
         d = distro.linux_distribution()
         ld = d[0] + " " + d[1]
         IS_LINUX = sys.platform == "linux"
         IS_WINDOWS = os.name == "nt"            
-        embed = discord.Embed(title="Starry Stats", color=color, description="Starry | The only Discord bot you'll ever need\nDeveloped by CraziiAce#0001")
+        embed = discord.Embed(title="Elevate Stats", color=color, description="Elevate | The only Discord bot you'll ever need\nDeveloped by CraziiAce#0001")
         embed.add_field(name="Python stats", value=f"Python version: **{platform.python_version()}**\ndiscord.py version: **{dpy.major}.{dpy.minor}.{dpy.micro}-{dpy.releaselevel}**\naiohttp version: **{aiohttp.__version__}**")
         embed.add_field(name="Bot stats", value=f"Servers: **{len(ctx.bot.guilds)}\n**Users: **{len(ctx.bot.users)}**\nEmojis: **{len(ctx.bot.emojis)}**\nCommands: **{len(ctx.bot.commands)}**", inline=False)
         if IS_LINUX:
@@ -73,4 +73,4 @@ class Starry(commands.Cog):
 
      
 def setup(bot):
-    bot.add_cog(Starry(bot))
+    bot.add_cog(Elevate(bot))

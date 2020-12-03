@@ -4,22 +4,22 @@ from pymongo import MongoClient
 
 
 class config(commands.Cog):
-    """Settings for Starry"""
+    """Settings for Elevate"""
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
-        db = mcl.Starry
+        db = mcl.Elevate
         self.prfx = db.prefixes
 
     @commands.group(aliases=['set'])
     @commands.has_permissions(administrator=True)
     async def settings(self, ctx):
-        """Change Starry's settings"""
+        """Change Elevate's settings"""
         pass
 
     @settings.command()
     async def prefix(self, ctx, *, prefix: str = None):
-        """Set Starry's prefix. If no prefix is specified, the prefix will be reset to default."""
+        """Set Elevate's prefix. If no prefix is specified, the prefix will be reset to default."""
         doc = self.prfx.find_one({"_id":ctx.guild.id})
         if not doc:
             if prefix and not doc:
