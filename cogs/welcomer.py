@@ -8,7 +8,7 @@ class welcomer(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
-        db = mcl.Titanium
+        db = mcl.Starry
         self.data = db.welcome
     
     @commands.has_permissions(kick_members = True)
@@ -19,7 +19,7 @@ class welcomer(commands.Cog):
 
     @welcomeset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
-        """Set the channel Titanium will welcome members in"""
+        """Set the channel Starry will welcome members in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
         print(str(doc))
         if not doc:

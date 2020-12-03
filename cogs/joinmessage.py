@@ -3,7 +3,7 @@
 from discord.ext import commands
 import discord, logging
 
-log = logging.getLogger("titanium.guild_join_manager")
+log = logging.getLogger("Starry.guild_join_manager")
 
 CHANNELS = [
     "general",
@@ -40,7 +40,7 @@ CHANNELS = [
 ]
 
 MSG = discord.Embed(
-    title="Thanks for adding Titanium!",
+    title="Thanks for adding Starry!",
     description="You can see all commands with t!help. If you ever have any questions, contact a support team member with `t.supportrequest`, or join the support server at discord.gg/zwyFZ7h"
 )
 

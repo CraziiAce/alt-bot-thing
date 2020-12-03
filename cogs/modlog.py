@@ -5,14 +5,14 @@ from datetime import datetime
 from pymongo import MongoClient
 
 mcl = MongoClient()
-data = mcl.Titanium.modlog
+data = mcl.Starry.modlog
 
 class modlog(commands.Cog):
-    """Control Titanium's modlog"""
+    """Control Starry's modlog"""
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
-        self.data = mcl.Titanium.modlog
+        self.data = mcl.Starry.modlog
 
     @commands.has_permissions(kick_members=True)
     @commands.group()
@@ -21,7 +21,7 @@ class modlog(commands.Cog):
     
     @modlogset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
-        """Set the channel Titanium will send modlog cases in"""
+        """Set the channel Starry will send modlog cases in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
         print(str(doc))
         if not doc:
