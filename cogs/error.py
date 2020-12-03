@@ -118,7 +118,7 @@ class ErrorHandler(Cog):
                 self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": 0}})
             numerror = doc['numerror'] + 1
             emb = discord.Embed(title = f"An uncaught error occured!", description = f"I'm sorry, but an unexpected error occured. This has been sent to my development team for them to see. If you need help, feel free to join my [support server](https://discord.gg/zwyFZ7h)\n```\n{error}\n```")
-            emb.add_field(text = f"Caused by {str(ctx.command)} | ID: {numerror}")
+            emb.set_footer(text = f"Caused by {str(ctx.command)} | ID: {numerror}")
             await ctx.send(embed=emb)
             self.data.insert_one({"id": numerror, "command": str(ctx.command), "fulltb": f"https://hastebin.com/{re['key']}", "datetime": datetime.now(), "fixed": False})
             self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
