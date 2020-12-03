@@ -71,6 +71,11 @@ class Elevate(commands.Cog):
             embed.add_field(name="Server stats", value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{platform.platform()}**", inline=False)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def privacy(self, ctx):
+        """Get my privacy policy"""
+        await ctx.send("Elevate takes your privacy very seriously. We only store data that is necessary to the operation of Elevate, like user IDs, guild IDs, role IDs, and channel IDs. Elevate accesses more extensive data on users, roles, guilds, and channels when certain commands are run, but it is not stored.\nThe data Elevate collects is stored only on the secure, password- and private-key protected servers that Elevate is run on, and except for some command arguments, is never sent anywhere.\n If you have any questions, DM CraziiAce#0001 on Discord")
+
      
 def setup(bot):
     bot.add_cog(Elevate(bot))
