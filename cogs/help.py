@@ -16,10 +16,6 @@ tools = "json/tools.json"
 with open(tools) as f:
     data = json.load(f)
 color = int(data['COLOR'], 16)
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
 footer = str(data['FOOTER'], 16)
 
 class Prefix(commands.Converter):
