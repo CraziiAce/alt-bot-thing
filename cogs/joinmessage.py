@@ -5,6 +5,11 @@ import discord, logging
 
 log = logging.getLogger("Elevate.guild_join_manager")
 
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
+
 CHANNELS = [
     "general",
     "general-chat",
@@ -41,7 +46,8 @@ CHANNELS = [
 
 MSG = discord.Embed(
     title="Thanks for adding Elevate!",
-    description="You can see all commands with t!help. If you ever have any questions, contact a support team member with `t.supportrequest`, or join the support server at discord.gg/zwyFZ7h"
+    description="You can see all commands with t!help. If you ever have any questions, contact a support team member with `t.supportrequest`, or join the support server at discord.gg/zwyFZ7h",
+    color=color
 )
 
 class joinmessage(commands.Cog):
@@ -60,7 +66,8 @@ class joinmessage(commands.Cog):
         )
 
         await channel.send(embed=MSG)
-        log.info("Guild welcome message sent in {}".format(guild))
+        channel = self.bot.get_channel(733385692452880517)
+        await channel.send(f"I just joined {guild} with {len(guild.members)} members! That's {len(self.bot.guilds)} servers now@")
 
 def setup(bot):
     bot.add_cog(joinmessage(bot))

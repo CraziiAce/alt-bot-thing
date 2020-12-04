@@ -113,7 +113,7 @@ class ErrorHandler(Cog):
                 re = await r.json()
             except:
                 log.error(goodtb)
-            logs = self.bot.get_channel(764576277512060928)
+            logs = self.bot.get_channel(778667649588527124)
             doc = self.data.find_one({"id": "info"})
             if not doc:
                 self.data.insert_one({"id": "info"})

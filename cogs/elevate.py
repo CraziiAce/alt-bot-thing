@@ -79,7 +79,8 @@ class Elevate(commands.Cog):
     @commands.command()
     async def credits(self, ctx):
         """Get elevate's credits"""
-        emb = discord.Embed(title = "Credits", description = "**Lead developer:** CraziiAce#0001\n**Help command & cog loader:** isirk#0001")
+        emb = discord.Embed(title = "Credits", description = "**Lead developer:** CraziiAce#0001\n**Help command & cog loader:** isirk#0001", color=color)
+        await ctx.send(embed=embed)
 
      
 def setup(bot):
