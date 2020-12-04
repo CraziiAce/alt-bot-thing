@@ -47,8 +47,6 @@ intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix = get_pre, intents=intents)
-bot.help_command = PrettyHelp(color=color)
-
 bot.owner_ids = {555709231697756160}
 #bot.remove_command("help")
 
