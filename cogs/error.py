@@ -48,11 +48,8 @@ class ErrorHandler(Cog):
 
 
     @Cog.listener()
-    async def on_command_error(self, ctx, error):
-        ignored_errors = (commands.CommandNotFound,)
-        
-        if isinstance(error, ignored_errors):
-            return
+    async def on_command_error(self, ctx, error):        
+
 
         setattr(ctx, "original_author_id", getattr(ctx, "original_author_id", ctx.author.id))
         owner_reinvoke_errors = (
@@ -64,6 +61,13 @@ class ErrorHandler(Cog):
             return await ctx.reinvoke()
 
         # Command is on Cooldown
+        elif isinstance(error, commands.CommandNotFound):
+            if ctx.invoked_subcommand:
+                return
+            else:
+                return await ctx.send_help(str(ctx.command))
+
+                
         elif isinstance(error, commands.CommandOnCooldown):
             return await self.send_to_ctx_or_author(ctx, f"This command is on cooldown. **Try in `{int(error.retry_after)}` seconds**", delete_after=10.0)
 
