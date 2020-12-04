@@ -111,17 +111,23 @@ class welcomer(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        doc = self.data.find_one({"_id": member.guild.id})
-        if doc['joinmsg'] and doc['chnl'] and doc['dojoins']:
-            chnl = self.bot.get_channel(doc['chnl'])
-            await chnl.send(doc['joinmsg'].format(user=member))
+        try:
+            doc = self.data.find_one({"_id": member.guild.id})
+            if doc['joinmsg'] and doc['chnl'] and doc['dojoins']:
+                chnl = self.bot.get_channel(doc['chnl'])
+                await chnl.send(doc['joinmsg'].format(user=member))
+        except:
+            pass
     
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        doc = self.data.find_one({"_id": member.guild.id})
-        if doc['leavemsg'] and doc['chnl'] and doc['doleaves']:
-            chnl = self.bot.get_channel(doc['chnl'])
-            await chnl.send(doc['leavemsg'].format(user=member))
+        try:
+            doc = self.data.find_one({"_id": member.guild.id})
+            if doc['leavemsg'] and doc['chnl'] and doc['doleaves']:
+                chnl = self.bot.get_channel(doc['chnl'])
+                await chnl.send(doc['leavemsg'].format(user=member))
+        except:
+            pass
 
 def setup(bot):
     bot.add_cog(welcomer(bot))

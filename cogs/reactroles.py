@@ -34,11 +34,8 @@ class reactionroles(commands.Cog):
             print(payload.event_type)
             doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
             if payload.event_type == "REACTION_ADD":
-                print(f"{str(payload.emoji)}\n\n{payload.emoji.id}\n\n{doc['emoji']}")
-                print(f"{str(payload.emoji)}")
                 print(str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"))
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
-                    print("firing")
                     guild = self.bot.get_guild(payload.guild_id)
                     member = guild.get_member(payload.user_id)
                     role = guild.get_role(doc.get("role"))
