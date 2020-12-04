@@ -31,10 +31,8 @@ class reactionroles(commands.Cog):
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         try:
-            print(payload.event_type)
             doc = self.data.find_one({"guildid": payload.guild_id, "msgid": payload.message_id, "chnlid": payload.channel_id})
             if payload.event_type == "REACTION_ADD":
-                print(str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"))
                 if str(payload.emoji) == doc.get("emoji") or payload.emoji.id == doc.get("emoji"):
                     guild = self.bot.get_guild(payload.guild_id)
                     member = guild.get_member(payload.user_id)
@@ -47,8 +45,8 @@ class reactionroles(commands.Cog):
                     role = guild.get_role(doc.get("role"))
                     member = guild.get_member(payload.user_id)
                     await member.remove_roles(role, reason = "Reaction Roles")
-        except Exception as e:
-            print(e)
+        except:
+            pass
 
 
 def setup(bot):
