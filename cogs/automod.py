@@ -94,17 +94,16 @@ class Automod(commands.Cog):
             for offense in self.offenses:
                 doc = self.data.find_one({"guildid": message.guild.id, "offense": offense})
                 if doc.get("do"):
-                    try:
-                        if re.match(self.regexes[offense], message.content):
-                            guild = self.bot.get_guild(message.guild.id)
-                            member = guild.get_member(message.author.id)
-                            if doc.get("action") == "ban":
-                                emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
-                                await member.send(embed=emb)
-                                await guild.ban(member)
-                            elif doc.get("action") == "kick":
-                                pass
-                            await self.send_case(message, doc.get("action"), offense, message.author)
+                    if re.match(self.regexes[offense], message.content):
+                        guild = self.bot.get_guild(message.guild.id)
+                        member = guild.get_member(message.author.id)
+                        if doc.get("action") == "ban":
+                            emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
+                            await member.send(embed=emb)
+                            await guild.ban(member)
+                        elif doc.get("action") == "kick":
+                            pass
+                        await self.send_case(message, doc.get("action"), offense, message.author)
         except:
             pass
 
