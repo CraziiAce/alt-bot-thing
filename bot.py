@@ -5,11 +5,11 @@ from discord.ext import commands
 
 from pymongo import MongoClient
 
-log = logging.getLogger("titanium.core")
+log = logging.getLogger("elevate.core")
 logging.basicConfig(level=logging.INFO, datefmt="%I:%M %p on %B %d %Y", format="%(asctime)s:%(levelname)s: %(name)s: %(message)s")
 
 mcl = MongoClient()
-prfx = mcl.Titanium.prefixes
+prfx = mcl.Elevate.prefixes
 
 # support stuff
 
@@ -46,7 +46,7 @@ def get_pre(bot, message):
 intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
-bot = commands.Bot(command_prefix = get_pre, intents=intents)
+bot = commands.Bot(command_prefix = get_pre, intents=intents, allowed_mentions=discord.AllowedMentions(users=True, roles=False, everyone=False))
 bot.owner_ids = {555709231697756160}
 #bot.remove_command("help")
 
