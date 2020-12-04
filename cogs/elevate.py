@@ -76,6 +76,11 @@ class Elevate(commands.Cog):
         """Get my privacy policy"""
         await ctx.send("Elevate takes your privacy very seriously. We only store data that is necessary to the operation of Elevate, like user IDs, guild IDs, role IDs, and channel IDs. Elevate accesses more extensive data on users, roles, guilds, and channels when certain commands are run, but it is not stored.\nThe data Elevate collects is stored only on the secure, password- and private-key protected servers that Elevate is run on, and except for some command arguments, is never sent anywhere.\n If you have any questions, DM CraziiAce#0001 on Discord")
 
+    @commands.command()
+    async def credits(self, ctx):
+        """Get elevate's credits"""
+        emb = discord.Embed(title = "Credits", description = "**Lead developer:** CraziiAce#0001\n**Help command & cog loader:** isirk#0001")
+
      
 def setup(bot):
     bot.add_cog(Elevate(bot))
