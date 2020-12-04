@@ -7,12 +7,14 @@ from datetime import datetime
 from pymongo import MongoClient
 from babel import lists
 
-log = logging.getLogger("YOUR_BOT_NAME_HERE.errors")
+log = logging.getLogger("elevate.errors")
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 
 class ErrorHandler(Cog):
@@ -128,6 +130,7 @@ class ErrorHandler(Cog):
             self.data.update_one(filter={"id": "info"}, update={"$set": {"numerror": numerror, "fixed": True}})
             try:
                 embed = discord.Embed(title=f"New error! ID: {numerror}", description=f"Erroring command: {str(ctx.command)}\nFull traceback: https://hastebin.com/{re['key']}", color=self.color)
+                embed.set_footer(text=footer)
                 await logs.send(embed=embed)
             except Exception as e:
                 log.error(e)
@@ -168,6 +171,7 @@ class ErrorHandler(Cog):
                 errors.append(error['id'])
         try:
             embed = discord.Embed(title="Unsolved errors", description=lists.format_list(errors, locale="en"), color=self.color)
+            embed.set_footer(text=footer)
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
             await ctx.send("No unsolved errors exist! YAY!")

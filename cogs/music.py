@@ -28,6 +28,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 
 ytdlopts = {
@@ -350,6 +352,7 @@ class music(commands.Cog):
 
         fmt = '\n'.join(f'**`{_["title"]}`**' for _ in upcoming)
         embed = discord.Embed(title=f'Upcoming - Next {len(upcoming)}', description=fmt, color=color)
+        embed.set_footer(text=footer)
 
         await ctx.send(embed=embed)
 
@@ -373,6 +376,7 @@ class music(commands.Cog):
         embed=discord.Embed(title="Now Playing", description=f"`{vc.source.title}`\n> Requested by {vc.source.requester}", color=color)
         '''player.np = await ctx.send(f'**Now Playing:** `{vc.source.title}` '
                                    f'requested by `{vc.source.requester}`')'''
+        embed.set_footer(text=footer)
         player.np = await ctx.send(embed=embed)
 
     @commands.command(name='volume', aliases=['vol'])

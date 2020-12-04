@@ -4,6 +4,13 @@ import re
 from pymongo import MongoClient
 from datetime import datetime
 
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
+
 class Automod(commands.Cog):
     """Automod stuff"""
     def __init__(self, bot):
@@ -99,6 +106,7 @@ class Automod(commands.Cog):
                         member = guild.get_member(message.author.id)
                         if doc.get("action") == "ban":
                             emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
+                            emb.set_footer(text=footer)
                             await member.send(embed=emb)
                             await guild.ban(member)
                         elif doc.get("action") == "kick":

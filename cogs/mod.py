@@ -11,6 +11,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 class mod(commands.Cog):
     '''Moderation Commands'''
@@ -66,6 +68,7 @@ class mod(commands.Cog):
             embed = discord.Embed(title=f'Member {user} has been kicked.', color=color)
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
+            embed.set_footer(text=footer)
             await ctx.send(embed=embed)
             await self.send_case(ctx, "kick", reason, user)
 
@@ -88,6 +91,7 @@ class mod(commands.Cog):
             embed = discord.Embed(title=f'User {user} has been banned from this server.', color=color)
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
+            embed.set_footer(text=footer)
             await ctx.send(embed=embed)
         
 
@@ -107,6 +111,7 @@ class mod(commands.Cog):
                 embed = discord.Embed(title=f'User {user.name} has been successfully muted.', color=0x2F3136)
                 embed.add_field(name="Shhh!", value=":zipper_mouth:")
                 embed.set_thumbnail(url=user.avatar_url)
+                embed.set_footer(text=footer)
                 await ctx.send(embed=embed)
             else:
                 await ctx.send(f'User {user.mention} is already muted.')
@@ -120,6 +125,7 @@ class mod(commands.Cog):
             embed = discord.Embed(title=f'User {user.name} has been manually unmuted.', color=0x2F3136)
             embed.add_field(name="Welcome back!", value=":open_mouth:")
             embed.set_thumbnail(url=user.avatar_url)
+            embed.set_footer(text=footer)
             await ctx.send(embed=embed)
             await user.remove_roles(rolem)
 
@@ -177,6 +183,7 @@ class mod(commands.Cog):
             embed = discord.Embed(title=f"You have been warned by {ctx.author} in {guild}", color=color)
             embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar_url)
             embed.add_field(name=f"Reason:", value=f'{reason}')
+            embed.set_footer(text=footer)
             await user.send(embed=embed)
             await ctx.send(f"⚠️ Warned {user} for {reason}.")
 

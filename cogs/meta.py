@@ -7,6 +7,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 class Elevate(commands.Cog):
     '''Information about Elevate'''
@@ -17,7 +19,7 @@ class Elevate(commands.Cog):
     async def vote(self, ctx):
         '''Vote for Elevate on top.gg'''
         embed=discord.Embed(title="Vote", description="**Vote for Elevate [here](https://top.gg/bot/716798638277525535/vote)", color=color)
-        embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
+        embed.set_footer(text=footer)
         await ctx.send(embed=embed)
     
     @commands.command()
@@ -27,7 +29,7 @@ class Elevate(commands.Cog):
             title="Invite Elevate",
             description="Invite me [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=268823638&scope=bot) with permissions, or [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=0&scope=bot) without permissions"
         )
-        emb.set_footer(text="Elevate | discord.gg/zwyFZ7h")
+        emb.set_footer(text=footer)
         await ctx.send(embed=emb)
         
     @commands.command()
@@ -41,7 +43,7 @@ class Elevate(commands.Cog):
         emb.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
         emb.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `{ctx.prefix}help welcomer`", inline=True)
         emb.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
-        emb.set_footer(text="Elevate | discord.gg/zwyFZ7h")
+        emb.set_footer(text=footer)
         await ctx.send(embed=emb)
 
     @commands.command()
@@ -65,6 +67,7 @@ class Elevate(commands.Cog):
         embed = discord.Embed(title="Elevate Stats", color=color, description="Elevate | The only Discord bot you'll ever need\nDeveloped by CraziiAce#0001")
         embed.add_field(name="Python stats", value=f"Python version: **{platform.python_version()}**\ndiscord.py version: **{dpy.major}.{dpy.minor}.{dpy.micro}-{dpy.releaselevel}**\naiohttp version: **{aiohttp.__version__}**")
         embed.add_field(name="Bot stats", value=f"Servers: **{len(ctx.bot.guilds)}\n**Users: **{len(ctx.bot.users)}**\nEmojis: **{len(ctx.bot.emojis)}**\nCommands: **{len(ctx.bot.commands)}**", inline=False)
+        embed.set_footer(text=footer)
         if IS_LINUX:
             embed.add_field(name="Server stats", value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{ld}**", inline=False)
         elif IS_WINDOWS:
@@ -80,6 +83,7 @@ class Elevate(commands.Cog):
     async def credits(self, ctx):
         """Get elevate's credits"""
         emb = discord.Embed(title = "Credits", description = "**Lead developer:** CraziiAce#0001\n**Help command & cog loader:** isirk#0001", color=color)
+        embed.set_footer(text=footer)
         await ctx.send(embed=emb)
 
      

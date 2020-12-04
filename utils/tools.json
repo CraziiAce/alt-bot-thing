@@ -1,4 +1,5 @@
 {
-"PREFIXES" : ["titanum", "t!"],
-"COLORS" : "0x003F87"
+"PREFIXES" : ["elevate", "e!"],
+"COLOR" : "0x003F87",
+"FOOTER" : "Elevate | elevatebot.xyz"
 }

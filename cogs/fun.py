@@ -6,7 +6,7 @@ from discord.ext import commands
 from discord.shard import ShardInfo
 from discord.ext.commands import context
 from discord.ext.commands.cooldowns import BucketType
-
+import aiohttp
 import time, datetime
 from datetime import datetime
 from aiohttp_requests import requests
@@ -16,13 +16,16 @@ import os, io, json, asyncio, random, collections
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
-color = int(data["COLORS"], 16)
+color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 
 class fun(commands.Cog):
     """Random Commands"""
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession
         
     @commands.command()
     async def dice(self, ctx):
@@ -30,6 +33,7 @@ class fun(commands.Cog):
         dice = ["1", "2", "3", "4", "5", "6"]
         embed = discord.Embed(title="Dice", description=f"The Dice Rolled {random.choice(dice)}", color=color)
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/758138226874908705/766312838910181421/unknown.png")
+        embed.set_footer(text=footer)
         await ctx.send(embed=embed)
 
         
@@ -101,8 +105,8 @@ class fun(commands.Cog):
             resp = await resp.json()
         embed=discord.Embed(title=f"Stats for {resp['name']}", description=f"ID: `{resp['id']}`", color=color)
         embed.set_image(url=f"https://minotar.net/armor/body/{username}/100.png")
-        embed.set_thumbnail(url=f"https://minotar.net/helm/{username}/100.png")
         embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{username}/100.png")
+        embed.set_footer(text=footer)
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["mcs"])
@@ -112,6 +116,7 @@ class fun(commands.Cog):
             resp = await resp.json()
         embed=discord.Embed(title=f"Stats for {server}", description=f'IP: {resp["serverip"]}\nStatus: {resp["serverStatus"]}\nPing: {resp["ping"]}\nVersion: {resp["version"]}\nPlayers: {resp["players"]}\nMax Players: {resp["maxplayers"]}', color=color)
         embed.set_thumbnail(url=f"https://api.minetools.eu/favicon/{server}/25565")
+        embed.set_footer(text=footer)
         await ctx.send(embed=embed)
 
 

@@ -8,6 +8,9 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+with open(colorfile) as f:
+    data = json.load(f)
+footer = str(data['FOOTER'], 16)
 
 class RoboPages(menus.MenuPages):
     def __init__(self, source):
@@ -29,7 +32,7 @@ class RoboPages(menus.MenuPages):
         embed.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`", inline=True)
         embed.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
         embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
-        embed.set_footer(text=f'Elevate | elevatebot.xyz')
+        embed.set_footer(text=footer)
 
         await self.message.edit(content=None, embed=embed)
 

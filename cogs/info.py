@@ -19,6 +19,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
+footer = str(data['FOOTER'], 16)
+
 
 class info(commands.Cog):
     def __init__(self, bot):
@@ -55,7 +57,7 @@ class info(commands.Cog):
 
         embed.set_thumbnail(url=ctx.guild.icon_url)
         embed.set_image(url=ctx.guild.banner_url)
-        embed.set_footer(text=f"Guild ID: {ctx.guild.id}")
+        embed.set_footer(text=f"Guild ID: {ctx.guild.id} | {footer}")
 
         return await ctx.send(embed=embed)
 
@@ -97,7 +99,7 @@ class info(commands.Cog):
 
         embed.set_thumbnail(url=member.avatar_url_as(static_format="png"))
         embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-        embed.set_footer(text=f"Member ID: {member.id}")
+        embed.set_footer(text=f"Member ID: {member.id} | {footer}")
 
         return await ctx.send(embed=embed)
 
@@ -109,6 +111,7 @@ class info(commands.Cog):
         avatarembed = discord.Embed( color=color)
         avatarembed.set_author(name=member, icon_url=ctx.author.avatar_url)
         avatarembed.set_image(url=member.avatar_url)
+        avatarembed.set_footer(text=footer)
         await ctx.send(embed=avatarembed)
 
     @commands.command()
@@ -117,14 +120,13 @@ class info(commands.Cog):
         pingembed = discord.Embed(title="Pong!", color=color)
         pingembed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
         pingembed.add_field(name="<:server:778738233310838785> Server", value=f"```autohotkey\n{round(self.bot.latency * 1000)} ms```")
-                        
+        pingembed.set_footer(text=footer)    
         start = time.perf_counter()
         message = await ctx.send("Pinging...")
         end = time.perf_counter()
         duration = (end - start) * 1000
                         
         pingembed.add_field(name="<a:typing:778738457828524032> Typing", value="```autohotkey\n{:.2f} ms```".format(duration))
-                        
         await message.edit(embed=pingembed)
 
 def setup(bot):

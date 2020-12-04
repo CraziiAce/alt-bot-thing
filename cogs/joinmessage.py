@@ -9,6 +9,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
+footer = str(data['FOOTER'], 16)
+
 
 CHANNELS = [
     "general",
@@ -64,7 +66,7 @@ class joinmessage(commands.Cog):
                 (x for x in guild.text_channels if x.permissions_for(guild.me).send_messages), None
             )
         )
-
+        MSG.set_footer(footer)
         await channel.send(embed=MSG)
         channel = self.bot.get_channel(733385692452880517)
         await channel.send(f"I just joined {guild} with {len(guild.members)} members! That's {len(self.bot.guilds)} servers now@")
