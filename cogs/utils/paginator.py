@@ -26,10 +26,11 @@ class RoboPages(menus.MenuPages):
     async def show_help(self, payload):
         """shows this message"""
         embed = discord.Embed(title='Elevate stuff', description='test', color=color)
-        embed.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `{ctx.prefix}help welcomer`", inline=True)
+        embed.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`", inline=True)
         embed.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
         embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
         embed.set_footer(text=f'Elevate | elevatebot.xyz')
+
         await self.message.edit(content=None, embed=embed)
 
         async def go_back_to_current_page():
