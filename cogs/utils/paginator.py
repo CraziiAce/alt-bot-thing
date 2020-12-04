@@ -1,7 +1,13 @@
 import asyncio
 import discord
+import json
 from discord.ext.commands import Paginator as CommandPaginator
 from discord.ext import menus
+
+colorfile = "utils/tools.json"
+with open(colorfile) as f:
+    data = json.load(f)
+color = int(data['COLORS'], 16)
 
 class RoboPages(menus.MenuPages):
     def __init__(self, source):
@@ -19,9 +25,11 @@ class RoboPages(menus.MenuPages):
     @menus.button('<:elevate:784515254075654145>', position=menus.Last(3))
     async def show_help(self, payload):
         """shows this message"""
-        embed = discord.Embed(title='Elevate stuff', description='test')
-
-        embed.set_footer(text=f'Elevate | [elevatebot.xyz](https://elevatebot.xyz)')
+        embed = discord.Embed(title='Elevate stuff', description='test', color=color)
+        embed.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `{ctx.prefix}help welcomer`", inline=True)
+        embed.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
+        embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
+        embed.set_footer(text=f'Elevate | elevatebot.xyz')
         await self.message.edit(content=None, embed=embed)
 
         async def go_back_to_current_page():
