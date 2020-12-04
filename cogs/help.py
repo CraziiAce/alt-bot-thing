@@ -12,7 +12,7 @@ import itertools
 from typing import Union
 import json
 
-tools = "json/tools.json"
+tools = "utils/tools.json"
 with open(tools) as f:
     data = json.load(f)
 color = int(data['COLOR'], 16)
