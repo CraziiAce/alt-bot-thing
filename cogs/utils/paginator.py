@@ -16,6 +16,20 @@ class RoboPages(menus.MenuPages):
         except discord.HTTPException:
             pass
 
+    @menus.button('<:elevate:784515254075654145>', position=menus.Last(3))
+    async def show_help(self, payload):
+        """shows this message"""
+        embed = discord.Embed(title='Elevate stuff', description='test')
+
+        embed.set_footer(text=f'Elevate | [elevatebot.xyz](https://elevatebot.xyz)')
+        await self.message.edit(content=None, embed=embed)
+
+        async def go_back_to_current_page():
+            await asyncio.sleep(30.0)
+            await self.show_page(self.current_page)
+
+        self.bot.loop.create_task(go_back_to_current_page())
+
 class FieldPageSource(menus.ListPageSource):
     """A page source that requires (field_name, field_value) tuple items."""
     def __init__(self, entries, *, per_page=12):
