@@ -31,9 +31,8 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
-with open(colorfile) as f:
-    data = json.load(f)
-footer = str(data['FOOTER'], 16)
+footer = str(data['FOOTER'])
+
 
 def get_pre(bot, message):
     if message.guild:

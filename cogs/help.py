@@ -16,7 +16,7 @@ tools = "json/tools.json"
 with open(tools) as f:
     data = json.load(f)
 color = int(data['COLOR'], 16)
-footer = str(data['FOOTER'], 16)
+footer = str(data['FOOTER'])
 
 class Prefix(commands.Converter):
     async def convert(self, ctx, argument):

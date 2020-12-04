@@ -13,7 +13,7 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data['COLORS'], 16)
-footer = str(data['FOOTER'], 16)
+footer = str(data['FOOTER'])
 
 
 
