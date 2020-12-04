@@ -15,10 +15,10 @@ class RoboPages(menus.MenuPages):
                 await self.message.delete()
         except discord.HTTPException:
             pass
-
+"""
     @menus.button('\N{INFORMATION SOURCE}\ufe0f', position=menus.Last(3))
     async def show_help(self, payload):
-        """shows this message"""
+        shows this message
         embed = discord.Embed(title='Paginator help', description='Hello! Welcome to the help page.')
         messages = []
         for (emoji, button) in self.buttons.items():
@@ -36,7 +36,7 @@ class RoboPages(menus.MenuPages):
 
     @menus.button('\N{INPUT SYMBOL FOR NUMBERS}', position=menus.Last(1.5))
     async def numbered_page(self, payload):
-        """lets you type a page number to go to"""
+        lets you type a page number to go to
         channel = self.message.channel
         author_id = payload.user_id
         to_delete = []
@@ -61,7 +61,7 @@ class RoboPages(menus.MenuPages):
             await channel.delete_messages(to_delete)
         except Exception:
             pass
-
+"""
 class FieldPageSource(menus.ListPageSource):
     """A page source that requires (field_name, field_value) tuple items."""
     def __init__(self, entries, *, per_page=12):

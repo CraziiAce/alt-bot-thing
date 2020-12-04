@@ -126,36 +126,6 @@ class HelpMenu(RoboPages):
     def __init__(self, source):
         super().__init__(source)
 
-    @menus.button('\N{WHITE QUESTION MARK ORNAMENT}', position=menus.Last(5))
-    async def show_bot_help(self, payload):
-        """shows how to use the bot"""
-
-        embed = discord.Embed(title='Using the bot', colour=color)
-        embed.title = 'Using the bot'
-        embed.description = 'Hello! Welcome to the help page.'
-
-        entries = (
-            ('<argument>', 'This means the argument is __**required**__.'),
-            ('[argument]', 'This means the argument is __**optional**__.'),
-            ('[A|B]', 'This means that it can be __**either A or B**__.'),
-            ('[argument...]', 'This means you can have multiple arguments.\n' \
-                              'Now that you know the basics, it should be noted that...\n' \
-                              '__**You do not type in the brackets!**__')
-        )
-
-        embed.add_field(name='How do I use this bot?', value='Reading the bot signature is pretty simple.')
-
-        for name, value in entries:
-            embed.add_field(name=name, value=value, inline=False)
-
-        embed.set_footer(text=f'We were on page {self.current_page + 1} before this message.')
-        await self.message.edit(embed=embed)
-
-        async def go_back_to_current_page():
-            await asyncio.sleep(30.0)
-            await self.show_page(self.current_page)
-
-        self.bot.loop.create_task(go_back_to_current_page())
 
 class PaginatedHelpCommand(commands.HelpCommand):
     def __init__(self):
