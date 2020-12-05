@@ -56,8 +56,8 @@ class verify(commands.Cog):
                 await ctx.send("Role cleared")
                 return
             else:
-                self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"role": channel.id}})
-                await ctx.send(f"Successfully set the verify role to {channel.mention}")
+                self.data.update_one(filter = {"_id": ctx.guild.id}, update={"$set": {"role": role.id}})
+                await ctx.send(f"Successfully set the verify role to {role.mention}")
                 return
         else:
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
@@ -81,7 +81,12 @@ class verify(commands.Cog):
             except asyncio.TimeoutError:
                 await ctx.send("Timed out")
             if user_ans == ans:
+                print(user_ans)
+                print(ans)
                 await ctx.author.add_roles(role)
+                await ctx.send("Correct! You have been verified!")
+            else:
+                await ctx.send("Sorry, but that is wrong.")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
