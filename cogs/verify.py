@@ -18,9 +18,9 @@ class verify(commands.Cog):
         self.data = mcl.Elevate.verify
     
     async def make_img(self):
-        image = Image.open('blue.png')
+        image = Image.open('imgen/blue.png')
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype('Helvetica.ttf', size=40)
+        font = ImageFont.truetype('imgen/Helvetica.ttf', size=40)
         (x, y) = (452, 230)
         num1 = random.randint(1,11)
         num2 = random.randint(1,11)
