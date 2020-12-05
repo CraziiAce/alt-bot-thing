@@ -27,8 +27,8 @@ class verify(commands.Cog):
         message = f"{num1} + {num2}"
         color = 'rgb(255, 255, 255)' # font color
         draw.text((x, y), message, fill=color, font=font)
-        image.save('verify.png')
-        return discord.File('verify.png')
+        image.save('imgen/verify.png')
+        return num1 + num2
 
     @commands.group()
     @commands.has_permissions(administrator=True)
@@ -71,7 +71,7 @@ class verify(commands.Cog):
             await ctx.send("You are already verified!")
         else:
             ans = await self.make_img()
-            file = discord.File("imgen_utils", filename="verify.png")
+            file = discord.File("imgen", filename="verify.png")
             emb = discord.Embed(title="Verification", description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem below?", color=color)
             emb.set_footer(text=footer)
             emb.set_image(url="attachment://image.png")
