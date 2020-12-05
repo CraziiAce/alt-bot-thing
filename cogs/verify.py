@@ -63,6 +63,7 @@ class verify(commands.Cog):
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
     
     @commands.command()
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def verify(self, ctx):
         """Verify yourself"""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -81,8 +82,6 @@ class verify(commands.Cog):
             except asyncio.TimeoutError:
                 await ctx.send("Timed out")
             if int(user_ans.content) == ans:
-                print(user_ans)
-                print(ans)
                 await ctx.author.add_roles(role)
                 await ctx.send("Correct! You have been verified!")
             else:

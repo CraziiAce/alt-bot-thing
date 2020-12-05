@@ -68,7 +68,6 @@ class ErrorHandler(Cog):
                 return
             else:
                 return await ctx.send_help(str(ctx.command))
-
                 
         elif isinstance(error, commands.CommandOnCooldown):
             return await self.send_to_ctx_or_author(ctx, f"This command is on cooldown. **Try in `{int(error.retry_after)}` seconds**", delete_after=10.0)
