@@ -80,7 +80,7 @@ class verify(commands.Cog):
                 user_ans = await self.bot.wait_for('message', timeout=60.0, check=lambda m:(ctx.author == m.author and ctx.channel == m.channel))
             except asyncio.TimeoutError:
                 await ctx.send("Timed out")
-            if user_ans == ans:
+            if int(user_ans) == ans:
                 print(user_ans)
                 print(ans)
                 await ctx.author.add_roles(role)
