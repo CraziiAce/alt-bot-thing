@@ -20,7 +20,6 @@ class modlog(commands.Cog):
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Elevate will send modlog cases in"""
         doc = self.data.find_one({"_id":ctx.guild.id})
-        print(str(doc))
         if not doc:
             if channel and not doc:
                 self.data.insert_one({"_id": ctx.guild.id, "chnl": channel.id})

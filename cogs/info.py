@@ -80,6 +80,8 @@ class info(commands.Cog):
                     activity = "`None`"
         else:
             activity = "`None`"
+        roles = ' '.join([r.mention for r in member.roles if r != ctx.guild.default_role] or ['None'])
+
         statuses = {
             "online": "<:online:778677538788212737>",
             "idle": "<:idle:778677538838544394>",
@@ -95,7 +97,8 @@ class info(commands.Cog):
         embed.add_field(name="**Guild related information:**",
                         value=f"Joined guild: `{datetime.datetime.strftime(member.joined_at, '%A %d %B %Y at %H:%M')}`\n"
                               f"Nickname: `{member.nick}`\n"
-                              f"Top role: {member.top_role.mention}", inline=False)
+                              f"Top role: {member.top_role.mention}\n"
+                              f"Roles: {roles}", inline=False)
 
         embed.set_thumbnail(url=member.avatar_url_as(static_format="png"))
         embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
