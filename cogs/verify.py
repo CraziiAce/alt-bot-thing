@@ -81,7 +81,7 @@ class verify(commands.Cog):
                 user_ans = await self.bot.wait_for('message', timeout=60.0, check=lambda m:(ctx.author == m.author and ctx.channel == m.channel))
             except asyncio.TimeoutError:
                 await ctx.send("Timed out")
-            if int(user_ans.content) == ans:
+            if str(user_ans.content) == str(ans):
                 await ctx.author.add_roles(role)
                 await ctx.send("Correct! You have been verified!")
             else:
