@@ -71,7 +71,7 @@ class verify(commands.Cog):
             await ctx.send("You are already verified!")
         else:
             ans = await self.make_img()
-            file = discord.File("imgen", filename="verify.png")
+            file = discord.File("imgen/verify.png", filename="verify.png")
             emb = discord.Embed(title="Verification", description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem below?", color=color)
             emb.set_footer(text=footer)
             emb.set_image(url="attachment://image.png")
