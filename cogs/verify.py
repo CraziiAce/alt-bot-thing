@@ -63,7 +63,7 @@ class verify(commands.Cog):
             await ctx.send(f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`")
     
     @commands.command()
-    @commands.cooldown(1, 300, commands.BucketType.user)
+    @commands.cooldown(1, 300, commands.BucketType.member)
     async def verify(self, ctx):
         """Verify yourself"""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -73,14 +73,14 @@ class verify(commands.Cog):
         else:
             ans = await self.make_img()
             file = discord.File("imgen/verify.png", filename="verify.png")
-            emb = discord.Embed(title="Verification", description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem below?", color=color)
+            emb = discord.Embed(title="Verification", description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem above?", color=color)
             emb.set_footer(text=footer)
             emb.set_image(url="attachment://image.png")
             await ctx.send(file=file, embed=emb)
             try:
                 user_ans = await self.bot.wait_for('message', timeout=60.0, check=lambda m:(ctx.author == m.author and ctx.channel == m.channel))
             except asyncio.TimeoutError:
-                await ctx.send("Timed out")
+                return await ctx.send("Timed out")
             if str(user_ans.content) == str(ans):
                 await ctx.author.add_roles(role)
                 await ctx.send("Correct! You have been verified!")
