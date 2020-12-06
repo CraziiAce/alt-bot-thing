@@ -35,7 +35,7 @@ class verify(commands.Cog):
     async def verifyset(self, ctx):
         """Change verification settings"""
 
-    @commands.command()
+    @verifyset.command()
     async def role(self, ctx, role: discord.Role = None):
         """Set the verify role"""
         doc = self.data.find_one({"_id":ctx.guild.id})
