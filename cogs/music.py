@@ -715,7 +715,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         await player.invoke_controller()
 
     @commands.command(aliases=['swap'])
-    @commands.has_permissions(manage_server=True)
+    @commands.has_permissions(kick_members=True)
     async def swap_dj(self, ctx: commands.Context, *, member: discord.Member = None):
         """Swap the current DJ to another member in the voice channel."""
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
