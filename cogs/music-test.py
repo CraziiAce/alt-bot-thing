@@ -276,7 +276,7 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         elif isinstance(obj, discord.Guild):
             return self.wavelink.get_player(obj.id, cls=Player)
 
-    @commands.command(name="connect", aliases=["join"])
+    @commands.command(name="testconnect", aliases=["testjoin"])
     async def connect_command(self, ctx, *, channel: t.Optional[discord.VoiceChannel]):
         player = self.get_player(ctx)
         channel = await player.connect(ctx, channel)
@@ -289,13 +289,13 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         elif isinstance(exc, NoVoiceChannel):
             await ctx.send("No suitable voice channel was provided.")
 
-    @commands.command(name="disconnect", aliases=["leave"])
+    @commands.command(name="testdisconnect", aliases=["testleave"])
     async def disconnect_command(self, ctx):
         player = self.get_player(ctx)
         await player.teardown()
         await ctx.send("Disconnect.")
 
-    @commands.command(name="play")
+    @commands.command(name="testplay")
     async def play_command(self, ctx, *, query: t.Optional[str]):
         player = self.get_player(ctx)
 
@@ -323,7 +323,7 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         elif isinstance(exc, NoVoiceChannel):
             await ctx.send("No suitable voice channel was provided.")
 
-    @commands.command(name="pause")
+    @commands.command(name="testpause")
     async def pause_command(self, ctx):
         player = self.get_player(ctx)
 
@@ -338,7 +338,7 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         if isinstance(exc, PlayerIsAlreadyPaused):
             await ctx.send("Already paused.")
 
-    @commands.command(name="stop")
+    @commands.command(name="teststop")
     async def stop_command(self, ctx):
         player = self.get_player(ctx)
         player.queue.empty()
@@ -400,7 +400,7 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         player.queue.set_repeat_mode(mode)
         await ctx.send(f"The repeat mode has been set to {mode}.")
 
-    @commands.command(name="queue")
+    @commands.command(name="testqueue")
     async def queue_command(self, ctx, show: t.Optional[int] = 10):
         player = self.get_player(ctx)
 
