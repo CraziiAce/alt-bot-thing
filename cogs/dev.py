@@ -218,25 +218,25 @@ class dev(commands.Cog):
         msg = await ctx.send(embed=embed)
         async with ctx.channel.typing():
             output = sp.getoutput('git pull')
-        embed = discord.Embed(title="Synced", description="Synced with GitHub and reloaded all the cogs.", color=color)
-        # Reload Cogs as well
-        error_collection = []
-        for file in os.listdir("cogs"):
-            if file.endswith(".py"):
-                name = file[:-3]
-                try:
-                    self.bot.reload_extension(f"cogs.{name}")
-                except Exception as e:
-                    return await ctx.send(f"```py\n{e}```")
+            embed = discord.Embed(title="Synced", description="Synced with GitHub and reloaded all the cogs.", color=color)
+            # Reload Cogs as well
+            error_collection = []
+            for file in os.listdir("cogs"):
+                if file.endswith(".py"):
+                    name = file[:-3]
+                    try:
+                        self.bot.reload_extension(f"cogs.{name}")
+                    except Exception as e:
+                        return await ctx.send(f"```py\n{e}```")
 
-        if error_collection:
-            err = "\n".join([f"**{g[0]}** ```diff\n- {g[1]}```" for g in error_collection])
-            return await ctx.send(
-                f"Attempted to reload all extensions, was able to reload, "
-                f"however the following failed...\n\n{err}"
-            )
+            if error_collection:
+                err = "\n".join([f"**{g[0]}** ```diff\n- {g[1]}```" for g in error_collection])
+                return await ctx.send(
+                    f"Attempted to reload all extensions, was able to reload, "
+                    f"however the following failed...\n\n{err}"
+                )
 
-        await msg.edit(embed=embed)
+            await msg.edit(embed=embed)
             
 def setup(bot):
     bot.add_cog(dev(bot))
