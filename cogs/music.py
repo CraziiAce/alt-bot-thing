@@ -343,7 +343,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                           'identifier': 'MAIN',
                           'region': 'us_central'
                           }}
-stu
+
         for n in nodes.values():
             await self.bot.wavelink.initiate_node(**n)
 
