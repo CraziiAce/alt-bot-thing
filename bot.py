@@ -4,7 +4,6 @@ from discord import Embed
 from discord.ext import commands
 
 from pymongo import MongoClient
-import discordbotdash.dash as dbd
 
 log = logging.getLogger("elevate.core")
 logging.basicConfig(level=logging.INFO, datefmt="%I:%M %p on %B %d %Y", format="%(asctime)s:%(levelname)s: %(name)s: %(message)s")
@@ -63,7 +62,6 @@ os.environ["JISHAKU_HIDE"] = "True"
 @bot.event
 async def on_ready():
     log.info("{0.user} is up and running".format(bot))
-    dbd.openDash(bot)
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
