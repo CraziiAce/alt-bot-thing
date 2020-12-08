@@ -12,7 +12,7 @@ class MusicTest(commands.Cog):
     self.bot.music.add_event_hook(self.track_hook)
 
   @commands.command(name='join')
-  async def join(self, ctx):
+  async def testjoin(self, ctx):
     print('join command worked')
     member = utils.find(lambda m: m.id == ctx.author.id, ctx.guild.members)
     if member is not None and member.voice is not None:
@@ -23,7 +23,7 @@ class MusicTest(commands.Cog):
         await self.connect_to(ctx.guild.id, str(vc.id))
 
   @commands.command(name='play')
-  async def play(self, ctx, *, query):
+  async def testplay(self, ctx, *, query):
     try:
       player = self.bot.music.player_manager.get(ctx.guild.id)
       query = f'ytsearch:{query}'
