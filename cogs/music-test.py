@@ -22,7 +22,7 @@ class MusicTest(commands.Cog):
         player.store('channel', ctx.channel.id)
         await self.connect_to(ctx.guild.id, str(vc.id))
 
-  @commands.command(name='play')
+  @commands.command(name='testplay')
   async def testplay(self, ctx, *, query):
     try:
       player = self.bot.music.player_manager.get(ctx.guild.id)
