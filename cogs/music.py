@@ -93,7 +93,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
                 print(data)
                 data = data['entries'][0]
             except IndexError:
-                await ctx.send("Sorry, I couldn't find a song with that name. Try being more specific, this most likely means that there are too many options for that song")
+                return await ctx.send("Sorry, I couldn't find a song with that name. Try being more specific, this most likely means that there are too many options for that song")
 
         await ctx.send(f'```ini\n[Added {data["title"]} to the Queue.]\n```', delete_after=15)
 
