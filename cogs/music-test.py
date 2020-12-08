@@ -345,7 +345,7 @@ class MusicTest(commands.Cog, wavelink.WavelinkMixin):
         await player.stop()
         await ctx.send("Playback stopped.")
 
-    @commands.command(name="next", aliases=["skip"])
+    @commands.command(name="testnext", aliases=["testskip"])
     async def next_command(self, ctx):
         player = self.get_player(ctx)
 
