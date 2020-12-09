@@ -337,12 +337,12 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 await node.destroy()
 
         nodes = {'MAIN': {'host': '127.0.0.1',
-                          'port': 2333,
-                          'rest_uri': 'http://127.0.0.1:2333',
-                          'password': 'dostuff',
-                          'identifier': 'MAIN',
-                          'region': 'us_central'
-                          }}
+                            'port': 2333,
+                            'rest_uri': 'http://127.0.0.1:2333',
+                            'password': 'youshallnotpass',
+                            'identifier': 'MAIN',
+                            'region': 'us_central'
+                            }}
 
         for n in nodes.values():
             await self.bot.wavelink.initiate_node(**n)
