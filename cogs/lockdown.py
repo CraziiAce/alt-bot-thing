@@ -67,16 +67,11 @@ class lockdown(commands.Cog):
             await ctx.send("That isn't a valid argument! Either put in a channel or `all`")
 
     @lockdownset.command()
-    async def include(self, ctx, chnl: Union[str, int, discord.TextChannel]):
+    async def include(self, ctx, chnl: Union[discord.TextChannel, str, int]):
         """
-        Exclude a channel from the lockdown. This is useful if you excluded all channels.
+        Include a channel from the lockdown. This is useful if you excluded all channels.
         Say `all` to include all channels.
         """
-        try:
-            chnl = self.bot.get_channel(int(chnl))
-            await ctx.send(chnl.name)
-        except Exception as e:
-            await ctx.send(str(e))
         if not chnl:
             return await ctx.send("You didn't specify a channel!")
         elif isinstance(chnl, str):
@@ -133,13 +128,16 @@ class lockdown(commands.Cog):
                 locked = []
                 doc = self.data.find_one({"_id": ctx.guild.id})
                 for chnl in ctx.guild.channels:
-                    if chnl.id in doc.get("excluded"):
-                        pass
-                    elif chnl.id in doc.get("included"):
-                        await chnl.set_permissions(everyone, read_messages=True, send_messages=False, reason="Lockdown")
-                        locked.append(str(chnl.mention))
-                    if locked:
-                        await ctx.send(f"Successfully locked down {lists.format_list(locked)}")
+                    try:
+                        if chnl.id in doc.get("excluded"):
+                            pass
+                        elif chnl.id in doc.get("included"):
+                            await chnl.set_permissions(everyone, read_messages=True, send_messages=False, reason="Lockdown")
+                            locked.append(str(chnl.mention))
+                        if locked:
+                            await ctx.send(f"Successfully locked down {lists.format_list(locked)}")
+                    except TypeError:
+                        continue
 
 
 def setup(bot):
