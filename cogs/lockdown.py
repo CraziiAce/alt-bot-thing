@@ -74,6 +74,7 @@ class lockdown(commands.Cog):
         """
         try:
             chnl = self.bot.get_channel(chnl.id)
+            await ctx.send(chnl.name)
         except:
             pass
         if not chnl:
