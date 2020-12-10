@@ -12,7 +12,7 @@ class lockdown(commands.Cog):
         self.data = mcl.Elevate.lockdown
 
     @commands.group()
-    @commands.guild_only
+    @commands.guild_only()
     @commands.has_permissions(manage_channels=True)
     async def lockdownset(self, ctx):
         """Settings for the lockdown command"""
@@ -135,3 +135,7 @@ class lockdown(commands.Cog):
                         locked.append(str(chnl.mention))
                     if locked:
                         await ctx.send(f"Successfully locked down {lists.format_list(locked)}")
+
+
+def setup(bot):
+    bot.add_cog(lockdown(bot))
