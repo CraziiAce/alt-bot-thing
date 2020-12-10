@@ -73,7 +73,7 @@ class lockdown(commands.Cog):
         Say `all` to include all channels.
         """
         try:
-            chnl = self.bot.get_channel(chnl.id)
+            chnl = self.bot.get_channel(chnl)
             await ctx.send(chnl.name)
         except Exception as e:
             await ctx.send(str(e))
