@@ -72,6 +72,10 @@ class lockdown(commands.Cog):
         Exclude a channel from the lockdown. This is useful if you excluded all channels.
         Say `all` to include all channels.
         """
+        try:
+            chnl = self.bot.get_channel(chnl.id)
+        except:
+            pass
         if not chnl:
             return await ctx.send("You didn't specify a channel!")
         elif isinstance(chnl, str):
