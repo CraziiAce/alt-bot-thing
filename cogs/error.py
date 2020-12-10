@@ -23,7 +23,7 @@ class ErrorHandler(Cog):
         self.errmsgids=[]
         self.errathrids=[]
         mcl = MongoClient()
-        self.data = mcl.YOUR_BOT_NAME_HERE.errors
+        self.data = mcl.Elevate.errors
         self.color = color
 
     """Pretty much from here:
