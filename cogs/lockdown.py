@@ -75,8 +75,8 @@ class lockdown(commands.Cog):
         try:
             chnl = self.bot.get_channel(chnl.id)
             await ctx.send(chnl.name)
-        except:
-            pass
+        except Exception as e:
+            await ctx.send(str(e))
         if not chnl:
             return await ctx.send("You didn't specify a channel!")
         elif isinstance(chnl, str):
