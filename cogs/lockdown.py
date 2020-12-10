@@ -67,13 +67,13 @@ class lockdown(commands.Cog):
             await ctx.send("That isn't a valid argument! Either put in a channel or `all`")
 
     @lockdownset.command()
-    async def include(self, ctx, chnl: Union[str, discord.TextChannel]):
+    async def include(self, ctx, chnl: Union[str, int, discord.TextChannel]):
         """
         Exclude a channel from the lockdown. This is useful if you excluded all channels.
         Say `all` to include all channels.
         """
         try:
-            chnl = self.bot.get_channel(chnl)
+            chnl = self.bot.get_channel(int(chnl))
             await ctx.send(chnl.name)
         except Exception as e:
             await ctx.send(str(e))
