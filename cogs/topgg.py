@@ -32,7 +32,7 @@ class TopGG(commands.Cog):
         )
         user = self.bot.get_user(int(data["user"]))
         emb.set_author(name=user, icon_url=user.avatar_url)
-        time_bad = datetime.datetime.now
+        time_bad = datetime.datetime.now()
         time_good = time_bad.strftime("%b %d at %I:%M %p")
         emb.set_footer(text=time_good)
         channel.send(embed=emb)        
