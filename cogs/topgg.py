@@ -20,7 +20,7 @@ class TopGG(commands.Cog):
         self.token = TOPTOKEN
         self.color = color
         self.bot = bot
-        # self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True, webhook_path="/dblwebhook", webhook_auth="password", webhook_port=6000)
+        self.dblpy = dbl.DBLClient(self.bot, self.token, autopost=True, webhook_path="/dblwebhook", webhook_auth="elevate", webhook_port=6200)
 
     @commands.Cog.listener()
     async def on_dbl_vote(self, data):
