@@ -1,6 +1,6 @@
 from discord.ext import commands
 from pymongo import MongoClient
-
+from typing import Union
 import discord
 
 class welcomer(commands.Cog):
@@ -108,13 +108,29 @@ class welcomer(commands.Cog):
         elif not doc:
             self.data.insert_one({"_id": ctx.guild.id, "doleaves": toggle})
 
+    @welcomeset.command()
+    async def dm(self, ctx, toggle: Union[bool, str]):
+        """Set whether or not to dm users"""
+        doc = self.data.find_one({"_id":ctx.guild.id})
+        if doc:
+            self.data.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"dm": toggle}})
+            if toggle:
+                await ctx.send("I will now send a DM when someone joins this server (if the channel and message are configured)")
+            elif not toggle:
+                await ctx.send("I will no longer send a DM when someone joins this server")
+        elif not doc:
+            self.data.insert_one({"_id": ctx.guild.id, "dm": toggle})
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
         try:
             doc = self.data.find_one({"_id": member.guild.id})
             if doc['joinmsg'] and doc['chnl'] and doc['dojoins']:
-                chnl = self.bot.get_channel(doc['chnl'])
-                await chnl.send(doc['joinmsg'].format(user=member))
+                if not doc.get("dm"):
+                    chnl = self.bot.get_channel(doc['chnl'])
+                    await chnl.send(doc['joinmsg'].format(user=member))
+                elif doc.get("dm"):
+                    await member.send(doc['joinmsg'].format(user=member))
         except:
             pass
     
