@@ -35,7 +35,7 @@ class TopGG(commands.Cog):
         time_bad = datetime.datetime.now()
         time_good = time_bad.strftime("%b %d at %I:%M %p")
         emb.set_footer(text=time_good)
-        channel.send(embed=emb)        
+        await channel.send(embed=emb)        
         if not data["isWeekend"]:
             await user.send(f"Thanks for voting for me on top.gg!")
         if data ["isWeekend"]:
@@ -54,7 +54,7 @@ class TopGG(commands.Cog):
         time_bad = datetime.datetime.now()
         time_good = time_bad.strftime("%b %d at %I:%M %p")
         emb.set_footer(text=time_good)
-        channel.send(embed=emb)
+        await channel.send(embed=emb)
     
 def setup(bot):
     bot.add_cog(TopGG(bot))
