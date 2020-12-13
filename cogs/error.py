@@ -67,7 +67,7 @@ class ErrorHandler(Cog):
             if ctx.invoked_subcommand:
                 return
             else:
-                return await ctx.send_help(str(ctx.command))
+                get_help_for = ctx.message.content - len(ctx.prefix)
                 
         elif isinstance(error, commands.CommandOnCooldown):
             return await self.send_to_ctx_or_author(ctx, f"This command is on cooldown. **Try in `{int(error.retry_after)}` seconds**", delete_after=10.0)
@@ -85,7 +85,7 @@ class ErrorHandler(Cog):
             return await self.send_to_ctx_or_author(ctx, f"Titanium is missing the required permission: `{error.missing_perms[0]}`")
 
         # Discord Forbidden, usually if bot doesn't have permissions
-        elif isinstance(error, discord.Forbidden):
+        elif isinstance(error, discord.errors.Forbidden):
             return await self.send_to_ctx_or_author(ctx, f"I could not complete this command. This is most likely a permissions error.")
 
         # User who invoked command is not owner
