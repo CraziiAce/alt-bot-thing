@@ -67,6 +67,8 @@ class verify(commands.Cog):
     async def verify(self, ctx):
         """Verify yourself"""
         doc = self.data.find_one({"_id": ctx.guild.id})
+        if not doc:
+            return await ctx.send("The server admins have not set this feature up!")
         role = ctx.guild.get_role(doc.get("role"))
         if role in ctx.author.roles:
             await ctx.send("You are already verified!")
