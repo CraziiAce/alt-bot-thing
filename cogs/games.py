@@ -13,8 +13,8 @@ class games(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.rps_choices = [
-            "rock"
-            "paper"
+            "rock",
+            "paper",
             "scissors"
         ]    
     async def make_embed(self, choice: str, mychoice: str, iwon: Union[bool, str]):
