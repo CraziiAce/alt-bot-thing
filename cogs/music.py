@@ -459,6 +459,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     @commands.command()
     @commands.bot_has_guild_permissions(speak=True)
+    @commands.bot_has_guild_permissions(connect=True)
+
     async def play(self, ctx: commands.Context, *, query: str):
         """Play or queue a song with the given query."""
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
