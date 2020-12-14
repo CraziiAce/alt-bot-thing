@@ -246,7 +246,7 @@ class dev(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def addtrusted(self, ctx, user: Union[discord.User, discord.Member], reason: None):
+    async def addtrusted(self, ctx, user: Union[discord.User, discord.Member], reason = None):
         """Add a user to the trusted list"""
         doc = self.trusted.find_one({"_id": user.id})
         if doc and doc.get("trusted"):
