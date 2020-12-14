@@ -446,15 +446,15 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     @commands.command()
     async def connect(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
         """Connect to a voice channel."""
-        botmem = ctx.guild.get_member(ctx.bot.user.id)
-
 
         channel = getattr(ctx.author.voice, 'channel', channel)
         if channel is None:
             raise NoChannelProvided
-        await ctx.send(f"speak: {channel.permissions_for(botmem).speak}\n connect: {channel.permissions_for(botmem).connect}")
-        if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
+        await ctx.send(f"speak: {channel.permissions_for(ctx.guild.me).speak}\n connect: {channel.permissions_for(ctx.guild.me).connect}")
+        if not channel.permissions_for(ctx.guild.me).speak and not channel.permissions_for(ctx.guild.me).connect:
             return await ctx.send("Please make sure I have the speak and connect permissions")
+            
+        await ctx.send("other code running")
 
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
 
@@ -471,14 +471,11 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     @commands.bot_has_guild_permissions(connect=True, speak=True)
     async def play(self, ctx: commands.Context, *, query: str):
         """Play or queue a song with the given query."""
-        botmem = ctx.guild.get_member(ctx.bot.user.id)
         channel = getattr(ctx.author.voice, 'channel')
-        try:
-            if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
-                return await ctx.send("Please make sure I have the speak and connect permissions")
-        except:
-            pass
+        if not channel.permissions_for(ctx.guild.me).speak and not channel.permissions_for(ctx.guild.me).connect:
+            return await ctx.send("Please make sure I have the speak and connect permissions")
 
+        await ctx.send("other code running")
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
         if not player.is_connected:
             await ctx.invoke(self.connect)
