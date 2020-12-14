@@ -4,17 +4,21 @@ import discord
 from datetime import datetime
 from pymongo import MongoClient
 
+mcl = MongoClient()
+data = mcl.Elevate.modlog
+
 class modlog(commands.Cog):
     """Control Elevate's modlog"""
     def __init__(self, bot):
         self.bot = bot
-        mcl = MongoClient()
-        self.data = mcl.Elevate.modlog
+        self.data = data
 
     @commands.has_permissions(kick_members=True)
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     async def modlogset(self, ctx):
         """Change modlog settings"""
+        if not ctx.invoked_subcommand:
+            await ctx.send_help(ctx.command)
     
     @modlogset.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):

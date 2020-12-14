@@ -43,12 +43,13 @@ class Automod(commands.Cog):
             "link"
         ]
 
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     @commands.guild_only()
     @commands.has_permissions(administrator=True)
     async def automod(self, ctx):
         """Automod settings"""
-        pass
+        if not ctx.invoked_subcommand:
+            await ctx.send_help(ctx.command)
 
     @automod.command()
     async def antilink(self, ctx, do_antilink, action = None):

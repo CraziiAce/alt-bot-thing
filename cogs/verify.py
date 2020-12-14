@@ -30,10 +30,12 @@ class verify(commands.Cog):
         image.save('imgen/verify.png')
         return num1 + num2
 
-    @commands.group()
+    @commands.group(invoke_without_command=True)
     @commands.has_permissions(administrator=True)
     async def verifyset(self, ctx):
         """Change verification settings"""
+        if not ctx.invoked_subcommand:
+            await ctx.send_help(ctx.command)
 
     @verifyset.command()
     async def role(self, ctx, role: discord.Role = None):

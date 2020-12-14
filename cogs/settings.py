@@ -11,11 +11,12 @@ class config(commands.Cog):
         db = mcl.Elevate
         self.prfx = db.prefixes
 
-    @commands.group(aliases=['set'])
+    @commands.group(aliases=['set'], invoke_without_command=True)
     @commands.has_permissions(administrator=True)
     async def settings(self, ctx):
         """Change Elevate's settings"""
-        pass
+        if not ctx.invoked_subcommand:
+            await ctx.send_help(ctx.command)
 
     @settings.command()
     async def prefix(self, ctx, *, prefix: str = None):

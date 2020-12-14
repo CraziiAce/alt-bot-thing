@@ -11,10 +11,12 @@ class reactionroles(commands.Cog):
         mcl = MongoClient()
         self.data = mcl.Elevate.rroles
 
-    @commands.group(aliases=['reactionroles', 'rroles'])
+    @commands.group(aliases=['reactionroles', 'rroles'], invoke_without_command=True)
     @commands.has_permissions(manage_roles=True)
     async def reactroles(self, ctx):
         """Manage reaction roles for your server"""
+        if not ctx.invoked_subcommand:
+            await ctx.send_help(ctx.command)
 
     @reactroles.command()
     async def add(self, ctx, channel: discord.TextChannel, msgid: int, role: discord.Role, emoji):
