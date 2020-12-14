@@ -450,11 +450,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         channel = getattr(ctx.author.voice, 'channel', channel)
         if channel is None:
             raise NoChannelProvided
-        await ctx.send(f"speak: {channel.permissions_for(ctx.guild.me).speak}\n connect: {channel.permissions_for(ctx.guild.me).connect}")
         if not channel.permissions_for(ctx.guild.me).speak and not channel.permissions_for(ctx.guild.me).connect:
-            return await ctx.send("Please make sure I have the speak and connect permissions")
-            
-        await ctx.send("other code running")
+            return await ctx.send("I don't have one or both of the required `speak` and `connect` permissions for that channel!")
 
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
 
@@ -473,9 +470,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         """Play or queue a song with the given query."""
         channel = getattr(ctx.author.voice, 'channel')
         if not channel.permissions_for(ctx.guild.me).speak and not channel.permissions_for(ctx.guild.me).connect:
-            return await ctx.send("Please make sure I have the speak and connect permissions")
+            return await ctx.send("I don't have one or both of the required `speak` and `connect` permissions for that channel!")
 
-        await ctx.send("other code running")
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
         if not player.is_connected:
             await ctx.invoke(self.connect)
