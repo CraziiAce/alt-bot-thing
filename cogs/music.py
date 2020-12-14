@@ -452,9 +452,9 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         channel = getattr(ctx.author.voice, 'channel', channel)
         if channel is None:
             raise NoChannelProvided
-        
+        await ctx.send(bool(not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:))
         if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
-            await ctx.send("Please make sure I have the speak and connect permissions")
+            return await ctx.send("Please make sure I have the speak and connect permissions")
 
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
 
