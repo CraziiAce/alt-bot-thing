@@ -446,6 +446,16 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     @commands.command()
     async def connect(self, ctx: commands.Context, *, channel: discord.VoiceChannel = None):
         """Connect to a voice channel."""
+        botmem = ctx.guild.get_member(ctx.bot.user.id)
+
+
+        channel = getattr(ctx.author.voice, 'channel', channel)
+        if channel is None:
+            raise NoChannelProvided
+        
+        if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
+            await ctx.send("Please make sure I have the speak and connect permissions")
+
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
 
         if player.is_connected:
@@ -454,18 +464,14 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         channel = getattr(ctx.author.voice, 'channel', channel)
         if channel is None:
             raise NoChannelProvided
-        botmem = ctx.guild.get_member(ctx.bot.user.id)
-        if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
-            await ctx.send("Please make sure I have the speak and connect permissions")
+
         await player.connect(channel.id)
 
     @commands.command()
     @commands.bot_has_guild_permissions(connect=True, speak=True)
     async def play(self, ctx: commands.Context, *, query: str):
         """Play or queue a song with the given query."""
-        player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
         botmem = ctx.guild.get_member(ctx.bot.user.id)
-        channel = ""
         channel = getattr(ctx.author.voice, 'channel')
         try:
             if not channel.permissions_for(botmem).speak and not channel.permissions_for(botmem).connect:
@@ -473,6 +479,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         except:
             pass
 
+        player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
         if not player.is_connected:
             await ctx.invoke(self.connect)
 
