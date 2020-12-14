@@ -56,6 +56,8 @@ class games(commands.Cog):
                 emb = self.make_embed(choice, mychoice, False)
             elif mychoice == "paper":
                 emb = self.make_embed(choice, mychoice, True)
+        if isinstance(emb, discord.Embed):
+            await ctx.send("is embed")
         await ctx.send(embed=emb)
 
 
