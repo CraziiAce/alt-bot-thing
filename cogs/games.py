@@ -57,4 +57,8 @@ class games(commands.Cog):
             elif mychoice == "paper":
                 emb = self.make_embed(choice, mychoice, True)
         await ctx.send(embed=emb)
+
+
+def setup(bot):
+    bot.add_cog(games(bot))
             
