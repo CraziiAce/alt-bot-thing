@@ -15,6 +15,10 @@ from jishaku.codeblocks import codeblock_converter
 from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 import subprocess as sp
 
+from pymongo import MongoClient
+
+from typing import Union
+
 log = logging.getLogger("titanium.cog_loader")
 
 colorfile = "utils/tools.json"
@@ -28,6 +32,8 @@ class dev(commands.Cog):
     '''Developer Commands'''
     def __init__(self, bot):
         self.bot = bot
+        mcl = MongoClient()
+        self.trusted = mcl.Elevate.trusted
         
     @commands.is_owner()
     @commands.command()
@@ -237,6 +243,20 @@ class dev(commands.Cog):
                 )
 
             await msg.edit(embed=embed)
+
+    @commands.command()
+    @commands.is_owner()
+    async def addtrusted(self, ctx, user: Union[discord.User, discord.Member], reason: None):
+        """Add a user to the trusted list"""
+        doc = self.trusted.find_one({"_id": user.id})
+        if doc and doc.get("trusted"):
+            await ctx.send("That user is already trusted!")
+        elif doc:
+            self.trusted.update_one(query={"_id": user.id}, update={"$set": {"trusted": True, "reason": reason}})
+            await ctx.send("I've successfully updated that user's trusted status")
+        elif not doc:
+            self.trusted.insert_one({"_id": user.id, "trusted": True, "reason": reason})
+            await ctx.send("That user is now trusted!")
             
 def setup(bot):
     bot.add_cog(dev(bot))

@@ -1,5 +1,5 @@
 from discord.ext import commands
-
+from pymongo import MongoClient
 # The permission system of the bot is based on a "just works" basis
 # You have permissions and the bot has permissions. If you meet the permissions
 # required to execute the command (and the bot does as well) then it goes through
@@ -7,6 +7,9 @@ from discord.ext import commands
 # Certain permissions signify if the person is a moderator (Manage Server) or an
 # admin (Administrator). Having these signify certain bypasses.
 # Of course, the owner will always be able to execute commands.
+
+mcl = MongoClient()
+trusted = mcl.Elevate.trusted
 
 async def check_permissions(ctx, perms, *, check=all):
     is_owner = await ctx.bot.is_owner(ctx.author)
@@ -71,3 +74,13 @@ def is_in_guilds(*guild_ids):
 
 def is_lounge_cpp():
     return is_in_guilds(145079846832308224)
+
+def is_trusted(*guild_ids):
+    def predicate(ctx):
+        user = ctx.author
+        doc = trusted.find_one({"_id": user.id})
+        if doc.get("trusted"):
+            return True
+        else:
+            return False
+    return commands.check(predicate)
