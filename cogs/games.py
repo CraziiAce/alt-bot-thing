@@ -19,11 +19,11 @@ class games(commands.Cog):
         ]    
     async def make_embed(self, choice: str, mychoice: str, iwon: Union[bool, str]):
         if iwon == True:
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!")
+            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!", color=color)
         elif iwon == False:
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!")
+            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!", color=color)
         elif iwon == "tie":
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! No one one!")
+            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! No one won!", color=color)
         return embed
 
     @commands.command(aliases=['rps'])
@@ -37,25 +37,25 @@ class games(commands.Cog):
         mychoice = random.choice(self.rps_choices)
         if choice == "rock":
             if mychoice == "rock":
-                emb = self.make_embed(choice, mychoice, "tie")
+                emb = await self.make_embed(choice, mychoice, "tie")
             elif mychoice == "paper":
-                emb = self.make_embed(choice, mychoice, False)
+                emb = await self.make_embed(choice, mychoice, False)
             elif mychoice == "scissors":
-                emb = self.make_embed(choice, mychoice, True)
+                emb = await self.make_embed(choice, mychoice, True)
         elif choice == "paper":
             if mychoice == "paper":
-                emb = self.make_embed(choice, mychoice, "tie")
+                emb = await self.make_embed(choice, mychoice, "tie")
             elif mychoice == "scissors":
-                emb = self.make_embed(choice, mychoice, False)
+                emb = await self.make_embed(choice, mychoice, False)
             elif mychoice == "rock":
-                emb = self.make_embed(choice, mychoice, True)
+                emb = await self.make_embed(choice, mychoice, True)
         elif choice == "scissors":
             if mychoice == "scissors":
-                emb = self.make_embed(choice, mychoice, "tie")
+                emb = await self.make_embed(choice, mychoice, "tie")
             elif mychoice == "rock":
-                emb = self.make_embed(choice, mychoice, False)
+                emb = await self.make_embed(choice, mychoice, False)
             elif mychoice == "paper":
-                emb = self.make_embed(choice, mychoice, True)
+                emb = await self.make_embed(choice, mychoice, True)
         if isinstance(emb, discord.Embed):
             await ctx.send("is embed")
         await ctx.send(embed=emb)
