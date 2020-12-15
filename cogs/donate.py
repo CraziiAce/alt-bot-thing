@@ -9,6 +9,11 @@ with open(tools) as f:
 color = int(data['COLORS'], 16)
 footer = str(data['FOOTER'])
 
+tokenFile = "utils/config.json"
+with open(tokenFile) as f:
+    data = json.load(f)
+token = data["DONATETOKEN"]
+
 class donate(commands.Cog):
     """settings for donating to Elevate"""
     def __init__(self, bot):
