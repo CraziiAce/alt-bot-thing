@@ -5,7 +5,7 @@ from discord.utils import get
 from discord.ext import commands
 from discord.shard import ShardInfo
 from discord.ext.commands import bot
-
+from .utils import checks
 import os, io, json, psutil, aiohttp, collections, logging, traceback
 
 from multiprocessing.connection import Client
@@ -257,6 +257,11 @@ class dev(commands.Cog):
         elif not doc:
             self.trusted.insert_one({"_id": user.id, "trusted": True, "reason": reason})
             await ctx.send("That user is now trusted!")
+
+    @commands.command()
+    @checks.is_trusted()
+    async def trusted(self, ctx):
+        await ctx.send("You are trusted!")
             
 def setup(bot):
     bot.add_cog(dev(bot))
