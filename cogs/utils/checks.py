@@ -75,7 +75,7 @@ def is_in_guilds(*guild_ids):
 def is_lounge_cpp():
     return is_in_guilds(145079846832308224)
 
-def is_trusted(*guild_ids):
+def is_trusted():
     def predicate(ctx):
         user = ctx.author
         doc = trusted.find_one({"_id": user.id})
