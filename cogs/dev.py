@@ -258,10 +258,10 @@ class dev(commands.Cog):
             self.trusted.insert_one({"_id": user.id, "trusted": True, "reason": reason})
             await ctx.send("That user is now trusted!")
 
-    @checks.is_trusted()
     @commands.command()
+    @checks.is_trusted()
     async def trusted(self, ctx):
-        await ctx.send("You are trusted!")
+        await ctx.send("You are trusted")
             
 def setup(bot):
     bot.add_cog(dev(bot))

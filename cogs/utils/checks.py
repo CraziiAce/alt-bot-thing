@@ -79,8 +79,23 @@ def is_trusted():
     def predicate(ctx):
         user = ctx.author
         doc = trusted.find_one({"_id": user.id})
+        if not doc:
+            return False
         if doc.get("trusted"):
             return True
+        else:
+            return False
+    return commands.check(predicate)
+
+def is_patron():
+    def predicate(ctx):
+        guild = ctx.bot.get_guild(733378745397674116)
+        member = guild.get_member(ctx.author.id)
+        role = guild.get_role(733378716176220201)
+        if role in member.roles:
+            return True
+        elif role not in member.roles:
+            return False
         else:
             return False
     return commands.check(predicate)
