@@ -33,6 +33,8 @@ class donate(commands.Cog):
         re = await requests.get("https://donatebot.io/api/v1/donations/718663089318527016/new", headers={"Authorization": self.token})
         r = await re.json()
         try:
+            g = self.bot.get_guild(718663089318527016)
+            c = g.get_channel(788484736347144202)
             for item in r['donations']:
                 g = self.bot.get_guild(718663089318527016)
                 mem = g.get_member(item['buyer_id'])
