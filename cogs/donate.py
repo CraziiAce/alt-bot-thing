@@ -22,6 +22,7 @@ class donate(commands.Cog):
         mcl = MongoClient()
         self.payments = mcl.Elevate.payments
         self.checkended.start()
+        self.counter = 0
 
     def cog_unload(self):
         self.checkended.cancel()
@@ -36,6 +37,9 @@ class donate(commands.Cog):
             mem = g.get_member(item['buyer_id'])
             role = g.get_role(item['role_id'])
             c = g.get_channel(788484736347144202)
+            if self.counter == 1:
+                await c.send("started")
+                self.counter += 1
             await mem.add_roles(role, reason=f"Transaction id {item['txn_id']}")
             time = datetime.datetime.utcfromtimestamp(item['timestamp'])
             self.payments.insert_one({"_id": item['txn_id'], "status": item['status'], "buyer": {"email": item['buyer_email'], "id": item['buyer_id']}, "isSub": item['recurring'], "price": {"price": item['price'], "currency": item['currency']}, "time": time})
