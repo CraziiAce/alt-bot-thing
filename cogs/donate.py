@@ -49,7 +49,7 @@ class donate(commands.Cog):
                 await c.send(embed=emb)
                 r = await requests.post(f"https://donatebot.io/api/v1/donations/718663089318527016/{item['txn_id']}/mark", headers={"Authorization": self.token})
         except:
-            await ctx.send("no donations :(")
+            await c.send("no donations :(")
         
 def setup(bot):
     bot.add_cog(donate(bot))
