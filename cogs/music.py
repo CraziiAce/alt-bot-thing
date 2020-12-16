@@ -469,7 +469,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     async def play(self, ctx: commands.Context, *, query: str):
         """Play or queue a song with the given query."""
         channel = getattr(ctx.author.voice, 'channel')
-        if not channel.permissions_for(ctx.guild.me).speak and not channel.permissions_for(ctx.guild.me).connect:
+        if not channel.permissions_for(ctx.guild.me).speak or not channel.permissions_for(ctx.guild.me).connect:
             return await ctx.send("I don't have one or both of the required `speak` and `connect` permissions for that channel!")
 
         player: Player = self.bot.wavelink.get_player(guild_id=ctx.guild.id, cls=Player, context=ctx)
