@@ -43,7 +43,10 @@
 </h3>
 
 Self hosting of Elevate is not officially supported, and this is the only official guide.
+
 Python3.8 is the only version of python this has been tested on
+
+#### Installing Dependencies
 
 ```
 sudo apt-get install python3.8 python3.8-venv
@@ -80,3 +83,11 @@ We also reccomend installing dependencies from `requirements.txt`
 ```
 python3.8 -m pip install -r requirements.txt
 ```
+
+Discord.ext.menus also needs to be installed
+
+```
+python -m pip install -U git+https://github.com/Rapptz/discord-ext-menus
+```
+
+#### Running the bot
