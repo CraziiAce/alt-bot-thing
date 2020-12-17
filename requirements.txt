@@ -1,0 +1,10 @@
+discord.py == 1.5.1
+dblpy
+python-dateutil
+babel
+aiohttp-requests
+parsedatetime
+wavelink
+pillow
+statcord.py
+jishaku
