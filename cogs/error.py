@@ -147,6 +147,7 @@ class ErrorHandler(Cog):
             emb = discord.Embed(
                 title=f"An uncaught error occured!",
                 description=f"I'm sorry, but an unexpected error occured. This has been sent to my development team for them to see. If you need help, feel free to join my [support server](https://discord.gg/zwyFZ7h)\n```\n{error}\n```",
+                color=self.color,
             )
             emb.set_footer(text=f"Caused by {str(ctx.command)} | ID: {numerror}")
             await ctx.send(embed=emb)
