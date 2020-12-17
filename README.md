@@ -42,7 +42,7 @@
   Self hosting
 </h2>
 
-Self hosting of Elevate is not officially supported, and this is the only official guide.
+Self hosting of Elevate is not officially supported, and this is the only guide.
 
 Python3.8 is the only version of python this has been tested on
 
@@ -149,3 +149,9 @@ Elevate is licensed under the GPL-3.0 License. This means that you can use this 
 - You are resposible for anything that happens as a result of the code
 
 Violating any of these conditions will result in a DMCA takedown of your fork of the repository
+
+---
+
+### Self hosting support
+
+Self hosting is not officially supported, try it at your own risk
