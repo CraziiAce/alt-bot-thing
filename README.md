@@ -110,7 +110,7 @@ This file should look something like this:
 Both Lavalink and MongoDB need to be installed and ran
 I usually run lavalink in a tmux session, and MongoDB using systemd
 
-You also need to set up the lavalink application.yml (see [this example](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example)), and change the dict in `cogs/music.py` (starting at line 357) to the credentials in the lavalink application.yml. If your Mongo database is external and/or has a password, that needs to be specified in every `MongoClient()` call.
+You also need to set up the lavalink application.yml (see [this example](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example)), and change the dict in [`cogs/music.py`](https://github.com/CraziiAce/Elevate/blob/main/cogs/music.py#L357) (starting at line 357) to the credentials in the lavalink application.yml. If your Mongo database is external and/or has a password, that needs to be specified in every `MongoClient()` call.
 
 ### Running the bot
 
