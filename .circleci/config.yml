@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Run dependency tests
           command: |
-            pipenv run python tests/deps.py
+            pytest tests/test_bot.py
       - store_test_results:
           path: test-results
       - store_artifacts:
