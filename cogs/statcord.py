@@ -1,12 +1,16 @@
 from discord.ext import commands
-
+import json
 from statcord.client import Client
 
+tokenFile = "utils/config.json"
+with open(tokenFile) as f:
+    data = json.load(f)
+token = data["STATCORD"]
 
 class StatcordPost(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.key = "statcord.com-7NsH7vUvOjzoWizU4Ftk"
+        self.key = token
         self.api = Client(self.bot, self.key)
         self.api.start_loop()
 
