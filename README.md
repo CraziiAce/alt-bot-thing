@@ -21,38 +21,62 @@
 <h3 align="center">
   Features:
 </h3>
+
 - Moderation
+
 - Automod
+
 - Welcomer
+
 - Reaction roles
+
 - Modlog
+
 - Music
+
 - Customizable prefix
+
 - And more!
+
 <h3 align="center">
   Self hosting
 </h3>
+
 Self hosting of Elevate is not officially supported, and this is the only official guide.
 Python3.8 is the only version of python this has been tested on
+
 ```
 sudo apt-get install python3.8 python3.8-venv
 ```
+
 Install git
+
 ```
 sudo apt-install git
 ```
+
 We reccomend creating a venv
+
 ```
 python3.8 -m venv ~/elevate
 ```
+
 ```
 source ~/elevate/bin/activate
 ```
+
 Clone the repository
+
 ```
 git clone https://github.com/craziiace/elevate.git
 ```
-We also reccomend installing dependencies from `requirements.txt`
+
 ```
-python3.8 -m pip 
+cd Elevate
+```
+
+We also reccomend installing dependencies from `requirements.txt`
+
+```
+python3.8 -m pip install -r requirements.txt
 ```
