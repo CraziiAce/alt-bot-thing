@@ -23,14 +23,14 @@ class donate(commands.Cog):
         self.token = ""
         mcl = MongoClient()
         self.payments = mcl.Elevate.payments
-        self.checkended.start()
+        self.checknew.start()
         self.counter = 0
 
     def cog_unload(self):
-        self.checkended.cancel()
+        self.checknew.cancel()
 
     @tasks.loop(seconds=300)
-    async def checkended(self):
+    async def checknew(self):
         re = await requests.get(
             "https://donatebot.io/api/v1/donations/718663089318527016/new",
             headers={"Authorization": self.token},
