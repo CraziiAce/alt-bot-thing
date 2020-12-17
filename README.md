@@ -46,10 +46,9 @@ Self hosting of Elevate is not officially supported, and this is the only offici
 
 Python3.8 is the only version of python this has been tested on
 
-### Installing Dependencies
-
 ---
 
+### Installing Dependencies
 
 ```
 sudo apt-get install python3.8 python3.8-venv
@@ -93,10 +92,9 @@ Discord.ext.menus also needs to be installed
 python -m pip install -U git+https://github.com/Rapptz/discord-ext-menus
 ```
 
-### Setting up tokens
-
 ---
 
+### Setting up tokens
 
 Create a a file in the directory `utils` called `config.json`.
 This file should look something like this:
@@ -111,9 +109,10 @@ This file should look something like this:
   "STATCORD":"statcord token"
 }
 ```
-### Installing & running non-python dependencies
 
 ---
+
+### Installing & running non-python dependencies
 
 Both Lavalink and MongoDB need to be installed and ran.
 
@@ -125,9 +124,9 @@ You also need to set up the lavalink application.yml (see [this example](https:/
 
 I usually run lavalink in a tmux session, and MongoDB using systemd.
 
-### Running the bot
-
 ---
+
+### Running the bot
 
 ```
 tmux
