@@ -128,9 +128,15 @@ I usually run lavalink in a tmux session, and MongoDB using systemd.
 
 ### Running the bot
 
+This is very simple!
+
+Use tmux to run the bot even when the ssh session is closed.
+
 ```
 tmux
 ```
+
+Then, run the main [`bot.py`](https://https://github.com/CraziiAce/Elevate/blob/main/bot.py)
 
 ```
 python3.8 bot.py
