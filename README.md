@@ -11,6 +11,9 @@
   <a href="https://donatebot.io/checkout/718663089318527016">
     <img src="https://img.shields.io/badge/donate-donatebot-blue?colorB=1c86ee&style=flat-square">
   </a>
+  <a href="https://github.com/psf/black">
+    <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
+  </a>
 </p>
 <h2 align="center", style="font-size:50px;">
   The only Discord bot you'll ever need
