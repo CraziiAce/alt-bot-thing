@@ -6,27 +6,38 @@ colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
-footer = str(data['FOOTER'])
+footer = str(data["FOOTER"])
+
 
 class games(commands.Cog):
     """Play some games!"""
+
     def __init__(self, bot):
         self.bot = bot
-        self.rps_choices = [
-            "rock",
-            "paper",
-            "scissors"
-        ]    
+        self.rps_choices = ["rock", "paper", "scissors"]
+
     async def make_embed(self, choice: str, mychoice: str, iwon: Union[bool, str]):
         if iwon == True:
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!", color=color)
+            embed = discord.Embed(
+                title="Rock Paper Scissors",
+                description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!",
+                color=color,
+            )
         elif iwon == False:
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!", color=color)
+            embed = discord.Embed(
+                title="Rock Paper Scissors",
+                description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!",
+                color=color,
+            )
         elif iwon == "tie":
-            embed = discord.Embed(title="Rock Paper Scissors", description=f"I chose {mychoice} and you chose {choice}! No one won!", color=color)
+            embed = discord.Embed(
+                title="Rock Paper Scissors",
+                description=f"I chose {mychoice} and you chose {choice}! No one won!",
+                color=color,
+            )
         return embed
 
-    @commands.command(aliases=['rps'])
+    @commands.command(aliases=["rps"])
     async def rockpaperscissors(self, ctx, choice: str):
         """
         Play rock paper scissors! `choice` should be either `rock`, `paper`, or `scissors`
@@ -63,4 +74,3 @@ class games(commands.Cog):
 
 def setup(bot):
     bot.add_cog(games(bot))
-            

@@ -8,40 +8,23 @@ from datetime import datetime
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
-color = int(data['COLORS'], 16)
-footer = str(data['FOOTER'])
+color = int(data["COLORS"], 16)
+footer = str(data["FOOTER"])
 
 
 class Automod(commands.Cog):
     """Automod stuff"""
+
     def __init__(self, bot):
         self.bot = bot
         mcl = MongoClient()
         self.data = mcl.Elevate.automod
         self.modlog = mcl.Elevate.modlog
-        self.accepted_actions = [
-            "kick",
-            "ban",
-            "mute"
-        ]
-        self.yes_actions = [
-            "yes",
-            "Yes",
-            "true",
-            "True"
-        ]
-        self.no_actions = [
-            "no",
-            "No",
-            "false",
-            "False"
-        ]
-        self.regexes = {
-            "link": "^https?:\/\/.*[\r\n]*"
-        }
-        self.offenses = [
-            "link"
-        ]
+        self.accepted_actions = ["kick", "ban", "mute"]
+        self.yes_actions = ["yes", "Yes", "true", "True"]
+        self.no_actions = ["no", "No", "false", "False"]
+        self.regexes = {"link": "^https?:\/\/.*[\r\n]*"}
+        self.offenses = ["link"]
 
     @commands.group(invoke_without_command=True)
     @commands.guild_only()
@@ -52,7 +35,7 @@ class Automod(commands.Cog):
             await ctx.send_help(ctx.command)
 
     @automod.command()
-    async def antilink(self, ctx, do_antilink, action = None):
+    async def antilink(self, ctx, do_antilink, action=None):
         """Toggle whether Elevate will do antilink. do_antilink should be true/false, and action should be either `kick`, `ban`, or `mute`."""
         if action not in self.accepted_actions:
             await ctx.send("That's not a valid action!")
@@ -62,15 +45,28 @@ class Automod(commands.Cog):
             do_antilink = True
         doc = self.data.find_one({"guildid": ctx.guild.id, "offense": "link"})
         if not doc:
-            self.data.insert_one({"guildid": ctx.guild.id, "offense": "link", "do": do_antilink, "action": action})
+            self.data.insert_one(
+                {
+                    "guildid": ctx.guild.id,
+                    "offense": "link",
+                    "do": do_antilink,
+                    "action": action,
+                }
+            )
             if do_antilink:
                 await ctx.send(f"Ok, I will now {action} someone if they post a link")
             if not do_antilink:
                 await ctx.send("Ok, I won't do anything if someone posts a link")
-            elif do_antilink not in self.no_actions and do_antilink not in self.yes_actions:
-                return await ctx.send("Sorry, that isn\'t a valid action")
+            elif (
+                do_antilink not in self.no_actions
+                and do_antilink not in self.yes_actions
+            ):
+                return await ctx.send("Sorry, that isn't a valid action")
         elif doc:
-            self.data.update_one(query = {"guildid": ctx.guild.id, "offense": "link"}, update = {"$set": {do: do_antilink, "action": action}})
+            self.data.update_one(
+                query={"guildid": ctx.guild.id, "offense": "link"},
+                update={"$set": {do: do_antilink, "action": action}},
+            )
 
     async def send_case(self, ctx, case_type, reason, victim):
         """Internal func to send cases"""
@@ -80,19 +76,34 @@ class Automod(commands.Cog):
 
         if not doc.get("numcases"):
             numcases = 1
-            self.modlog.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
+            self.modlog.update_one(
+                filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}}
+            )
         elif doc.get("numcases"):
             numcases = doc.get("numcases") + 1
-            self.modlog.update_one(filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}})
+            self.modlog.update_one(
+                filter={"_id": ctx.guild.id}, update={"$set": {"numcases": numcases}}
+            )
 
         if case_type == "kick":
-            embed = discord.Embed(title=f"Kick | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: Automod")
+            embed = discord.Embed(
+                title=f"Kick | Case #{numcases}",
+                description=f"**Reason:** {reason}\n**Moderator**: Automod",
+            )
         elif case_type == "ban":
-            embed = discord.Embed(title=f"Ban | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: Automod")
+            embed = discord.Embed(
+                title=f"Ban | Case #{numcases}",
+                description=f"**Reason:** {reason}\n**Moderator**: Automod",
+            )
         elif case_type == "mute":
-            embed = discord.Embed(title=f"Mute | Case #{numcases}", description=f"**Reason:** {reason}\n**Moderator**: Automod")
+            embed = discord.Embed(
+                title=f"Mute | Case #{numcases}",
+                description=f"**Reason:** {reason}\n**Moderator**: Automod",
+            )
         embed.set_author(name=victim, icon_url=victim.avatar_url)
-        embed.set_footer(text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}")
+        embed.set_footer(
+            text=f"{datetime.strftime(datetime.now(), '%B %d, %Y at %I:%M %p')}"
+        )
         chnlid = int(doc.get("chnl"))
         chnl = self.bot.get_channel(chnlid)
         await chnl.send(embed=embed)
@@ -101,21 +112,29 @@ class Automod(commands.Cog):
     async def on_message(self, message):
         try:
             for offense in self.offenses:
-                doc = self.data.find_one({"guildid": message.guild.id, "offense": offense})
+                doc = self.data.find_one(
+                    {"guildid": message.guild.id, "offense": offense}
+                )
                 if doc.get("do"):
                     if re.match(self.regexes[offense], message.content):
                         guild = self.bot.get_guild(message.guild.id)
                         member = guild.get_member(message.author.id)
                         if doc.get("action") == "ban":
-                            emb = discord.Embed(title = f"Ban from {str(message.guild)}", description = "You were banned by my auto moderation feature.")
+                            emb = discord.Embed(
+                                title=f"Ban from {str(message.guild)}",
+                                description="You were banned by my auto moderation feature.",
+                            )
                             emb.set_footer(text=footer)
                             await member.send(embed=emb)
                             await guild.ban(member)
                         elif doc.get("action") == "kick":
                             pass
-                        await self.send_case(message, doc.get("action"), offense, message.author)
+                        await self.send_case(
+                            message, doc.get("action"), offense, message.author
+                        )
         except:
             pass
 
+
 def setup(bot):
-    bot.add_cog(Automod(bot))   
+    bot.add_cog(Automod(bot))

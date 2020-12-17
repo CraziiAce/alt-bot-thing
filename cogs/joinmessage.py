@@ -8,8 +8,8 @@ log = logging.getLogger("Elevate.guild_join_manager")
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
-color = int(data['COLORS'], 16)
-footer = str(data['FOOTER'])
+color = int(data["COLORS"], 16)
+footer = str(data["FOOTER"])
 
 
 CHANNELS = [
@@ -49,11 +49,13 @@ CHANNELS = [
 MSG = discord.Embed(
     title="Thanks for adding Elevate!",
     description="You can see all commands with t!help. If you ever have any questions, contact a support team member with `t.supportrequest`, or join the support server at discord.gg/zwyFZ7h",
-    color=color
+    color=color,
 )
+
 
 class joinmessage(commands.Cog):
     """send a message upon guild join"""
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -63,13 +65,21 @@ class joinmessage(commands.Cog):
             discord.utils.find(lambda x: x.name in CHANNELS, guild.text_channels)
             or guild.system_channel
             or next(
-                (x for x in guild.text_channels if x.permissions_for(guild.me).send_messages), None
+                (
+                    x
+                    for x in guild.text_channels
+                    if x.permissions_for(guild.me).send_messages
+                ),
+                None,
             )
         )
         MSG.set_footer(text=footer)
         await channel.send(embed=MSG)
         channel = self.bot.get_channel(733385692452880517)
-        await channel.send(f"I just joined {guild} with {len(guild.members)} members! That's {len(self.bot.guilds)} servers now!")
+        await channel.send(
+            f"I just joined {guild} with {len(guild.members)} members! That's {len(self.bot.guilds)} servers now!"
+        )
+
 
 def setup(bot):
     bot.add_cog(joinmessage(bot))

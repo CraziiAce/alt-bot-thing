@@ -2,6 +2,7 @@ from discord.ext import commands
 
 from statcord.client import Client
 
+
 class StatcordPost(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -9,9 +10,8 @@ class StatcordPost(commands.Cog):
         self.api = Client(self.bot, self.key)
         self.api.start_loop()
 
-
     @commands.Cog.listener()
-    async def on_command(self,ctx):
+    async def on_command(self, ctx):
         self.api.command_run(ctx)
 
 

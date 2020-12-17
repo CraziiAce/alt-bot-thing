@@ -7,8 +7,8 @@ from discord.ext import menus
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
-color = int(data['COLORS'], 16)
-footer = str(data['FOOTER'])
+color = int(data["COLORS"], 16)
+footer = str(data["FOOTER"])
 
 
 class RoboPages(menus.MenuPages):
@@ -24,12 +24,20 @@ class RoboPages(menus.MenuPages):
         except discord.HTTPException:
             pass
 
-    @menus.button('<:elevate:784515254075654145>', position=menus.Last(3))
+    @menus.button("<:elevate:784515254075654145>", position=menus.Last(3))
     async def show_help(self, payload):
         """shows this message"""
-        embed = discord.Embed(title='Elevate stuff', description='test', color=color)
-        embed.add_field(name= "News", value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`", inline=True)
-        embed.add_field(name= ":link: Links", value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)", inline=False)
+        embed = discord.Embed(title="Elevate stuff", description="test", color=color)
+        embed.add_field(
+            name="News",
+            value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
+            inline=True,
+        )
+        embed.add_field(
+            name=":link: Links",
+            value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)",
+            inline=False,
+        )
         embed.set_footer(text="Elevate | discord.gg/zwyFZ7h")
         embed.set_footer(text=footer)
 
@@ -41,11 +49,13 @@ class RoboPages(menus.MenuPages):
 
         self.bot.loop.create_task(go_back_to_current_page())
 
+
 class FieldPageSource(menus.ListPageSource):
     """A page source that requires (field_name, field_value) tuple items."""
+
     def __init__(self, entries, *, per_page=12):
         super().__init__(entries, per_page=per_page)
-        self.embed = discord.Embed(colour=discord.Colour.from_rgb(48,162,242))
+        self.embed = discord.Embed(colour=discord.Colour.from_rgb(48, 162, 242))
 
     async def format_page(self, menu, entries):
         self.embed.clear_fields()
@@ -56,15 +66,18 @@ class FieldPageSource(menus.ListPageSource):
 
         maximum = self.get_max_pages()
         if maximum > 1:
-            text = f'Page {menu.current_page + 1}/{maximum} ({len(self.entries)} entries)'
+            text = (
+                f"Page {menu.current_page + 1}/{maximum} ({len(self.entries)} entries)"
+            )
             self.embed.set_footer(text=text)
 
         return self.embed
 
+
 class TextPageSource(menus.ListPageSource):
-    def __init__(self, text, *, prefix='```', suffix='```', max_size=2000):
+    def __init__(self, text, *, prefix="```", suffix="```", max_size=2000):
         pages = CommandPaginator(prefix=prefix, suffix=suffix, max_size=max_size - 200)
-        for line in text.split('\n'):
+        for line in text.split("\n"):
             pages.add_line(line)
 
         super().__init__(entries=pages, per_page=1)
@@ -72,8 +85,9 @@ class TextPageSource(menus.ListPageSource):
     async def format_page(self, menu, content):
         maximum = self.get_max_pages()
         if maximum > 1:
-            return f'{content}\nPage {menu.current_page + 1}/{maximum}'
+            return f"{content}\nPage {menu.current_page + 1}/{maximum}"
         return content
+
 
 class SimplePageSource(menus.ListPageSource):
     def __init__(self, entries, *, per_page=12):
@@ -83,20 +97,23 @@ class SimplePageSource(menus.ListPageSource):
     async def format_page(self, menu, entries):
         pages = []
         for index, entry in enumerate(entries, start=menu.current_page * self.per_page):
-            pages.append(f'{index + 1}. {entry}')
+            pages.append(f"{index + 1}. {entry}")
 
         maximum = self.get_max_pages()
         if maximum > 1:
-            footer = f'Page {menu.current_page + 1}/{maximum} ({len(self.entries)} entries)'
+            footer = (
+                f"Page {menu.current_page + 1}/{maximum} ({len(self.entries)} entries)"
+            )
             menu.embed.set_footer(text=footer)
 
         if self.initial_page and self.is_paginating():
-            pages.append('')
-            pages.append('Confused? React with \N{INFORMATION SOURCE} for more info.')
+            pages.append("")
+            pages.append("Confused? React with \N{INFORMATION SOURCE} for more info.")
             self.initial_page = False
 
-        menu.embed.description = '\n'.join(pages)
+        menu.embed.description = "\n".join(pages)
         return menu.embed
+
 
 class SimplePages(RoboPages):
     """A simple pagination session reminiscent of the old Pages interface.
@@ -105,4 +122,4 @@ class SimplePages(RoboPages):
 
     def __init__(self, entries, *, per_page=12):
         super().__init__(SimplePageSource(entries, per_page=per_page))
-        self.embed = discord.Embed(colour=discord.Colour.from_rgb(48,162,242))
+        self.embed = discord.Embed(colour=discord.Colour.from_rgb(48, 162, 242))
