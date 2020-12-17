@@ -48,6 +48,9 @@ Python3.8 is the only version of python this has been tested on
 
 ### Installing Dependencies
 
+---
+
+
 ```
 sudo apt-get install python3.8 python3.8-venv
 ```
@@ -92,6 +95,9 @@ python -m pip install -U git+https://github.com/Rapptz/discord-ext-menus
 
 ### Setting up tokens
 
+---
+
+
 Create a a file in the directory `utils` called `config.json`.
 This file should look something like this:
 
@@ -107,13 +113,21 @@ This file should look something like this:
 ```
 ### Installing & running non-python dependencies
 
+---
+
 Both Lavalink and MongoDB need to be installed and ran.
 
-I usually run lavalink in a tmux session, and MongoDB using systemd.
+To install MongoDB, I used [this guide](https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04) from DigitalOcean.
+
+For Lavalink, download the latest .jar file from [here](https://github.com/Frederikam/Lavalink/releases/latest), and use FTP to put it on your server (if it is remote).
 
 You also need to set up the lavalink application.yml (see [this example](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example)), and change the dict in [`cogs/music.py`](https://github.com/CraziiAce/Elevate/blob/main/cogs/music.py#L357) (starting at line 357) to the credentials in the lavalink application.yml. If your Mongo database is external and/or has a password, that needs to be specified in every `MongoClient()` call.
 
+I usually run lavalink in a tmux session, and MongoDB using systemd.
+
 ### Running the bot
+
+---
 
 ```
 tmux
@@ -123,3 +137,16 @@ tmux
 python3.8 bot.py
 ```
 
+## Giving credit:
+
+Elevate is licensed under the GPL-3.0 License. This means that you can use this code for commercial & private purposes, but:
+
+- You must state any changes you made to the code
+
+- You must disclose the source (do not modify the `about` or `credits` commands)
+
+- Your code must be open source, and have the same license as this
+
+- You are resposible for anything that happens as a result of the code
+
+Violating any of these conditions will result in a DMCA takedown of your fork of the repository
