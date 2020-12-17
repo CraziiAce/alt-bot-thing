@@ -1,18 +1,11 @@
 import discord
 
-from discord.user import User
-from discord.utils import get
-from discord.ext import commands
-from discord.shard import ShardInfo
-from discord.ext.commands import bot
 from .utils import checks
-import os, io, json, psutil, aiohttp, collections, logging, traceback
-
-from multiprocessing.connection import Client
+import os, io, json, aiohttp, logging, traceback
+from discord.ext import commands
 
 from jishaku.codeblocks import codeblock_converter
 
-from disputils import BotEmbedPaginator, BotConfirmation, BotMultipleChoice
 import subprocess as sp
 
 from pymongo import MongoClient
@@ -258,7 +251,7 @@ class dev(commands.Cog):
         embed.set_footer(text=footer)
         msg = await ctx.send(embed=embed)
         async with ctx.channel.typing():
-            output = sp.getoutput("git pull")
+            sp.getoutput("git pull")
             embed = discord.Embed(
                 title="Synced",
                 description="Synced with GitHub and reloaded all the cogs.",

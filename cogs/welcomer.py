@@ -175,7 +175,7 @@ class welcomer(commands.Cog):
                 elif doc.get("dm"):
                     await member.send(doc["joinmsg"].format(user=member))
         except:
-            pass
+            print("missing config")
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -185,7 +185,7 @@ class welcomer(commands.Cog):
                 chnl = self.bot.get_channel(doc["chnl"])
                 await chnl.send(doc["leavemsg"].format(user=member))
         except:
-            pass
+            print("missing config")
 
 
 def setup(bot):

@@ -1,7 +1,5 @@
 import discord, json, platform, sys, psutil, aiohttp, os, distro
 from discord.ext import commands
-from datetime import datetime
-import subprocess as sp
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:
@@ -37,13 +35,14 @@ class Elevate(commands.Cog):
         emb.set_footer(text=footer)
         await ctx.send(embed=emb)
 
-    @commands.command()
+    @commands.command(aliases=["info"])
     async def about(self, ctx):
         """Get info about Elevate"""
         emb = discord.Embed(
             title="Elevate Info",
             description="A simple Discord bot with moderation tools and music",
             color=color,
+            url="https://github.com/CraziiAce/Elevate",
         )
         emb.set_author(
             name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url

@@ -1,17 +1,10 @@
 import discord
-
-from discord.user import User
-from discord.utils import get
 from discord.ext import commands
-from discord.shard import ShardInfo
-from discord.ext.commands import context
-from discord.ext.commands.cooldowns import BucketType
 import aiohttp
-import time, datetime
-from datetime import datetime
 from aiohttp_requests import requests
 
-import os, io, json, asyncio, random, collections
+import json
+import random
 
 colorfile = "utils/tools.json"
 with open(colorfile) as f:

@@ -79,6 +79,8 @@ class verify(commands.Cog):
         if not doc:
             return await ctx.send("The server admins have not set this feature up!")
         role = ctx.guild.get_role(doc.get("role"))
+        if not role:
+            await ctx.send("This server's admins have not set verification up yet!")
         if role in ctx.author.roles:
             await ctx.send("You are already verified!")
         else:
@@ -103,7 +105,7 @@ class verify(commands.Cog):
             except asyncio.TimeoutError:
                 return await ctx.send("Timed out")
             if str(user_ans.content) == str(ans):
-                await ctx.author.add_roles(role)
+                await ctx.author.add_roles(role, reason="Verified")
                 await ctx.send("Correct! You have been verified!")
             else:
                 await ctx.send("Sorry, but that is wrong.")
@@ -113,6 +115,12 @@ class verify(commands.Cog):
         doc = self.data.find_one({"_id": member.guild.id})
         if doc.get("do") and doc.get("automatic"):
             chnl = self.bot.get_channel(doc.get("chnl"))
+            emb = discord.Embed(
+                title="Verification",
+                description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem above?",
+                color=color,
+            )
+            await chnl.send(member.mention, embed=emb)
 
 
 def setup(bot):

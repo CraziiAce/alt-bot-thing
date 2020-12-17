@@ -3,7 +3,6 @@ from discord.ext import commands
 import json
 import asyncio
 from datetime import datetime
-from asyncio import sleep
 from typing import Union
 from pymongo import MongoClient
 

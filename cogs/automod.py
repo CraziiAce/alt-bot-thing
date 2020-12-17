@@ -65,7 +65,7 @@ class Automod(commands.Cog):
         elif doc:
             self.data.update_one(
                 query={"guildid": ctx.guild.id, "offense": "link"},
-                update={"$set": {do: do_antilink, "action": action}},
+                update={"$set": {"do": do_antilink, "action": action}},
             )
 
     async def send_case(self, ctx, case_type, reason, victim):

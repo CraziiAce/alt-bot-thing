@@ -1,6 +1,10 @@
-import os, asyncio, discord, json, logging, datetime, aiohttp
+import os
+import discord
+import json
+import logging
+import datetime
+import aiohttp
 
-from discord import Embed
 from discord.ext import commands
 
 from pymongo import MongoClient

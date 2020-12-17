@@ -28,10 +28,6 @@ class ErrorHandler(Cog):
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
 
-    @commands.command()
-    async def errortest(self, ctx):
-        await ctx.send(reee)
-
     async def send_to_ctx_or_author(
         self, ctx, text: str = None, *args, **kwargs
     ) -> typing.Optional[discord.Message]:
@@ -70,10 +66,7 @@ class ErrorHandler(Cog):
 
         # Command is on Cooldown
         elif isinstance(error, commands.CommandNotFound):
-            if ctx.invoked_subcommand:
-                return
-            else:
-                get_help_for = ctx.message.content - len(ctx.prefix)
+            return
 
         elif isinstance(error, commands.CommandOnCooldown):
             return await self.send_to_ctx_or_author(
@@ -191,7 +184,7 @@ class ErrorHandler(Cog):
     async def fix(self, ctx, errid):
         """Mark an error as fixed"""
         try:
-            updt = self.data.update_one(
+            self.data.update_one(
                 filter={"id": int(errid)}, update={"$set": {"fixed": True}}
             )
             await ctx.send(f"Successfully fixed error {errid}")

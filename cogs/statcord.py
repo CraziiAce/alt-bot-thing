@@ -7,6 +7,7 @@ with open(tokenFile) as f:
     data = json.load(f)
 token = data["STATCORD"]
 
+
 class StatcordPost(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

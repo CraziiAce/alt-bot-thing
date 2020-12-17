@@ -17,13 +17,13 @@ class games(commands.Cog):
         self.rps_choices = ["rock", "paper", "scissors"]
 
     async def make_embed(self, choice: str, mychoice: str, iwon: Union[bool, str]):
-        if iwon == True:
+        if iwon is True:
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!",
                 color=color,
             )
-        elif iwon == False:
+        elif not iwon:
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!",
