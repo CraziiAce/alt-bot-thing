@@ -8,3 +8,4 @@ wavelink
 pillow
 statcord.py
 jishaku
+ksoftapi

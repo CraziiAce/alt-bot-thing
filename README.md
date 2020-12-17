@@ -15,12 +15,12 @@
     <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
   </a>
 </p>
-<h2 align="center", style="font-size:50px;">
+<h3 align="center", style="font-size:50px;">
   The only Discord bot you'll ever need
-</h2>
-<h3 align="center">
-  Features:
 </h3>
+<h2 align="center">
+  Features:
+</h2>
 
 - Moderation
 
@@ -38,15 +38,15 @@
 
 - And more!
 
-<h3 align="center">
+<h2 align="center">
   Self hosting
-</h3>
+</h2>
 
 Self hosting of Elevate is not officially supported, and this is the only official guide.
 
 Python3.8 is the only version of python this has been tested on
 
-#### Installing Dependencies
+### Installing Dependencies
 
 ```
 sudo apt-get install python3.8 python3.8-venv
@@ -90,4 +90,35 @@ Discord.ext.menus also needs to be installed
 python -m pip install -U git+https://github.com/Rapptz/discord-ext-menus
 ```
 
-#### Running the bot
+### Setting up tokens
+
+Create a a file in the directory `utils` called `config.json`.
+This file should look something like this:
+
+```json
+{
+  "TOKEN":"discord token", 
+  "TOPTOKEN":"top.gg token",
+  "DONATETOKEN":"donatebot.io token",
+  "DELTOKEN":"discord extreme list token",
+  "KSOFT":"ksoft.si token",
+  "STATCORD":"statcord token"
+}
+```
+### Installing & running non-python dependencies
+
+Both Lavalink and MongoDB need to be installed and ran
+I usually run lavalink in a tmux session, and MongoDB using systemd
+
+You also need to set up the lavalink application.yml (see [this example](https://github.com/Frederikam/Lavalink/blob/master/LavalinkServer/application.yml.example)), and change the dict in `cogs/music.py` (starting at line 357) to the credentials in the lavalink application.yml. If your Mongo database is external and/or has a password, that needs to be specified in every `MongoClient()` call.
+
+### Running the bot
+
+```
+tmux
+```
+
+```
+python3.8 bot.py
+```
+
