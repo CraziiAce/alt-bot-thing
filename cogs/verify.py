@@ -81,6 +81,7 @@ class verify(commands.Cog):
         role = ctx.guild.get_role(doc.get("role"))
         if not role:
             await ctx.send("This server's admins have not set verification up yet!")
+        await ctx.send(str(role))
         if role in ctx.author.roles:
             await ctx.send("You are already verified!")
         else:
