@@ -1,21 +1,19 @@
 version: 2.1
-
 orbs:
-  python: circleci/python@0.2.1
-
+  python: circleci/python@1.0.0
 jobs:
-  build-and-test:
-    executor: python/default
+  build:
+    docker:
+      - image: cimg/python:3.8.6
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
+      - python/install-packages
       - run:
-          command: ./manage.py test
-          name: Test
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
+          name: Run dependency tests
+          command: |
+            pipenv run python tests/deps.py
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: tr1
