@@ -136,6 +136,12 @@ tmux
 python3.8 bot.py
 ```
 
+You will most likely get some errors. If they are `AttributeErrors`, thats fine.
+
+The bot should now be up, use [this](https://discordapi.com/permissions.html) to generate an invite link
+
+---
+
 ## Giving credit:
 
 Elevate is licensed under the GPL-3.0 License. This means that you can use this code for commercial & private purposes, but:
