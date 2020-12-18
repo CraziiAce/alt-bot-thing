@@ -62,6 +62,11 @@ Install git
 sudo apt-get install git
 ```
 
+Install Java
+```
+sudo apt-get install openjdk-11-jre-headless
+```
+
 We reccomend creating a venv
 
 ```
