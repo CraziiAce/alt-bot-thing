@@ -1,13 +1,9 @@
 from discord.ext import commands
 from aiohttp_requests import requests
 from pymongo import MongoClient
-import discord, json, ksoftapi
-
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
+import discord
+import ksoftapi
+import json
 
 
 tokenFile = "docker/utils/config.json"
@@ -29,6 +25,8 @@ class bancheck(commands.Cog):
         self.bans = mcl.Elevate.bans
         self.data = mcl.Elevate.bancheck
         self.kcl = ksoftapi.Client(token)
+        self.footer = bot.footer
+        self.color = bot.color
 
     @commands.group(invoked_without_command=True)
     @commands.has_permissions(manage_server=True)

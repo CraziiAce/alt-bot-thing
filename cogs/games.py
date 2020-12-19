@@ -1,12 +1,7 @@
 from discord.ext import commands
 from typing import Union
-import discord, random, json
-
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
+import discord
+import random
 
 
 class games(commands.Cog):
@@ -15,25 +10,27 @@ class games(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.rps_choices = ["rock", "paper", "scissors"]
+        self.color = bot.color
+        self.footer = bot.footer
 
     async def make_embed(self, choice: str, mychoice: str, iwon: Union[bool, str]):
         if iwon is True:
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!",
-                color=color,
+                color=self.color,
             )
         elif not iwon:
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!",
-                color=color,
+                color=self.color,
             )
         elif iwon == "tie":
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! No one won!",
-                color=color,
+                color=self.color,
             )
         return embed
 

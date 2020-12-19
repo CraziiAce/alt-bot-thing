@@ -1,7 +1,11 @@
 import discord
 
 from .utils import checks
-import os, io, json, aiohttp, logging, traceback
+import aiohttp
+import logging
+import traceback
+import os
+import io
 from discord.ext import commands
 
 from jishaku.codeblocks import codeblock_converter
@@ -14,12 +18,6 @@ from typing import Union
 
 log = logging.getLogger("titanium.cog_loader")
 
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
-
 
 class dev(commands.Cog):
     """Developer Commands"""
@@ -28,6 +26,8 @@ class dev(commands.Cog):
         self.bot = bot
         mcl = MongoClient()
         self.trusted = mcl.Elevate.trusted
+        self.footer = bot.footer
+        self.color = bot.color
 
     @commands.is_owner()
     @commands.command()
@@ -97,8 +97,8 @@ class dev(commands.Cog):
     @commands.command()
     async def leaveguild(self, ctx):
         """Leave the current server."""
-        embed = discord.Embed(title="Goodbye", color=color)
-        embed.set_footer(text=footer)
+        embed = discord.Embed(title="Goodbye", color=self.color)
+        embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
         await ctx.guild.leave()
         log.info(f"Left {ctx.guild}, ID: {ctx.guild.id} at owners request.")
@@ -160,10 +160,10 @@ class dev(commands.Cog):
     @commands.command()
     async def dm(self, ctx, user: discord.Member, *, content):
         """Dm a Member"""
-        embed = discord.Embed(color=color)
+        embed = discord.Embed(color=self.color)
         embed.set_author(name=f"Sent from {ctx.author}", icon_url=ctx.author.avatar_url)
         embed.add_field(name="Message:", value=f"{content}")
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/emojis/726779670514630667.png?v=1"
         )
@@ -174,14 +174,14 @@ class dev(commands.Cog):
     @commands.command(aliases=["ss"])
     async def screenshot(self, ctx, url):
         await ctx.send("This is a slow API so it may take some time.")
-        embed = discord.Embed(title=f"Screenshot of {url}", color=color)
+        embed = discord.Embed(title=f"Screenshot of {url}", color=self.color)
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 f"https://image.thum.io/get/width/1920/crop/675/maxAge/1/noanimate/{url}"
             ) as r:
                 res = await r.read()
             embed.set_image(url="attachment://ss.png")
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
 
             await ctx.send(
                 file=discord.File(io.BytesIO(res), filename="ss.png"), embed=embed
@@ -246,16 +246,16 @@ class dev(commands.Cog):
     async def sync(self, ctx):
         """Sync with GitHub and reload all the cogs"""
         embed = discord.Embed(
-            title="Syncing...", description="Syncing and reloading cogs.", color=color
+            title="Syncing...", description="Syncing and reloading cogs.", color=self.color
         )
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         msg = await ctx.send(embed=embed)
         async with ctx.channel.typing():
             sp.getoutput("git pull")
             embed = discord.Embed(
                 title="Synced",
                 description="Synced with GitHub and reloaded all the cogs.",
-                color=color,
+                color=self.color,
             )
             # Reload Cogs as well
             error_collection = []

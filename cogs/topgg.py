@@ -1,13 +1,9 @@
 from discord.ext import commands
 
-import dbl, discord, datetime, json
-
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
-
+import dbl
+import discord
+import datetime
+import json
 
 tokenFile = "docker/utils/config.json"
 with open(tokenFile) as f:
@@ -20,7 +16,8 @@ class TopGG(commands.Cog):
 
     def __init__(self, bot):
         self.token = TOPTOKEN
-        self.color = color
+        self.color = bot.color
+        self.footer = bot.footer
         self.bot = bot
         self.dblpy = dbl.DBLClient(
             self.bot,

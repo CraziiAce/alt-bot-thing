@@ -1,15 +1,8 @@
 from discord.ext import commands
 import discord
 import re
-import json
 from pymongo import MongoClient
 from datetime import datetime
-
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class Automod(commands.Cog):
@@ -25,6 +18,7 @@ class Automod(commands.Cog):
         self.no_actions = ["no", "No", "false", "False"]
         self.regexes = {"link": "^https?:\/\/.*[\r\n]*"}
         self.offenses = ["link"]
+        self.footer = bot.footer
 
     @commands.group(invoke_without_command=True)
     @commands.guild_only()
@@ -124,7 +118,7 @@ class Automod(commands.Cog):
                                 title=f"Ban from {str(message.guild)}",
                                 description="You were banned by my auto moderation feature.",
                             )
-                            emb.set_footer(text=footer)
+                            emb.set_footer(text=self.footer)
                             await member.send(embed=emb)
                             await guild.ban(member)
                         elif doc.get("action") == "kick":

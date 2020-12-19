@@ -338,7 +338,8 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-
+        self.color = bot.color
+        self.footer = bot.footer
         if not hasattr(bot, "wavelink"):
             bot.wavelink = wavelink.Client(bot=bot)
 

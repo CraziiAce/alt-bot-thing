@@ -1,16 +1,9 @@
 import discord
 from discord.ext import commands
-import json
 import asyncio
 from datetime import datetime
 from typing import Union
 from pymongo import MongoClient
-
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class mod(commands.Cog):
@@ -28,6 +21,8 @@ class mod(commands.Cog):
         ]
         mcl = MongoClient()
         self.data = mcl.Elevate.modlog
+        self.color = bot.color
+        self.footer = bot.footer
 
     async def send_case(self, ctx, case_type, reason, victim):
         """Internal func to send cases"""
@@ -82,10 +77,10 @@ class mod(commands.Cog):
             return
         else:
             await user.kick(reason=reason)
-            embed = discord.Embed(title=f"Member {user} has been kicked.", color=color)
+            embed = discord.Embed(title=f"Member {user} has been kicked.", color=self.color)
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await ctx.send(embed=embed)
             await self.send_case(ctx, "kick", reason, user)
 
@@ -110,11 +105,11 @@ class mod(commands.Cog):
             await ctx.guild.ban(user, reason=reason)
 
             embed = discord.Embed(
-                title=f"User {user} has been banned from this server.", color=color
+                title=f"User {user} has been banned from this server.", color=self.color
             )
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await ctx.send(embed=embed)
 
     @commands.command()
@@ -137,11 +132,11 @@ class mod(commands.Cog):
                 await user.add_roles(rolem, reason=reason)
                 embed = discord.Embed(
                     title=f"User {user.name} has been successfully muted.",
-                    color=0x2F3136,
+                    color=self.color,
                 )
                 embed.add_field(name="Shhh!", value=":zipper_mouth:")
                 embed.set_thumbnail(url=user.avatar_url)
-                embed.set_footer(text=footer)
+                embed.set_footer(text=self.footer)
                 await ctx.send(embed=embed)
             else:
                 await ctx.send(f"User {user.mention} is already muted.")
@@ -153,11 +148,11 @@ class mod(commands.Cog):
         rolem = discord.utils.get(ctx.message.guild.roles, name="Muted")
         if rolem in user.roles:
             embed = discord.Embed(
-                title=f"User {user.name} has been manually unmuted.", color=0x2F3136
+                title=f"User {user.name} has been manually unmuted.", color=self.color
             )
             embed.add_field(name="Welcome back!", value=":open_mouth:")
             embed.set_thumbnail(url=user.avatar_url)
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await ctx.send(embed=embed)
             await user.remove_roles(rolem)
 
@@ -176,7 +171,7 @@ class mod(commands.Cog):
         if not channel:
             channel = ctx.channel
         embed = discord.Embed(
-            color=color,
+            color=self.color,
             title=f":boom: Channel ({ctx.channel.name}) has been nuked :boom:",
             description=f"Nuked by: {ctx.author.name}#{ctx.author.discriminator}",
         )
@@ -219,11 +214,11 @@ class mod(commands.Cog):
         else:
             guild = ctx.guild
             embed = discord.Embed(
-                title=f"You have been warned by {ctx.author} in {guild}", color=color
+                title=f"You have been warned by {ctx.author} in {guild}", color=self.color
             )
             embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar_url)
             embed.add_field(name=f"Reason:", value=f"{reason}")
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await user.send(embed=embed)
             await ctx.send(f"⚠️ Warned {user} for {reason}.")
 

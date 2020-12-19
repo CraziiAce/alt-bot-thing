@@ -63,6 +63,8 @@ bot = commands.Bot(
     intents=intents,
     allowed_mentions=discord.AllowedMentions(users=True, roles=False, everyone=False),
 )
+bot.color = color
+bot.footer = footer
 bot.owner_ids = {555709231697756160}
 # bot.remove_command("help")
 

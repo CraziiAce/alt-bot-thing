@@ -1,4 +1,7 @@
-import discord, typing, logging, traceback, json
+import discord
+import typing
+import logging
+import traceback
 
 from aiohttp_requests import requests
 from discord.ext import commands
@@ -9,12 +12,6 @@ from babel import lists
 
 log = logging.getLogger("elevate.errors")
 
-colorfile = "docker/utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
-
 
 class ErrorHandler(Cog):
     def __init__(self, bot):
@@ -23,7 +20,8 @@ class ErrorHandler(Cog):
         self.errathrids = []
         mcl = MongoClient()
         self.data = mcl.Elevate.errors
-        self.color = color
+        self.footer = bot.footer
+        self.color = bot.color
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -170,7 +168,7 @@ class ErrorHandler(Cog):
                     description=f"Erroring command: {str(ctx.command)}\nFull traceback: https://hastebin.com/{re['key']}",
                     color=self.color,
                 )
-                embed.set_footer(text=footer)
+                embed.set_footer(text=self.footer)
                 await logs.send(embed=embed)
             except Exception as e:
                 log.error(e)
@@ -224,7 +222,7 @@ class ErrorHandler(Cog):
                 description=lists.format_list(errors, locale="en"),
                 color=self.color,
             )
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
             await ctx.send("No unsolved errors exist! YAY!")
