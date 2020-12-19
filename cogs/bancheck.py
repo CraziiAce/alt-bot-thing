@@ -29,7 +29,7 @@ class bancheck(commands.Cog):
         self.color = bot.color
 
     @commands.group(invoked_without_command=True)
-    @commands.has_permissions(manage_server=True)
+    @commands.has_permissions(manage_guild=True)
     async def bancheckset(self, ctx):
         if not ctx.invoked_subcommand:
             await ctx.send_help(ctx.command)
