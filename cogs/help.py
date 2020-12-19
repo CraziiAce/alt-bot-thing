@@ -3,7 +3,7 @@ from .utils.paginator import RoboPages
 import discord
 import json
 
-tools = "utils/tools.json"
+tools = "docker/utils/tools.json"
 with open(tools) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)

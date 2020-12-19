@@ -5,7 +5,7 @@ import json
 from pymongo import MongoClient
 from datetime import datetime
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)

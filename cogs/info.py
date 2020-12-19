@@ -5,7 +5,7 @@ import collections
 import time
 import json
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)

@@ -14,7 +14,7 @@ from typing import Union
 
 log = logging.getLogger("titanium.cog_loader")
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)

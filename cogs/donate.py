@@ -3,7 +3,7 @@ from aiohttp_requests import requests
 from pymongo import MongoClient
 import discord, datetime, json
 
-tools = "utils/tools.json"
+tools = "docker/utils/tools.json"
 with open(tools) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
