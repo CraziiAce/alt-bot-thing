@@ -25,17 +25,17 @@ supportchnlids = []
 supportathrids = []
 
 # config
-tokenFile = "utils/config.json"
+tokenFile = "docker/utils/config.json"
 with open(tokenFile) as f:
     data = json.load(f)
 token = data["TOKEN"]
 
-prefixFile = "utils/tools.json"
+prefixFile = "docker/utils/tools.json"
 with open(prefixFile) as f:
     data = json.load(f)
 prefixes = data["PREFIXES"]
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
