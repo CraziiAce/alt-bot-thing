@@ -41,6 +41,13 @@ with open(colorfile) as f:
 color = int(data["COLORS"], 16)
 footer = str(data["FOOTER"])
 
+excluded =[
+    "checks.py",
+    "formats.py",
+    "__init__.py",
+    "paginator.py",
+    "time.py"
+]
 
 def get_pre(bot, message):
     if message.guild:
@@ -99,7 +106,7 @@ async def on_message(message):
 
 
 for filename in os.listdir("./docker/cogs"):
-    if filename.endswith(".py"):
+    if filename.endswith(".py") and filename not in excluded:
         bot.load_extension(f"cogs.{filename[:-3]}")
         log.info(f"Loaded cog {filename[:-3]}")
 
