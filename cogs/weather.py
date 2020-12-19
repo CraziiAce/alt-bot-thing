@@ -4,6 +4,7 @@ import discord
 import datetime
 import time
 
+
 class weather(commands.Cog):
     """Get the day's weather or other information"""
 

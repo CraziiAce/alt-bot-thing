@@ -1,7 +1,8 @@
 """basically flare's cog"""
 
 from discord.ext import commands
-import discord, logging, json
+import discord
+import logging
 
 log = logging.getLogger("Elevate.guild_join_manager")
 

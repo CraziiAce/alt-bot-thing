@@ -77,7 +77,9 @@ class mod(commands.Cog):
             return
         else:
             await user.kick(reason=reason)
-            embed = discord.Embed(title=f"Member {user} has been kicked.", color=self.color)
+            embed = discord.Embed(
+                title=f"Member {user} has been kicked.", color=self.color
+            )
             embed.add_field(name="Reason", value=reason)
             embed.set_thumbnail(url=user.avatar_url)
             embed.set_footer(text=self.footer)
@@ -214,7 +216,8 @@ class mod(commands.Cog):
         else:
             guild = ctx.guild
             embed = discord.Embed(
-                title=f"You have been warned by {ctx.author} in {guild}", color=self.color
+                title=f"You have been warned by {ctx.author} in {guild}",
+                color=self.color,
             )
             embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar_url)
             embed.add_field(name=f"Reason:", value=f"{reason}")

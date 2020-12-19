@@ -3,8 +3,6 @@ from discord.ext import commands
 from datetime import datetime
 import collections
 import time
-import json
-
 
 
 class info(commands.Cog):
@@ -21,7 +19,9 @@ class info(commands.Cog):
 
         statuses = collections.Counter([m.status for m in ctx.guild.members])
 
-        embed = discord.Embed(title=f"Server info for {ctx.guild.name}", color=self.color)
+        embed = discord.Embed(
+            title=f"Server info for {ctx.guild.name}", color=self.color
+        )
         embed.description = ctx.guild.description if ctx.guild.description else None
         embed.add_field(
             name="**General:**",

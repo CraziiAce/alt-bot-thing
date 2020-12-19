@@ -7,6 +7,7 @@ import aiohttp
 import os
 import distro
 
+
 class Elevate(commands.Cog):
     """Information about Elevate"""
 
@@ -32,7 +33,7 @@ class Elevate(commands.Cog):
         emb = discord.Embed(
             title="Invite Elevate",
             description="Invite me [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=268823638&scope=bot) with permissions, or [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=0&scope=bot) without permissions",
-            color=self.color
+            color=self.color,
         )
         emb.set_footer(text=self.footer)
         await ctx.send(embed=emb)

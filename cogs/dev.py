@@ -246,7 +246,9 @@ class dev(commands.Cog):
     async def sync(self, ctx):
         """Sync with GitHub and reload all the cogs"""
         embed = discord.Embed(
-            title="Syncing...", description="Syncing and reloading cogs.", color=self.color
+            title="Syncing...",
+            description="Syncing and reloading cogs.",
+            color=self.color,
         )
         embed.set_footer(text=self.footer)
         msg = await ctx.send(embed=embed)
