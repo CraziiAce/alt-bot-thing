@@ -9,3 +9,4 @@ pillow
 statcord.py
 jishaku
 ksoftapi
+pymongo
