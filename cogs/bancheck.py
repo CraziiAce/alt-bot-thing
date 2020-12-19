@@ -3,14 +3,14 @@ from aiohttp_requests import requests
 from pymongo import MongoClient
 import discord, json, ksoftapi
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
 footer = str(data["FOOTER"])
 
 
-tokenFile = "utils/config.json"
+tokenFile = "docker/utils/config.json"
 with open(tokenFile) as f:
     data = json.load(f)
 token = data["KSOFT"]
