@@ -16,7 +16,7 @@ class Automod(commands.Cog):
         self.accepted_actions = ["kick", "ban", "mute"]
         self.yes_actions = ["yes", "Yes", "true", "True"]
         self.no_actions = ["no", "No", "false", "False"]
-        self.regexes = {"link": "^https?:\/\/.*[\r\n]*"}
+        self.regexes = {"link": r"^https?:\/\/.*[\r\n]*"}
         self.offenses = ["link"]
         self.footer = bot.footer
 
@@ -104,30 +104,25 @@ class Automod(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        try:
-            for offense in self.offenses:
-                doc = self.data.find_one(
-                    {"guildid": message.guild.id, "offense": offense}
-                )
-                if doc.get("do"):
-                    if re.match(self.regexes[offense], message.content):
-                        guild = self.bot.get_guild(message.guild.id)
-                        member = guild.get_member(message.author.id)
-                        if doc.get("action") == "ban":
-                            emb = discord.Embed(
-                                title=f"Ban from {str(message.guild)}",
-                                description="You were banned by my auto moderation feature.",
-                            )
-                            emb.set_footer(text=self.footer)
-                            await member.send(embed=emb)
-                            await guild.ban(member)
-                        elif doc.get("action") == "kick":
-                            pass
-                        await self.send_case(
-                            message, doc.get("action"), offense, message.author
+        for offense in self.offenses:
+            doc = self.data.find_one({"guildid": message.guild.id, "offense": offense})
+            if doc.get("do"):
+                if re.match(self.regexes[offense], message.content):
+                    guild = self.bot.get_guild(message.guild.id)
+                    member = guild.get_member(message.author.id)
+                    if doc.get("action") == "ban":
+                        emb = discord.Embed(
+                            title=f"Ban from {str(message.guild)}",
+                            description="You were banned by my auto moderation feature.",
                         )
-        except:
-            pass
+                        emb.set_footer(text=self.footer)
+                        await member.send(embed=emb)
+                        await guild.ban(member)
+                    elif doc.get("action") == "kick":
+                        pass
+                    await self.send_case(
+                        message, doc.get("action"), offense, message.author
+                    )
 
 
 def setup(bot):

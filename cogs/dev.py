@@ -150,7 +150,7 @@ class dev(commands.Cog):
             await ctx.send(f"Changed status to `Streaming {status}`")
         elif type == "reset":
             await self.bot.change_presence(status=discord.Status.online)
-            await ctx.send(f"Reset Status")
+            await ctx.send("Reset Status")
         else:
             await ctx.send(
                 "Type needs to be either `playing|listening|watching|streaming|competing|bot|reset`"
@@ -214,7 +214,7 @@ class dev(commands.Cog):
     @commands.is_owner()
     async def rn(self, ctx):
         await ctx.guild.me.edit(nick=None)
-        await ctx.send(f"Nickname reset to Titanium")
+        await ctx.send("Nickname reset to Elevate")
 
     @commands.is_owner()
     @commands.command(aliases=["la"])

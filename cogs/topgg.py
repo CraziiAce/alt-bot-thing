@@ -40,9 +40,9 @@ class TopGG(commands.Cog):
         emb.set_footer(text=time_good)
         await channel.send(embed=emb)
         if not data["isWeekend"]:
-            await user.send(f"Thanks for voting for me on top.gg!")
+            await user.send("Thanks for voting for me on top.gg!")
         if data["isWeekend"]:
-            await user.send(f"Thanks for voting for me on top.gg!")
+            await user.send("Thanks for voting for me on top.gg!")
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):

@@ -220,7 +220,7 @@ class mod(commands.Cog):
                 color=self.color,
             )
             embed.set_author(name=f"{ctx.author}", icon_url=ctx.author.avatar_url)
-            embed.add_field(name=f"Reason:", value=f"{reason}")
+            embed.add_field(name="Reason:", value=reason)
             embed.set_footer(text=self.footer)
             await user.send(embed=embed)
             await ctx.send(f"⚠️ Warned {user} for {reason}.")

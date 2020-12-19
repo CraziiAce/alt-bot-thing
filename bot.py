@@ -147,7 +147,7 @@ async def replysupport(ctx, userid: int, *, msg: str):
             await channel.send(embed=emb)
             supportathrids.remove(id)
             supportchnlids.pop(supportathrids.index(id))
-    await ctx.send(f"📤 Message sent!")
+    await ctx.send("📤 Message sent!")
 
 
 @bot.command(aliases=["shutdown"])

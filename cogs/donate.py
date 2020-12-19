@@ -68,7 +68,7 @@ class donate(commands.Cog):
                     f"https://donatebot.io/api/v1/donations/718663089318527016/{item['txn_id']}/mark",
                     headers={"Authorization": self.token},
                 )
-        except:
+        except Exception:
             await c.send("no donations :(")
 
 

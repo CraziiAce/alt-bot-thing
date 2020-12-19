@@ -30,7 +30,7 @@ class RoboPages(menus.MenuPages):
         embed = discord.Embed(title="Elevate stuff", description="test", color=color)
         embed.add_field(
             name="News",
-            value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
+            value="**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
             inline=True,
         )
         embed.add_field(

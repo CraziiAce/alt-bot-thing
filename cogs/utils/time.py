@@ -132,7 +132,7 @@ class UserFriendlyTime(commands.Converter):
             match = regex.match(argument)
             if match is not None and match.group(0):
                 data = {k: int(v) for k, v in match.groupdict(default=0).items()}
-                remaining = argument[match.end() :].strip()
+                remaining = argument[match.end():].strip()
                 result.dt = now + relativedelta(**data)
                 return await result.check_constraints(ctx, now, remaining)
 
@@ -200,14 +200,14 @@ class UserFriendlyTime(commands.Converter):
                             "If the time is quoted, you must unquote it."
                         )
 
-                    remaining = argument[end + 1 :].lstrip(" ,.!")
+                    remaining = argument[end + 1:].lstrip(" ,.!")
                 else:
                     remaining = argument[end:].lstrip(" ,.!")
             elif len(argument) == end:
                 remaining = argument[:begin].strip()
 
             return await result.check_constraints(ctx, now, remaining)
-        except:
+        except Exception:
             import traceback
 
             traceback.print_exc()

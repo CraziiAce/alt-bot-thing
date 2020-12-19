@@ -95,13 +95,13 @@ class ErrorHandler(Cog):
         elif isinstance(error, discord.errors.Forbidden):
             return await self.send_to_ctx_or_author(
                 ctx,
-                f"I could not complete this command. This is most likely a permissions error.",
+                "I could not complete this command. This is most likely a permissions error.",
             )
 
         # User who invoked command is not owner
         elif isinstance(error, commands.NotOwner):
             return await self.send_to_ctx_or_author(
-                ctx, f"You must be the owner of the bot to run this command."
+                ctx, "You must be the owner of the bot to run this command."
             )
 
         # Typehinted discord.Member arg not found
@@ -130,7 +130,7 @@ class ErrorHandler(Cog):
             try:
                 r = await requests.post("https://hastebin.com/documents", data=goodtb)
                 re = await r.json()
-            except:
+            except Exception:
                 log.error(goodtb)
             logs = self.bot.get_channel(778667649588527124)
             doc = self.data.find_one({"id": "info"})
@@ -143,7 +143,7 @@ class ErrorHandler(Cog):
                 )
             numerror = doc["numerror"] + 1
             emb = discord.Embed(
-                title=f"An uncaught error occured!",
+                title="An uncaught error occured!",
                 description=f"I'm sorry, but an unexpected error occured. This has been sent to my development team for them to see. If you need help, feel free to join my [support server](https://discord.gg/zwyFZ7h)\n```\n{error}\n```",
                 color=self.color,
             )
@@ -239,7 +239,7 @@ class ErrorHandler(Cog):
                     errors[error["command"]].append(error["id"])
                 else:
                     pass
-            except:
+            except Exception:
                 pass
 
 
