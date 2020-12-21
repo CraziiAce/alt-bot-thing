@@ -87,10 +87,10 @@ git clone https://github.com/craziiace/elevate.git
 cd Elevate
 ```
 
-We also reccomend installing dependencies from `requirements.txt`
+We also reccomend installing dependencies from `requirements.lock`
 
 ```
-python3.8 -m pip install -r requirements.txt
+python3.8 -m pip install -r requirements.lock
 ```
 
 Discord.ext.menus also needs to be installed
