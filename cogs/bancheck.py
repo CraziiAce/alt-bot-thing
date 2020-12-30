@@ -6,7 +6,7 @@ import ksoftapi
 import json
 
 
-tokenFile = "docker/utils/config.json"
+tokenFile = "utils/config.json"
 with open(tokenFile) as f:
     data = json.load(f)
 token = data["KSOFT"]
