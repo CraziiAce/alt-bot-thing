@@ -102,7 +102,7 @@ async def on_message(message):
         await message.channel.send(embed=embed)
 
 
-for filename in os.listdir("./docker/cogs"):
+for filename in os.listdir("./cogs"):
     if filename.endswith(".py") and filename not in excluded:
         bot.load_extension(f"cogs.{filename[:-3]}")
         log.info(f"Loaded cog {filename[:-3]}")
