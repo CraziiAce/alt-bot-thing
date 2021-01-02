@@ -2,6 +2,7 @@ from discord.ext import commands
 from pymongo import MongoClient
 from typing import Union
 import discord
+from .settings import config
 
 
 class welcomer(commands.Cog):
@@ -15,12 +16,12 @@ class welcomer(commands.Cog):
 
     @commands.has_permissions(kick_members=True)
     @commands.group(invoke_without_command=True)
-    async def welcomeset(self, ctx):
+    async def welcome(self, ctx):
         """Welcome members to your server!"""
         if not ctx.invoked_subcommand:
             await ctx.send_help(ctx.command)
 
-    @welcomeset.command()
+    @config.settings.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Elevate will welcome members in"""
         doc = self.data.find_one({"_id": ctx.guild.id})
