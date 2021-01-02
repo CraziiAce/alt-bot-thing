@@ -74,8 +74,8 @@ class reactionroles(commands.Cog):
                     role = guild.get_role(doc.get("role"))
                     member = guild.get_member(payload.user_id)
                     await member.remove_roles(role, reason="Reaction Roles")
-        except:
-            print("no config")
+        except AttributeError:
+            pass
 
 
 def setup(bot):

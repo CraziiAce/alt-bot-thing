@@ -1,11 +1,11 @@
-import discord, json, platform, sys, psutil, aiohttp, os, distro
+import discord
 from discord.ext import commands
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
+import platform
+import sys
+import psutil
+import aiohttp
+import os
+import distro
 
 
 class Elevate(commands.Cog):
@@ -13,6 +13,8 @@ class Elevate(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.color = bot.color
+        self.footer = bot.footer
 
     @commands.command()
     async def vote(self, ctx):
@@ -20,9 +22,9 @@ class Elevate(commands.Cog):
         embed = discord.Embed(
             title="Vote",
             description="**Vote for Elevate [here](https://top.gg/bot/716798638277525535/vote)",
-            color=color,
+            color=self.color,
         )
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -31,8 +33,9 @@ class Elevate(commands.Cog):
         emb = discord.Embed(
             title="Invite Elevate",
             description="Invite me [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=268823638&scope=bot) with permissions, or [here](https://discord.com/oauth2/authorize?client_id=763851389403136020&permissions=0&scope=bot) without permissions",
+            color=self.color,
         )
-        emb.set_footer(text=footer)
+        emb.set_footer(text=self.footer)
         await ctx.send(embed=emb)
 
     @commands.command(aliases=["info"])
@@ -41,7 +44,7 @@ class Elevate(commands.Cog):
         emb = discord.Embed(
             title="Elevate Info",
             description="A simple Discord bot with moderation tools and music",
-            color=color,
+            color=self.color,
             url="https://github.com/CraziiAce/Elevate",
         )
         emb.set_author(
@@ -57,13 +60,13 @@ class Elevate(commands.Cog):
             value="[Invite Elevate](https://discord.com/oauth2/authorize?client_id=751447995270168586&permissions=268823638&scope=bot)",
             inline=False,
         )
-        emb.set_footer(text=footer)
+        emb.set_footer(text=self.footer)
         await ctx.send(embed=emb)
 
     @commands.command()
     async def support(self, ctx):
         """Get support information."""
-        supportembed = discord.Embed(title="Elevate support", color=color)
+        supportembed = discord.Embed(title="Elevate support", color=self.color)
         supportembed.set_author(
             name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url
         )
@@ -90,7 +93,7 @@ class Elevate(commands.Cog):
         IS_WINDOWS = os.name == "nt"
         embed = discord.Embed(
             title="Elevate Stats",
-            color=color,
+            color=self.color,
             description="Elevate | The only Discord bot you'll ever need\nDeveloped by CraziiAce#0001",
         )
         embed.add_field(
@@ -102,7 +105,7 @@ class Elevate(commands.Cog):
             value=f"Servers: **{len(ctx.bot.guilds)}\n**Users: **{len(ctx.bot.users)}**\nEmojis: **{len(ctx.bot.emojis)}**\nCommands: **{len(ctx.bot.commands)}**",
             inline=False,
         )
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         if IS_LINUX:
             embed.add_field(
                 name="Server stats",
@@ -130,9 +133,9 @@ class Elevate(commands.Cog):
         emb = discord.Embed(
             title="Credits",
             description="**Lead developer:** CraziiAce#0001\n**Help command & cog loader:** isirk#0001",
-            color=color,
+            color=self.color,
         )
-        emb.set_footer(text=footer)
+        emb.set_footer(text=self.footer)
         await ctx.send(embed=emb)
 
     @commands.command()

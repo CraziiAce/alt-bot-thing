@@ -1,13 +1,9 @@
-import discord, random, json, asyncio
+import discord
+import random
+import asyncio
 from discord.ext import commands
 from PIL import Image, ImageDraw, ImageFont
 from pymongo import MongoClient
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class verify(commands.Cog):
@@ -17,6 +13,8 @@ class verify(commands.Cog):
         self.bot = bot
         mcl = MongoClient()
         self.data = mcl.Elevate.verify
+        self.color = bot.color
+        self.footer = bot.footer
 
     async def make_img(self):
         image = Image.open("imgen/blue.png")
@@ -91,9 +89,9 @@ class verify(commands.Cog):
             emb = discord.Embed(
                 title="Verification",
                 description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem above?",
-                color=color,
+                color=self.color,
             )
-            emb.set_footer(text=footer)
+            emb.set_footer(text=self.footer)
             emb.set_image(url="attachment://image.png")
             await ctx.send(file=file, embed=emb)
             try:
@@ -120,7 +118,7 @@ class verify(commands.Cog):
             emb = discord.Embed(
                 title="Verification",
                 description="You need to solve an easy captcha to get access to this server! What is the answer to the addition problem above?",
-                color=color,
+                color=self.color,
             )
             await chnl.send(member.mention, embed=emb)
 

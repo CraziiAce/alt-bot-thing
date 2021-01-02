@@ -1,15 +1,8 @@
 from discord.ext import commands
 import aiohttp
-import json
 import discord
 import datetime
 import time
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class weather(commands.Cog):
@@ -18,6 +11,8 @@ class weather(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
+        self.color = bot.color
+        self.footer = bot.footer
 
     @commands.command(aliases=["zipweather"])
     async def weatherzip(self, ctx, zip_code: str):
@@ -52,7 +47,7 @@ class weather(commands.Cog):
                         title=f"Weather in {weather_response['name']}, {weather_response['sys']['country']}",
                         url=f"https://openweathermap.org/city/{weather_response['id']}",
                         description=weather_response["weather"][0]["description"],
-                        color=color,
+                        color=self.color,
                     )
                     embed.add_field(
                         name="Location:",
@@ -72,7 +67,7 @@ class weather(commands.Cog):
                         url=f"https://openweathermap.org/img/wn/{weather_response['weather'][0]['icon']}@2x.png"
                     )
                     embed.set_footer(
-                        text=footer,
+                        text=self.footer,
                         icon_url=f"https://openweathermap.org/img/wn/{weather_response['weather'][0]['icon']}@2x.png",
                     )
                     await ctx.send(embed=embed)
@@ -110,7 +105,7 @@ class weather(commands.Cog):
                         title=f"Weather in {weather_response['name']}, {weather_response['sys']['country']}",
                         url=f"https://openweathermap.org/city/{weather_response['id']}",
                         description=weather_response["weather"][0]["description"],
-                        color=color,
+                        color=self.color,
                     )
                     embed.add_field(
                         name="Location:",
@@ -130,7 +125,7 @@ class weather(commands.Cog):
                         url=f"https://openweathermap.org/img/wn/{weather_response['weather'][0]['icon']}@2x.png"
                     )
                     embed.set_footer(
-                        text=footer,
+                        text=self.footer,
                         icon_url=f"https://openweathermap.org/img/wn/{weather_response['weather'][0]['icon']}@2x.png",
                     )
                     await ctx.send(embed=embed)

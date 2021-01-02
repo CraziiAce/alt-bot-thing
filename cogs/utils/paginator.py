@@ -4,7 +4,7 @@ import json
 from discord.ext.commands import Paginator as CommandPaginator
 from discord.ext import menus
 
-colorfile = "utils/tools.json"
+colorfile = "docker/utils/tools.json"
 with open(colorfile) as f:
     data = json.load(f)
 color = int(data["COLORS"], 16)
@@ -30,7 +30,7 @@ class RoboPages(menus.MenuPages):
         embed = discord.Embed(title="Elevate stuff", description="test", color=color)
         embed.add_field(
             name="News",
-            value=f"**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
+            value="**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
             inline=True,
         )
         embed.add_field(

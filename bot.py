@@ -41,6 +41,8 @@ with open(colorfile) as f:
 color = int(data["COLORS"], 16)
 footer = str(data["FOOTER"])
 
+excluded = ["checks.py", "formats.py", "__init__.py", "paginator.py", "time.py"]
+
 
 def get_pre(bot, message):
     if message.guild:
@@ -61,6 +63,8 @@ bot = commands.Bot(
     intents=intents,
     allowed_mentions=discord.AllowedMentions(users=True, roles=False, everyone=False),
 )
+bot.color = color
+bot.footer = footer
 bot.owner_ids = {555709231697756160}
 # bot.remove_command("help")
 
@@ -99,7 +103,7 @@ async def on_message(message):
 
 
 for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
+    if filename.endswith(".py") and filename not in excluded:
         bot.load_extension(f"cogs.{filename[:-3]}")
         log.info(f"Loaded cog {filename[:-3]}")
 
@@ -143,7 +147,7 @@ async def replysupport(ctx, userid: int, *, msg: str):
             await channel.send(embed=emb)
             supportathrids.remove(id)
             supportchnlids.pop(supportathrids.index(id))
-    await ctx.send(f"📤 Message sent!")
+    await ctx.send("📤 Message sent!")
 
 
 @bot.command(aliases=["shutdown"])

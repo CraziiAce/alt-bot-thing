@@ -1,13 +1,9 @@
 from discord.ext import commands
 
-import dbl, discord, datetime, json
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
-
+import dbl
+import discord
+import datetime
+import json
 
 tokenFile = "utils/config.json"
 with open(tokenFile) as f:
@@ -20,7 +16,8 @@ class TopGG(commands.Cog):
 
     def __init__(self, bot):
         self.token = TOPTOKEN
-        self.color = color
+        self.color = bot.color
+        self.footer = bot.footer
         self.bot = bot
         self.dblpy = dbl.DBLClient(
             self.bot,
@@ -43,9 +40,9 @@ class TopGG(commands.Cog):
         emb.set_footer(text=time_good)
         await channel.send(embed=emb)
         if not data["isWeekend"]:
-            await user.send(f"Thanks for voting for me on top.gg!")
+            await user.send("Thanks for voting for me on top.gg!")
         if data["isWeekend"]:
-            await user.send(f"Thanks for voting for me on top.gg!")
+            await user.send("Thanks for voting for me on top.gg!")
 
     @commands.Cog.listener()
     async def on_dbl_test(self, data):

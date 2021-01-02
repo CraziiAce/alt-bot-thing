@@ -3,19 +3,14 @@ from discord.ext import commands
 from datetime import datetime
 import collections
 import time
-import json
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class info(commands.Cog):
     def __init__(self, bot):
         """Info commands for discord"""
         self.bot = bot
+        self.footer = bot.footer
+        self.color = bot.color
 
     @commands.command(aliases=["server"])
     @commands.guild_only()
@@ -24,7 +19,9 @@ class info(commands.Cog):
 
         statuses = collections.Counter([m.status for m in ctx.guild.members])
 
-        embed = discord.Embed(title=f"Server info for {ctx.guild.name}", color=color)
+        embed = discord.Embed(
+            title=f"Server info for {ctx.guild.name}", color=self.color
+        )
         embed.description = ctx.guild.description if ctx.guild.description else None
         embed.add_field(
             name="**General:**",
@@ -56,7 +53,7 @@ class info(commands.Cog):
 
         embed.set_thumbnail(url=ctx.guild.icon_url)
         embed.set_image(url=ctx.guild.banner_url)
-        embed.set_footer(text=f"Guild ID: {ctx.guild.id} | {footer}")
+        embed.set_footer(text=f"Guild ID: {ctx.guild.id} | {self.footer}")
 
         return await ctx.send(embed=embed)
 
@@ -89,7 +86,7 @@ class info(commands.Cog):
             "dnd": "<:dnd:778677540490706955>",
             "offline": "<:offline:778677539685007470>",
         }
-        embed = discord.Embed(title=f"{member}", color=color)
+        embed = discord.Embed(title=f"{member}", color=self.color)
         embed.add_field(
             name="**General:**",
             value=f"Name: `{member}`\n"
@@ -111,7 +108,7 @@ class info(commands.Cog):
         embed.set_author(
             name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url
         )
-        embed.set_footer(text=f"Member ID: {member.id} | {footer}")
+        embed.set_footer(text=f"Member ID: {member.id} | {self.footer}")
 
         return await ctx.send(embed=embed)
 
@@ -120,16 +117,16 @@ class info(commands.Cog):
         """Get the avatar of the mentioned member."""
         if not member:  # if member is no mentioned
             member = ctx.message.author  # set member as the author
-        avatarembed = discord.Embed(color=color)
+        avatarembed = discord.Embed(color=self.color)
         avatarembed.set_author(name=member, icon_url=ctx.author.avatar_url)
         avatarembed.set_image(url=member.avatar_url)
-        avatarembed.set_footer(text=footer)
+        avatarembed.set_footer(text=self.footer)
         await ctx.send(embed=avatarembed)
 
     @commands.command()
     async def ping(self, ctx):
         """Get the bot ping"""
-        pingembed = discord.Embed(title="Pong!", color=color)
+        pingembed = discord.Embed(title="Pong!", color=self.color)
         pingembed.set_author(
             name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url
         )
@@ -137,7 +134,7 @@ class info(commands.Cog):
             name="<:server:778738233310838785> Server",
             value=f"```autohotkey\n{round(self.bot.latency * 1000)} ms```",
         )
-        pingembed.set_footer(text=footer)
+        pingembed.set_footer(text=self.footer)
         start = time.perf_counter()
         message = await ctx.send("Pinging...")
         end = time.perf_counter()

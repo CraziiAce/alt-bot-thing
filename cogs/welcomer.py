@@ -166,26 +166,20 @@ class welcomer(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        try:
-            doc = self.data.find_one({"_id": member.guild.id})
-            if doc["joinmsg"] and doc["chnl"] and doc["dojoins"]:
-                if not doc.get("dm"):
-                    chnl = self.bot.get_channel(doc["chnl"])
-                    await chnl.send(doc["joinmsg"].format(user=member))
-                elif doc.get("dm"):
-                    await member.send(doc["joinmsg"].format(user=member))
-        except:
-            print("missing config")
+        doc = self.data.find_one({"_id": member.guild.id})
+        if doc.get("joinmsg") and doc.get("chnl") and doc.get("dojoins"):
+            if not doc.get("dm"):
+                chnl = self.bot.get_channel(doc["chnl"])
+                await chnl.send(doc["joinmsg"].format(user=member))
+            elif doc.get("dm"):
+                await member.send(doc["joinmsg"].format(user=member))
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        try:
-            doc = self.data.find_one({"_id": member.guild.id})
-            if doc["leavemsg"] and doc["chnl"] and doc["doleaves"]:
-                chnl = self.bot.get_channel(doc["chnl"])
-                await chnl.send(doc["leavemsg"].format(user=member))
-        except:
-            print("missing config")
+        doc = self.data.find_one({"_id": member.guild.id})
+        if doc.get("leavemsg") and doc.get("chnl") and doc.get("doleaves"):
+            chnl = self.bot.get_channel(doc.get("chnl"))
+            await chnl.send(doc.get("leavemsg").format(user=member))
 
 
 def setup(bot):

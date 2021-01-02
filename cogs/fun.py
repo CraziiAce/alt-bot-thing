@@ -3,14 +3,7 @@ from discord.ext import commands
 import aiohttp
 from aiohttp_requests import requests
 
-import json
 import random
-
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 
 class fun(commands.Cog):
@@ -19,6 +12,9 @@ class fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession
+        self.color = bot.color
+        self.footer = bot.footer
+        self.session = aiohttp.ClientSession()
 
     @commands.command()
     async def dice(self, ctx):
@@ -27,12 +23,12 @@ class fun(commands.Cog):
         embed = discord.Embed(
             title="Dice",
             description=f"The Dice Rolled {random.choice(dice)}",
-            color=color,
+            color=self.color,
         )
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/attachments/758138226874908705/766312838910181421/unknown.png"
         )
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
     #    @commands.command()
@@ -74,7 +70,7 @@ class fun(commands.Cog):
         embed = discord.Embed(
             title=r["title"],
             url=r["postLink"],
-            color=color,
+            color=self.color,
             description=f"u/{r['author']} | Can't see the image? [Click Here.]({r['url']})",
         )
         embed.set_footer(text=f"{r['ups']} 👍 | from r/{r['subreddit']}")
@@ -89,7 +85,7 @@ class fun(commands.Cog):
         embed = discord.Embed(
             title=r["title"],
             url=r["postLink"],
-            color=color,
+            color=self.color,
             description=f"u/{r['author']} | Can't see the image? [Click Here.]({r['url']})",
         )
         embed.set_footer(text=f"{r['ups']} 👍 | from r/{r['subreddit']}")
@@ -106,11 +102,11 @@ class fun(commands.Cog):
         embed = discord.Embed(
             title=f"Stats for {resp['name']}",
             description=f"ID: `{resp['id']}`",
-            color=color,
+            color=self.color,
         )
         embed.set_image(url=f"https://minotar.net/armor/body/{username}/100.png")
         embed.set_thumbnail(url=f"https://mc-heads.net/avatar/{username}/100.png")
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
     @commands.command(aliases=["mcs"])
@@ -123,10 +119,10 @@ class fun(commands.Cog):
         embed = discord.Embed(
             title=f"Stats for {server}",
             description=f'IP: {resp["serverip"]}\nStatus: {resp["serverStatus"]}\nPing: {resp["ping"]}\nVersion: {resp["version"]}\nPlayers: {resp["players"]}\nMax Players: {resp["maxplayers"]}',
-            color=color,
+            color=self.color,
         )
         embed.set_thumbnail(url=f"https://api.minetools.eu/favicon/{server}/25565")
-        embed.set_footer(text=footer)
+        embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
 

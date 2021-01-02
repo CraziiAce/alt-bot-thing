@@ -1,4 +1,7 @@
-import discord, typing, logging, traceback, json
+import discord
+import typing
+import logging
+import traceback
 
 from aiohttp_requests import requests
 from discord.ext import commands
@@ -9,12 +12,6 @@ from babel import lists
 
 log = logging.getLogger("elevate.errors")
 
-colorfile = "utils/tools.json"
-with open(colorfile) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
-
 
 class ErrorHandler(Cog):
     def __init__(self, bot):
@@ -23,7 +20,8 @@ class ErrorHandler(Cog):
         self.errathrids = []
         mcl = MongoClient()
         self.data = mcl.Elevate.errors
-        self.color = color
+        self.footer = bot.footer
+        self.color = bot.color
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -97,13 +95,13 @@ class ErrorHandler(Cog):
         elif isinstance(error, discord.errors.Forbidden):
             return await self.send_to_ctx_or_author(
                 ctx,
-                f"I could not complete this command. This is most likely a permissions error.",
+                "I could not complete this command. This is most likely a permissions error.",
             )
 
         # User who invoked command is not owner
         elif isinstance(error, commands.NotOwner):
             return await self.send_to_ctx_or_author(
-                ctx, f"You must be the owner of the bot to run this command."
+                ctx, "You must be the owner of the bot to run this command."
             )
 
         # Typehinted discord.Member arg not found
@@ -132,7 +130,7 @@ class ErrorHandler(Cog):
             try:
                 r = await requests.post("https://hastebin.com/documents", data=goodtb)
                 re = await r.json()
-            except:
+            except Exception:
                 log.error(goodtb)
             logs = self.bot.get_channel(778667649588527124)
             doc = self.data.find_one({"id": "info"})
@@ -145,7 +143,7 @@ class ErrorHandler(Cog):
                 )
             numerror = doc["numerror"] + 1
             emb = discord.Embed(
-                title=f"An uncaught error occured!",
+                title="An uncaught error occured!",
                 description=f"I'm sorry, but an unexpected error occured. This has been sent to my development team for them to see. If you need help, feel free to join my [support server](https://discord.gg/zwyFZ7h)\n```\n{error}\n```",
                 color=self.color,
             )
@@ -170,7 +168,7 @@ class ErrorHandler(Cog):
                     description=f"Erroring command: {str(ctx.command)}\nFull traceback: https://hastebin.com/{re['key']}",
                     color=self.color,
                 )
-                embed.set_footer(text=footer)
+                embed.set_footer(text=self.footer)
                 await logs.send(embed=embed)
             except Exception as e:
                 log.error(e)
@@ -224,7 +222,7 @@ class ErrorHandler(Cog):
                 description=lists.format_list(errors, locale="en"),
                 color=self.color,
             )
-            embed.set_footer(text=footer)
+            embed.set_footer(text=self.footer)
             await ctx.send(embed=embed)
         except discord.errors.HTTPException:
             await ctx.send("No unsolved errors exist! YAY!")
@@ -241,7 +239,7 @@ class ErrorHandler(Cog):
                     errors[error["command"]].append(error["id"])
                 else:
                     pass
-            except:
+            except Exception:
                 pass
 
 

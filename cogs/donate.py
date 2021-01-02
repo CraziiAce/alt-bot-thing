@@ -1,13 +1,10 @@
 from discord.ext import commands, tasks
 from aiohttp_requests import requests
 from pymongo import MongoClient
-import discord, datetime, json
+import discord
+import datetime
+import json
 
-tools = "utils/tools.json"
-with open(tools) as f:
-    data = json.load(f)
-color = int(data["COLORS"], 16)
-footer = str(data["FOOTER"])
 
 tokenFile = "utils/config.json"
 with open(tokenFile) as f:
@@ -25,6 +22,8 @@ class donate(commands.Cog):
         self.payments = mcl.Elevate.payments
         self.checknew.start()
         self.counter = 0
+        self.color = bot.color
+        self.footer = bot.footer
 
     def cog_unload(self):
         self.checknew.cancel()
@@ -59,7 +58,7 @@ class donate(commands.Cog):
                         "time": time,
                     }
                 )
-                emb = discord.Embed(title="New donation!", color=color)
+                emb = discord.Embed(title="New donation!", color=self.color)
                 emb.add_field(
                     name="Info",
                     value=f"Transaction ID: {item['txn_id']}\nUse `e!donate info {item['txn_id']} for more!",
@@ -69,7 +68,7 @@ class donate(commands.Cog):
                     f"https://donatebot.io/api/v1/donations/718663089318527016/{item['txn_id']}/mark",
                     headers={"Authorization": self.token},
                 )
-        except:
+        except Exception:
             await c.send("no donations :(")
 
 
