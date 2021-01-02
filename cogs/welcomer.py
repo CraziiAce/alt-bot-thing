@@ -58,7 +58,7 @@ class welcomer(commands.Cog):
                 f"Sorry, but I encountered an unexpected error. Please contact support with `{ctx.prefix}supportrequest`"
             )
 
-    @welcomeset.command()
+    @welcome.command()
     async def joinmsg(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -84,7 +84,7 @@ class welcomer(commands.Cog):
             )
             await ctx.send(f"Successfully set the join message to {msg}")
 
-    @welcomeset.command()
+    @welcome.command()
     async def dojoins(self, ctx, toggle: bool):
         """Toggle sending join messages. Options are true and false."""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -103,7 +103,7 @@ class welcomer(commands.Cog):
         elif not doc:
             self.data.insert_one({"_id": ctx.guild.id, "dojoins": toggle})
 
-    @welcomeset.command()
+    @welcome.command()
     async def leavemsg(self, ctx, *, msg: str = None):
         """Set the message sent upon guild join"""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -128,7 +128,7 @@ class welcomer(commands.Cog):
             )
             await ctx.send(f"Successfully set the join messgage to {msg}")
 
-    @welcomeset.command()
+    @welcome.command()
     async def doleaves(self, ctx, toggle: bool):
         """Toggle sending join messages. Options are true and false."""
         doc = self.data.find_one({"_id": ctx.guild.id})
@@ -147,7 +147,7 @@ class welcomer(commands.Cog):
         elif not doc:
             self.data.insert_one({"_id": ctx.guild.id, "doleaves": toggle})
 
-    @welcomeset.command()
+    @welcome.command()
     async def dm(self, ctx, toggle: Union[bool, str]):
         """Set whether or not to dm users"""
         doc = self.data.find_one({"_id": ctx.guild.id})
