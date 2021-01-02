@@ -15,13 +15,13 @@ class welcomer(commands.Cog):
         self.data = db.welcome
 
     @commands.has_permissions(kick_members=True)
-    @commands.group(invoke_without_command=True)
+    @config.settings.group(invoke_without_command=True)
     async def welcome(self, ctx):
         """Welcome members to your server!"""
         if not ctx.invoked_subcommand:
             await ctx.send_help(ctx.command)
 
-    @config.settings.command()
+    @welcome.command()
     async def channel(self, ctx, channel: discord.TextChannel = None):
         """Set the channel Elevate will welcome members in"""
         doc = self.data.find_one({"_id": ctx.guild.id})
