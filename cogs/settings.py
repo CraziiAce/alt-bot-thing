@@ -5,6 +5,7 @@ from pymongo import MongoClient
 off = "<:xon:792824364658720808><:coff:792824364483477514>"
 on = "<:xoff:792824364545605683><:con:792824364558843956>"
 
+
 class config(commands.Cog):
     """Settings for Elevate"""
 
@@ -20,7 +21,6 @@ class config(commands.Cog):
         """Change Elevate's settings"""
         if not ctx.invoked_subcommand:
             emb = discord.Embed(title="Settings for Elevate", color=ctx.bot.color)
-
 
     @settings.command()
     async def prefix(self, ctx, *, prefix: str = None):
