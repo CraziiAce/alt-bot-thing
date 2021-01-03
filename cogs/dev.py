@@ -41,10 +41,9 @@ class dev(commands.Cog):
             trace = e.__traceback__
             lines = traceback.format_exception(etype, e, trace)
             goodtb = "".join(lines)
-            try:
-                r = await requests.post("https://hastebin.com/documents", data=goodtb)
-                re = await r.json()
-                await ctx.send(re['key'])
+            r = await requests.post("https://hastebin.com/documents", data=goodtb)
+            re = await r.json()
+            await ctx.send(re['key'])
         await ctx.send(f"📥 Loaded extension **cogs/{name}.py**")
 
     @commands.is_owner()
@@ -61,10 +60,9 @@ class dev(commands.Cog):
             trace = e.__traceback__
             lines = traceback.format_exception(etype, e, trace)
             goodtb = "".join(lines)
-            try:
-                r = await requests.post("https://hastebin.com/documents", data=goodtb)
-                re = await r.json()
-                await ctx.send(re['key'])
+            r = await requests.post("https://hastebin.com/documents", data=goodtb)
+            re = await r.json()
+            await ctx.send(re['key'])
 
     @commands.is_owner()
     @commands.command()
@@ -92,10 +90,9 @@ class dev(commands.Cog):
                     trace = e.__traceback__
                     lines = traceback.format_exception(etype, e, trace)
                     goodtb = "".join(lines)
-                    try:
-                        r = await requests.post("https://hastebin.com/documents", data=goodtb)
-                        re = await r.json()
-                        await ctx.send(re['key'])
+                    r = await requests.post("https://hastebin.com/documents", data=goodtb)
+                    re = await r.json()
+                    await ctx.send(re['key'])
 
         if error_collection:
             output = "\n".join(
