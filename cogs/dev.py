@@ -82,7 +82,7 @@ class dev(commands.Cog):
                     etype = type(e)
                     trace = e.__traceback__
                     lines = traceback.format_exception(etype, e, trace)
-                    await ctx.send(f"```py\ne\n```")
+                    await ctx.send(f"```py\n{lines}\n```")
 
         if error_collection:
             output = "\n".join(
