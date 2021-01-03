@@ -41,7 +41,15 @@ with open(colorfile) as f:
 color = int(data["COLORS"], 16)
 footer = str(data["FOOTER"])
 
-excluded = ["checks.py", "formats.py", "__init__.py", "paginator.py", "time.py", "del.py", "bancheck.py"]
+excluded = [
+    "checks.py",
+    "formats.py",
+    "__init__.py",
+    "paginator.py",
+    "time.py",
+    "del.py",
+    "bancheck.py",
+]
 
 
 def get_pre(bot, message):
