@@ -6,7 +6,7 @@ import logging
 import traceback
 import os
 import io
-import requests
+from aiohttp_requests import requests
 from discord.ext import commands
 
 from jishaku.codeblocks import codeblock_converter
