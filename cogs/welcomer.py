@@ -15,7 +15,7 @@ class welcomer(commands.Cog):
         self.data = db.welcome
 
     @commands.has_permissions(kick_members=True)
-    @config.settings.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True)
     async def welcome(self, ctx):
         """Welcome members to your server!"""
         if not ctx.invoked_subcommand:
