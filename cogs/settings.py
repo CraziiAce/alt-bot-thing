@@ -23,7 +23,7 @@ class config(commands.Cog):
         """Change Elevate's settings"""
         if not ctx.invoked_subcommand:
             emb = discord.Embed(title="Settings for Elevate", color=ctx.bot.color)
-            emb.add_field(name="Welcomer", text="WIP")
+            emb.add_field(name="Welcomer", value="WIP")
             await ctx.send_help(ctx.command)
 
     @settings.command()
