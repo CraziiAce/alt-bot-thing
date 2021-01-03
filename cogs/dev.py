@@ -79,8 +79,10 @@ class dev(commands.Cog):
                 try:
                     self.bot.reload_extension(f"cogs.{name}")
                 except Exception as e:
-                    return await ctx.send(f"```py\n{e}```")
-                    log.error(e)
+                    etype = type(e)
+                    trace = e.__traceback__
+                    lines = traceback.format_exception(etype, e, trace)
+                    await ctx.sent(f"```py\ne\n```")
 
         if error_collection:
             output = "\n".join(
