@@ -27,7 +27,7 @@ class RoboPages(menus.MenuPages):
     @menus.button("<:elevate:784515254075654145>", position=menus.Last(3))
     async def show_help(self, payload):
         """shows this message"""
-        embed = discord.Embed(title="Elevate stuff", description="test", color=color)
+        embed = discord.Embed(title="Elevate", description="The only Discord bot you'll ever need.", color=color)
         embed.add_field(
             name="News",
             value="**:wave: Elevate has a welcomer feature!** Use `e!help welcomer`",
