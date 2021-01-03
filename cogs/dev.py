@@ -6,6 +6,7 @@ import logging
 import traceback
 import os
 import io
+import requests
 from discord.ext import commands
 
 from jishaku.codeblocks import codeblock_converter
@@ -35,13 +36,15 @@ class dev(commands.Cog):
         """Loads an extension. """
         try:
             self.bot.load_extension(f"cogs.{name}")
-        except Exception as error:
-            return await ctx.send(f"```py\n{error}```")
-            etype = type(error)
-            trace = error.__traceback__
-            lines = traceback.format_exception(etype, error, trace)
+        except Exception as e:
+            etype = type(e)
+            trace = e.__traceback__
+            lines = traceback.format_exception(etype, e, trace)
             goodtb = "".join(lines)
-            log.error(goodtb)
+            try:
+                r = await requests.post("https://hastebin.com/documents", data=goodtb)
+                re = await r.json()
+                await ctx.send(re['key'])
         await ctx.send(f"📥 Loaded extension **cogs/{name}.py**")
 
     @commands.is_owner()
@@ -54,8 +57,14 @@ class dev(commands.Cog):
             await ctx.send(f"🔁 Reloaded extension **cogs/{name}.py**")
 
         except Exception as e:
-            return await ctx.send(f"```py\n{e}```")
-            log.error(e)
+            etype = type(e)
+            trace = e.__traceback__
+            lines = traceback.format_exception(etype, e, trace)
+            goodtb = "".join(lines)
+            try:
+                r = await requests.post("https://hastebin.com/documents", data=goodtb)
+                re = await r.json()
+                await ctx.send(re['key'])
 
     @commands.is_owner()
     @commands.command()
@@ -82,7 +91,11 @@ class dev(commands.Cog):
                     etype = type(e)
                     trace = e.__traceback__
                     lines = traceback.format_exception(etype, e, trace)
-                    await ctx.send(f"```py\n{lines}\n```")
+                    goodtb = "".join(lines)
+                    try:
+                        r = await requests.post("https://hastebin.com/documents", data=goodtb)
+                        re = await r.json()
+                        await ctx.send(re['key'])
 
         if error_collection:
             output = "\n".join(
