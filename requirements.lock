@@ -10,7 +10,7 @@ cchardet==2.1.7
 cffi==1.14.4
 chardet==3.0.4
 dblpy==0.4.0
-discord.py==1.5.1
+discord.py==1.6
 humanize==3.2.0
 idna==2.10
 import-expression==1.1.4
