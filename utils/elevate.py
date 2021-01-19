@@ -18,7 +18,7 @@ footer = str(data["FOOTER"])
 intents = discord.Intents.default()
 intents.members = True
 
-mcl = MongoClient
+mcl = MongoClient()
 
 log = logging.getLogger("elevate.core")
 logging.basicConfig(
