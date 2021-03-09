@@ -89,8 +89,8 @@ class Elevate(commands.Cog):
         dpy = discord.version_info
         d = distro.linux_distribution()
         ld = d[0] + " " + d[1]
-        IS_LINUX = sys.platform == "linux"
-        IS_WINDOWS = os.name == "nt"
+        is_linux = sys.platform == "linux"
+        is_windows = os.name == "nt"
         embed = discord.Embed(
             title="Elevate Stats",
             color=self.color,
@@ -106,13 +106,13 @@ class Elevate(commands.Cog):
             inline=False,
         )
         embed.set_footer(text=self.footer)
-        if IS_LINUX:
+        if is_linux:
             embed.add_field(
                 name="Server stats",
                 value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{ld}**",
                 inline=False,
             )
-        elif IS_WINDOWS:
+        elif is_windows:
             embed.add_field(
                 name="Server stats",
                 value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{platform.platform()}**",
