@@ -43,7 +43,7 @@ class dev(commands.Cog):
             goodtb = "".join(lines)
             r = await requests.post("https://hastebin.com/documents", data=goodtb)
             re = await r.json()
-            await ctx.send(f"https://hastebin.com/{re['key']}")
+            return await ctx.send(f"https://hastebin.com/{re['key']}")
         await ctx.send(f"📥 Loaded extension **cogs/{name}.py**")
 
     @commands.is_owner()
@@ -62,7 +62,7 @@ class dev(commands.Cog):
             goodtb = "".join(lines)
             r = await requests.post("https://hastebin.com/documents", data=goodtb)
             re = await r.json()
-            await ctx.send(f"https://hastebin.com/{re['key']}")
+            return await ctx.send(f"https://hastebin.com/{re['key']}")
 
     @commands.is_owner()
     @commands.command()
@@ -94,7 +94,7 @@ class dev(commands.Cog):
                         "https://hastebin.com/documents", data=goodtb
                     )
                     re = await r.json()
-                    await ctx.send(f"https://hastebin.com/{re['key']}")
+                    return await ctx.send(f"https://hastebin.com/{re['key']}")
 
         if error_collection:
             output = "\n".join(
@@ -105,7 +105,7 @@ class dev(commands.Cog):
                 f"however the following failed...\n\n{output}"
             )
 
-        await ctx.send("Successfully reloaded all extensions")
+        return await ctx.send("Successfully reloaded all extensions")
 
     @commands.is_owner()
     @commands.command()
