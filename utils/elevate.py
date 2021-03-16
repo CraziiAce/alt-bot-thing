@@ -56,7 +56,6 @@ class Elevate(commands.Bot):
     def __str__():
         return "Elevate | The only Discord bot you'll ever need"
 
-
     def get_pre(self, bot, message):
         prfx = self.db.prefixes
         if message.guild:

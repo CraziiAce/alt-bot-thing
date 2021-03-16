@@ -25,7 +25,7 @@ class fun(commands.Cog):
                 description=f"I chose {mychoice} and you chose {choice}! {mychoice} beats {choice}, so I won!",
                 color=self.color,
             )
-        elif iwon == True:
+        elif iwon is True:
             embed = discord.Embed(
                 title="Rock Paper Scissors",
                 description=f"I chose {mychoice} and you chose {choice}! {choice} beats {mychoice}, so you won!",
@@ -38,7 +38,6 @@ class fun(commands.Cog):
                 color=self.color,
             )
         return embed
-
 
     @commands.command()
     async def dice(self, ctx):
@@ -55,12 +54,12 @@ class fun(commands.Cog):
         embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
-    #    @commands.command()
-    #    async def joke(self, ctx):
-    #        """Get a joke"""
-    #        async with self.session.get("https://dadjoke-api.herokuapp.com/api/v1/dadjoke") as r:
-    #            resp = await r.json()
-    #        await ctx.send(resp["joke"])
+        #    @commands.command()
+        #    async def joke(self, ctx):
+        #        """Get a joke"""
+        #        async with self.session.get("https://dadjoke-api.herokuapp.com/api/v1/dadjoke") as r:
+        #            resp = await r.json()
+        #        await ctx.send(resp["joke"])
 
         @commands.command()
         async def binary(self, ctx, *, text: str):
@@ -70,19 +69,26 @@ class fun(commands.Cog):
             elif "@here" in text:
                 await ctx.send("Please refrain from using `@here`.")
             else:
-                async with self.session.get(f"https://some-random-api.ml/binary?text={text}") as resp:
+                async with self.session.get(
+                    f"https://some-random-api.ml/binary?text={text}"
+                ) as resp:
                     resp = await resp.json()
                 await ctx.send(resp["binary"])
 
         @commands.command()
         async def text(self, ctx, *, binary: str):
             """Change binary into text"""
-            if "010000000110010101110110011001010111001001111001011011110110111001100101" in binary:
+            if (
+                "010000000110010101110110011001010111001001111001011011110110111001100101"
+                in binary
+            ):
                 await ctx.send("Please refrain from using `@everyone`.")
             elif "0100000001101000011001010111001001100101" in binary:
                 await ctx.send("Please refrain from using `@here`.")
             else:
-                async with self.session.get(f"https://some-random-api.ml/binary?decode={binary}") as resp:
+                async with self.session.get(
+                    f"https://some-random-api.ml/binary?decode={binary}"
+                ) as resp:
                     resp = await resp.json()
                 await ctx.send(resp["text"])
 
@@ -149,8 +155,6 @@ class fun(commands.Cog):
         embed.set_footer(text=self.footer)
         await ctx.send(embed=embed)
 
-
-
     @commands.command(aliases=["rps"])
     async def rockpaperscissors(self, ctx, choice: str):
         """
@@ -184,6 +188,7 @@ class fun(commands.Cog):
         if isinstance(emb, discord.Embed):
             await ctx.send("is embed")
         await ctx.send(embed=emb)
+
 
 def setup(bot):
     bot.add_cog(fun(bot))
