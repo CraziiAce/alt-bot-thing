@@ -2,7 +2,7 @@ import discord
 
 from discord.ext import commands
 from PIL import Image as image # so I can name the cog Image while still using the PIL class
-from PIL import ImageFiter, ImageFile
+from PIL import ImageFile
 from io import BytesIO
 from typing import Union
 import re
