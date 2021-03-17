@@ -70,7 +70,9 @@ class Elevate(commands.Bot):
     async def on_ready(self):
         print(f"Logged in as {self.user}")
 
-    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+    async def on_message_edit(
+        self, before: discord.Message, after: discord.Message
+    ):
         if after.author.id == self.owner_id:
             await self.process_commands(after)
 
@@ -82,13 +84,13 @@ class Elevate(commands.Bot):
             if self.get_pre(self, message) == prefixes:
                 embed = discord.Embed(
                     title="Elevate",
-                    description="Hey there :wave: Seems like you mentioned me.\n\nMy prefixes are `e!` and `elevate`. \nIf you would like to see my commands, type `t!help`",
+                    description="Hey there :wave:! Seems like you mentioned me.\n\nMy prefixes are `e!` and `elevate`. \nIf you would like to see my commands, type `t!help`",
                     color=0x2F3136,
                 )
             else:
                 embed = discord.Embed(
                     title="Elevate",
-                    description=f"Hey there :wave: Seems like you mentioned me.\n\nMy prefix is `{str(await self.get_pre(bot=self, messsage=message))}` \nIf you would like to see my commands, type `{str(await self.get_pre(self, message))}help`",
+                    description=f"Hey there :wave:! Seems like you mentioned me.\n\nMy prefix is `{str(await self.get_pre(bot=self, messsage=message))}` \nIf you would like to see my commands, type `{str(await self.get_pre(self, message))}help`",
                     color=0x2F3136,
                 )
 
@@ -111,7 +113,9 @@ class Elevate(commands.Bot):
                 adapter=discord.AsyncWebhookAdapter(session),
             )
             await webhook.send(
-                embed=emb, username=ctx.author.name, avatar_url=ctx.author.avatar_url
+                embed=emb,
+                username=ctx.author.name,
+                avatar_url=ctx.author.avatar_url,
             )
         await ctx.send("Message sent!")
         self.supportathrids.append(ctx.author.id)
