@@ -28,6 +28,7 @@ class Image(commands.Cog):
 
     @staticmethod
     def determine_command_subject(self, ctx, apply_command_to: Union[discord.User, discord.Emoji, str] = None):
+        print(ctx)
         if not apply_command_to:
             return ctx.author.avatar_url_as("jpg")
         elif isinstance(apply_command_to, discord.User):
@@ -44,7 +45,7 @@ class Image(commands.Cog):
     async def communism(self, ctx, apply_filter_to = None):
         """Apply a communist filter to the specified member/emoji/image.\n
         If no member/emoji/image"""
-        img = self.determine_command_subject(ctx, apply_filter_to)
+        img = self.determine_command_subject(ctx=ctx, apply_command_to=apply_filter_to)
         if not isinstance(img, str):
             img = BytesIO(await img.read())
             img.seek(0)
