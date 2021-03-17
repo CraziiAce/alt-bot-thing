@@ -18,9 +18,9 @@ class Image(commands.Cog):
     @staticmethod
     def filter_communist(img: Union(discord.Asset, str)):
         img = image.open(img)
-        back = Image.open("cogs/imgen/soviet.jpg")
+        back = image.open("cogs/imgen/soviet.jpg")
         back = back.resize(img.size)
-        blended_img = Image.blend(img, back, 0.5)
+        blended_img = image.blend(img, back, 0.5)
         buffer = BytesIO()
         blended_img.save(buffer, format="PNG")
         buffer.seek(0)
