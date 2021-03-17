@@ -1,8 +1,9 @@
 import discord
 
 from discord.ext import commands
-from PIL import Image as image # so I can name the cog Image while still using the PIL class
-from PIL import ImageFile
+from PIL import (
+    Image as image,
+)  # so I can name the cog Image while still using the PIL class
 from io import BytesIO
 from typing import Union
 import re
@@ -11,12 +12,13 @@ import re
 class Image(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.url_regex = re.compile("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+")
+        self.url_regex = re.compile(
+            "http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+        )
         self.invis = 0x2F3136
 
-
     @staticmethod
-    def filter_communist(img: Union[discord.Asset, str]):
+    def filter_communist(self, img: Union[discord.Asset, str]):
         img = image.open(img)
         back = image.open("cogs/imgen/soviet.jpg")
         back = back.resize(img.size)
@@ -27,7 +29,9 @@ class Image(commands.Cog):
         return buffer
 
     @staticmethod
-    def determine_command_subject(self, ctx, apply_command_to: Union[discord.User, discord.Emoji, str] = None):
+    def determine_command_subject(
+        self, ctx, apply_command_to: Union[discord.User, discord.Emoji, str] = None
+    ):
         print(ctx)
         if not apply_command_to:
             return ctx.author.avatar_url_as("jpg")
@@ -42,26 +46,27 @@ class Image(commands.Cog):
                 return False
 
     @commands.command()
-    async def communism(self, ctx, apply_filter_to = None):
+    async def communism(self, ctx, apply_filter_to=None):
         """Apply a communist filter to the specified member/emoji/image.\n
         If no member/emoji/image"""
         img = self.determine_command_subject(ctx=ctx, apply_command_to=apply_filter_to)
         if not isinstance(img, str):
             img = BytesIO(await img.read())
             img.seek(0)
-            buffer = await self.bot.loop.run_in_executor(None, self.filter_communist, img)
+            buffer = await self.bot.loop.run_in_executor(
+                None, self.filter_communist, img
+            )
         else:
             img = BytesIO(img)
             img.seek(0)
-            buffer = await self.bot.loop.run_in_executor(None, self.filter_communist, img)
-        file=discord.File(buffer, filename="embossed.png")
-        e=discord.Embed(color=self.invis)
+            buffer = await self.bot.loop.run_in_executor(
+                None, self.filter_communist, img
+            )
+        file = discord.File(buffer, filename="embossed.png")
+        e = discord.Embed(color=self.invis)
         e.set_author(name="Embossed Avatar", icon_url=ctx.author.avatar_url)
         e.set_image(url="attachment://embossed.png")
         await ctx.remove(file=file, embed=e)
-
-        
-        
 
 
 def setup(bot):
