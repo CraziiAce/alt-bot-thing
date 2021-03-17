@@ -22,6 +22,7 @@ class ErrorHandler(Cog):
         self.data = mcl.Elevate.errors
         self.footer = bot.footer
         self.color = bot.color
+        self.goodtb = ""
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -149,15 +150,19 @@ class ErrorHandler(Cog):
             )
             emb.set_footer(text=f"Caused by {str(ctx.command)} | ID: {numerror}")
             await ctx.send(embed=emb)
-            self.data.insert_one(
-                {
-                    "id": numerror,
-                    "command": str(ctx.command),
-                    "fulltb": f"https://hastebin.com/{re['key']}",
-                    "datetime": datetime.now(),
-                    "fixed": False,
-                }
-            )
+            try:
+                self.data.insert_one(
+                    {
+                        "id": numerror,
+                        "command": str(ctx.command),
+                        "fulltb": f"https://hastebin.com/{re['key']}",
+                        "datetime": datetime.now(),
+                        "fixed": False,
+                    }
+                )
+            except KeyError:
+                self.goodtb = goodtb
+                await logs.send(f"```\n{self.goodtb}\n```")
             self.data.update_one(
                 filter={"id": "info"},
                 update={"$set": {"numerror": numerror, "fixed": True}},
