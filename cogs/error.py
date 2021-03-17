@@ -22,7 +22,6 @@ class ErrorHandler(Cog):
         self.data = mcl.Elevate.errors
         self.footer = bot.footer
         self.color = bot.color
-        self.goodtb = ""
 
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
@@ -161,8 +160,22 @@ class ErrorHandler(Cog):
                     }
                 )
             except KeyError:
-                self.goodtb = goodtb
-                await logs.send(f"```\n{self.goodtb}\n```")
+                embed = discord.Embed(
+                    title=f"New error! ID: {numerror}",
+                    description=f"Erroring command: {str(ctx.command)}\nFull traceback: {goodtb}",
+                    color=self.color,
+                )
+                embed.set_footer(text=self.footer)
+                await logs.send(embed=embed)
+                self.data.insert_one(
+                    {
+                        "id": numerror,
+                        "command": str(ctx.command),
+                        "fulltb": f"{goodtb}",
+                        "datetime": datetime.now(),
+                        "fixed": False,
+                    }
+                )
             self.data.update_one(
                 filter={"id": "info"},
                 update={"$set": {"numerror": numerror, "fixed": True}},
