@@ -16,7 +16,7 @@ class Image(commands.Cog):
 
 
     @staticmethod
-    def filter_communist(img: Union(discord.Asset, str)):
+    def filter_communist(img: Union[discord.Asset, str]):
         img = image.open(img)
         back = image.open("cogs/imgen/soviet.jpg")
         back = back.resize(img.size)
@@ -27,7 +27,7 @@ class Image(commands.Cog):
         return buffer
 
     @staticmethod
-    def determine_command_subject(self, ctx, apply_command_to: typing.Union(discord.User, discord.Emoji, str) = None):
+    def determine_command_subject(self, ctx, apply_command_to: Union[discord.User, discord.Emoji, str] = None):
         if not apply_command_to:
             return ctx.author.avatar_url_as("jpg")
         elif isinstance(apply_command_to, discord.User):
