@@ -18,7 +18,7 @@ jishaku==1.20.0.220
 ksoftapi==0.3.3a0
 multidict==5.1.0
 parsedatetime==2.6
-Pillow==8.0.1
+Pillow==8.1.2
 psutil==5.8.0
 pycares==3.1.1
 pycparser==2.20
