@@ -7,7 +7,7 @@ attrs==20.3.0
 Babel==2.9.0
 braceexpand==0.1.6
 cchardet==2.1.7
-cffi==1.14.4
+cffi==1.14.5
 chardet==4.0.0
 dblpy==0.4.0
 discord.py==1.6
