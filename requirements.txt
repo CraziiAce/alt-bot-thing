@@ -15,7 +15,7 @@ humanize==3.2.0
 idna==2.10
 import-expression==1.1.4
 jishaku==1.20.0.220
-ksoftapi==0.3.3a0
+ksoftapi==0.4.0
 multidict==5.1.0
 parsedatetime==2.6
 Pillow==8.0.1
