@@ -26,6 +26,10 @@ class ErrorHandler(Cog):
     """Pretty much from here:
     https://github.com/4Kaylum/DiscordpyBotBase/blob/master/cogs/error_handler.py"""
 
+    error = self.bot.create_group(
+        "error", "Commands related to error handling."
+    )
+
     async def send_to_ctx_or_author(
         self, ctx, text: str = None, *args, **kwargs
     ) -> typing.Optional[discord.Message]:
@@ -47,7 +51,9 @@ class ErrorHandler(Cog):
     async def on_command_error(self, ctx, error):
 
         setattr(
-            ctx, "original_author_id", getattr(ctx, "original_author_id", ctx.author.id)
+            ctx,
+            "original_author_id",
+            getattr(ctx, "original_author_id", ctx.author.id),
         )
         owner_reinvoke_errors = (
             commands.errors.MissingAnyRole,
@@ -74,7 +80,9 @@ class ErrorHandler(Cog):
             )
 
         # Missing argument
-        elif isinstance(error, commands.MissingRequiredArgument):  # {error.param.name}
+        elif isinstance(
+            error, commands.MissingRequiredArgument
+        ):  # {error.param.name}
             return await ctx.send_help(str(ctx.command))
 
         # Missing Permissions
@@ -92,7 +100,7 @@ class ErrorHandler(Cog):
             )
 
         # Discord Forbidden, usually if bot doesn't have permissions
-        elif isinstance(error, discord.errors.Forbidden):
+        elif isinstance(error, discord.Forbidden):
             return await self.send_to_ctx_or_author(
                 ctx,
                 "I could not complete this command. This is most likely a permissions error.",
@@ -122,17 +130,25 @@ class ErrorHandler(Cog):
                 ctx, "This command isn't available in DMs"
             )
 
+        # incorrect params
+        elif isinstance(error, commands.BadArgument):
+            return await self.send_to_ctx_or_author(
+                ctx, "It looks like one of your arguments wasn't right."
+            )
+
         else:
             etype = type(error)
             trace = error.__traceback__
             lines = traceback.format_exception(etype, error, trace)
             goodtb = "".join(lines)
             try:
-                r = await requests.post("https://hastebin.com/documents", data=goodtb)
+                r = await requests.post(
+                    "https://hastebin.com/documents", data=goodtb
+                )
                 re = await r.json()
             except Exception:
                 log.error(goodtb)
-            logs = self.bot.get_channel(778667649588527124)
+            logs = self.bot.get_channel(935246586328543312)
             doc = self.data.find_one({"id": "info"})
             if not doc:
                 self.data.insert_one({"id": "info"})
@@ -147,7 +163,9 @@ class ErrorHandler(Cog):
                 description=f"I'm sorry, but an unexpected error occured. This has been sent to my development team for them to see. If you need help, feel free to join my [support server](https://discord.gg/zwyFZ7h)\n```\n{error}\n```",
                 color=self.color,
             )
-            emb.set_footer(text=f"Caused by {str(ctx.command)} | ID: {numerror}")
+            emb.set_footer(
+                text=f"Caused by {str(ctx.command)} | ID: {numerror}"
+            )
             await ctx.send(embed=emb)
             try:
                 self.data.insert_one(
@@ -191,12 +209,6 @@ class ErrorHandler(Cog):
             except Exception as e:
                 log.error(e)
 
-    @commands.group()
-    @commands.is_owner()
-    async def error(self, ctx):
-        """Resolve and manage errors"""
-        pass
-
     @error.command()
     async def fix(self, ctx, errid):
         """Mark an error as fixed"""
@@ -220,7 +232,9 @@ class ErrorHandler(Cog):
                 description=f"Erroring command: {doc['command']}\nFull traceback: {doc['fulltb']}",
                 color=self.color,
             )
-            embed.set_footer(text=doc["datetime"].strftime("%b %d at %I:%M %p"))
+            embed.set_footer(
+                text=doc["datetime"].strftime("%b %d at %I:%M %p")
+            )
             await ctx.send(embed=embed)
 
     @error.command()

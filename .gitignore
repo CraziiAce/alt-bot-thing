@@ -2,3 +2,9 @@
 **__pycache__/
 
 config.json
+
+Lib/
+
+Scripts/
+
+Include/

@@ -1,11 +1,13 @@
 import discord
 from discord.ext import commands
+from discord.commands import slash_command
 import platform
 import sys
 import psutil
 import aiohttp
 import os
-import distro
+
+## import distro
 
 
 class Elevate(commands.Cog):
@@ -16,7 +18,7 @@ class Elevate(commands.Cog):
         self.color = bot.color
         self.footer = bot.footer
 
-    @commands.command()
+    @slash_command()
     async def vote(self, ctx):
         """Vote for Elevate on top.gg"""
         embed = discord.Embed(
@@ -25,9 +27,9 @@ class Elevate(commands.Cog):
             color=self.color,
         )
         embed.set_footer(text=self.footer)
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
-    @commands.command()
+    @slash_command()
     async def invite(self, ctx):
         """Get the invite for the bot."""
         emb = discord.Embed(
@@ -36,23 +38,23 @@ class Elevate(commands.Cog):
             color=self.color,
         )
         emb.set_footer(text=self.footer)
-        await ctx.send(embed=emb)
+        await ctx.respond(embed=emb)
 
-    @commands.command(aliases=["info"])
+    @slash_command()
     async def about(self, ctx):
         """Get info about Elevate"""
         emb = discord.Embed(
             title="Elevate Info",
-            description="A simple Discord bot with moderation tools and music",
+            description="An advanced alt-detection and server moderation",
             color=self.color,
             url="https://github.com/CraziiAce/Elevate",
         )
         emb.set_author(
-            name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url
+            name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url
         )
         emb.add_field(
             name="News",
-            value=f"**:wave: Elevate has a welcomer feature!** Use `{ctx.prefix}help welcomer`",
+            value=f"**:wave: Elevate has alt detection!**",
             inline=True,
         )
         emb.add_field(
@@ -61,14 +63,14 @@ class Elevate(commands.Cog):
             inline=False,
         )
         emb.set_footer(text=self.footer)
-        await ctx.send(embed=emb)
+        await ctx.respond(embed=emb)
 
-    @commands.command()
+    @slash_command()
     async def support(self, ctx):
         """Get support information."""
         supportembed = discord.Embed(title="Elevate support", color=self.color)
         supportembed.set_author(
-            name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url
+            name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url
         )
         supportembed.add_field(
             name="Support Server",
@@ -81,14 +83,14 @@ class Elevate(commands.Cog):
             inline=False,
         )
         supportembed.set_footer(text=f"Use {ctx.prefix}help or info for more")
-        await ctx.send(embed=supportembed)
+        await ctx.respond(embed=supportembed)
 
-    @commands.command()
+    @slash_command()
     async def stats(self, ctx):
         """Get stats for Elevate"""
         dpy = discord.version_info
-        d = distro.linux_distribution()
-        ld = d[0] + " " + d[1]
+        ## d = distro.linux_distribution()
+        ## ld = d[0] + " " + d[1]
         is_linux = sys.platform == "linux"
         is_windows = os.name == "nt"
         embed = discord.Embed(
@@ -109,7 +111,7 @@ class Elevate(commands.Cog):
         if is_linux:
             embed.add_field(
                 name="Server stats",
-                value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{ld}**",
+                value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**",
                 inline=False,
             )
         elif is_windows:
@@ -118,16 +120,16 @@ class Elevate(commands.Cog):
                 value=f"CPU current clockspeed: **{round(psutil.cpu_freq().current / 1000, 2)} GHz**\nCPU max clockspeed: **{round(psutil.cpu_freq().max / 1000, 2)} GHz**\nCPU usage: **{psutil.cpu_percent()}%\n**RAM:** {round(psutil.virtual_memory().total / 1000000)} MB\n**RAM usage:** {psutil.virtual_memory().percent}%**\nOperating system: **{platform.system()}**\nOS version: **{platform.platform()}**",
                 inline=False,
             )
-        await ctx.send(embed=embed)
+        await ctx.respond(embed=embed)
 
-    @commands.command()
+    @slash_command()
     async def privacy(self, ctx):
         """Get my privacy policy"""
-        await ctx.send(
+        await ctx.respond(
             "Elevate takes your privacy very seriously. We only store data that is necessary to the operation of Elevate, like user IDs, guild IDs, role IDs, and channel IDs. Elevate accesses more extensive data on users, roles, guilds, and channels when certain commands are run, but it is not stored.\nThe data Elevate collects is stored only on the secure, password- and private-key protected servers that Elevate is run on, and except for some command arguments, is never sent anywhere.\n If you have any questions, DM CraziiAce#0001 on Discord"
         )
 
-    @commands.command()
+    @slash_command()
     async def credits(self, ctx):
         """Get elevate's credits"""
         emb = discord.Embed(
@@ -136,16 +138,16 @@ class Elevate(commands.Cog):
             color=self.color,
         )
         emb.set_footer(text=self.footer)
-        await ctx.send(embed=emb)
+        await ctx.respond(embed=emb)
 
-    @commands.command()
+    @slash_command()
     async def donate(self, ctx):
         """Donate to elevate!"""
         emb = discord.Embed(
             title="Donate to Elevate! All donations are greatly appreciated.",
             url=f"https://donatebot.io/checkout/718663089318527016?buyer={ctx.author.id}",
         )
-        await ctx.send(embed=emb)
+        await ctx.respond(embed=emb)
 
 
 def setup(bot):

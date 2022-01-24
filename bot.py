@@ -1,11 +1,7 @@
 import os
 from utils.elevate import Elevate
 import json
-
-tokenFile = "utils/config.json"
-with open(tokenFile) as f:
-    data = json.load(f)
-token = data["TOKEN"]
+from discord.ext import commands
 
 excluded = [
     "checks.py",
@@ -15,6 +11,7 @@ excluded = [
     "time.py",
     "del.py",
     "bancheck.py",
+    "automod.py",
 ]
 
 bot = Elevate()
@@ -35,4 +32,4 @@ for filename in os.listdir("./cogs"):
 
 bot.load_extension("jishaku")
 
-bot.run(token)
+bot.run("OTM0NjkzNzc0MDg3NTU3MTMw.YezzaQ.MC5pJ9DGIhbgV3LNKY8n7f5dSvQ")

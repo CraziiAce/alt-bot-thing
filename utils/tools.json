@@ -1,5 +1,5 @@
 {
 "PREFIXES" : ["elevate", "e!"],
-"COLOR" : "0x003F87",
+"COLORS" : "0x003F87",
 "FOOTER" : "Elevate | elevatebot.xyz"
 }

@@ -15,10 +15,8 @@ color = int(data["COLORS"], 16)
 footer = str(data["FOOTER"])
 
 
-intents = discord.Intents.default()
-intents.members = True
-
-mcl = MongoClient()
+# intents = discord.Intents.default()
+# intents.members = True
 
 log = logging.getLogger("elevate.core")
 logging.basicConfig(
@@ -35,20 +33,20 @@ class Elevate(commands.Bot):
 
     def __init__(self):
         super().__init__(
-            command_prefix=self.get_pre,
-            intents=intents,
+            command_prefix="e!",
+            # intents=intents,
             case_insensitive=True,
             allowed_mentions=discord.AllowedMentions(
                 users=True, roles=True, everyone=False, replied_user=False
             ),
             owner_id=555709231697756160,
             description="The only discord bot you'll ever need.",
+            debug_guilds=[934695598223933520],
         )
         self.start_time = datetime.utcnow()
         self.session = aiohttp.ClientSession()
         self.footer = footer
         self.color = color
-        self.db = mcl.Elevate
         self.supportathrids = []
         self.supportchnlids = []
         self.log = log
@@ -69,32 +67,6 @@ class Elevate(commands.Bot):
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
-
-    async def on_message_edit(
-        self, before: discord.Message, after: discord.Message
-    ):
-        if after.author.id == self.owner_id:
-            await self.process_commands(after)
-
-    async def on_message(self, message):
-        if message.author == self.user:
-            return
-        await self.process_commands(message)
-        if "<@!763851389403136020>" in message.content:
-            if self.get_pre(self, message) == prefixes:
-                embed = discord.Embed(
-                    title="Elevate",
-                    description="Hey there :wave:! Seems like you mentioned me.\n\nMy prefixes are `e!` and `elevate`. \nIf you would like to see my commands, type `t!help`",
-                    color=0x2F3136,
-                )
-            else:
-                embed = discord.Embed(
-                    title="Elevate",
-                    description=f"Hey there :wave:! Seems like you mentioned me.\n\nMy prefix is `{str(await self.get_pre(bot=self, messsage=message))}` \nIf you would like to see my commands, type `{str(await self.get_pre(self, message))}help`",
-                    color=0x2F3136,
-                )
-
-            await message.channel.send(embed=embed)
 
     @commands.command()
     async def supportrequest(self, ctx, *, msg: str):
@@ -144,5 +116,5 @@ class Elevate(commands.Bot):
     @commands.is_owner()
     async def restart(self, ctx):
         await ctx.send("👋 Bye!")
-        await self.logout()
+        await self.close()
         log.info("Elevate exited with exit code 0 (intentional)")
